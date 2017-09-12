@@ -3,5 +3,6 @@
 ```commandline
 npm install
 dotnet restore
-dotnet run
+dotnet build -c Release
+dotnet run -c Release --no-build
 ```
