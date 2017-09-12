@@ -72,6 +72,7 @@
     "@types/redux-thunk": "^2.1.0",
     "@types/source-map": "^0.1.28",
     "@types/uglify-js": "^2.0.27",
+    "@types/webpack": "^3.0.10",
     "aspnet-prerendering": "^2.0.5",
     "aspnet-webpack": "^1.0.29",
     "aspnet-webpack-react": "^2.0.0",
