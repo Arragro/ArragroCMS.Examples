@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es6",
+    "jsx": "preserve",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "types": [
+      "react",
+      "react-dom",
+      "react-fa",
+      "react-intl",
+      "react-router",
+      "aspnet-webpack-react"
+    ]
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules",
+    "typings/custom"
+  ]
+}

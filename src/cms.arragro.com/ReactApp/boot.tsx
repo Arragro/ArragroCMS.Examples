@@ -1,0 +1,27 @@
+﻿import 'bootstrap/dist/css/bootstrap.min.css'
+import 'arragrocms-management/dist/main.css'
+
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { IntlProvider } from 'react-intl'
+import { browserHistory, Router } from 'react-router'
+
+import { extendPageTypeMap, extendConfigurationTypeMap } from './componentExtentionTypes'
+
+import { configureStore, Routes } from 'arragrocms-management'
+
+let store = configureStore(browserHistory)
+let routes = new Routes()
+
+extendPageTypeMap()
+extendConfigurationTypeMap()
+
+ReactDOM.render(
+    <Provider store={store}>
+        <IntlProvider locale={navigator.language}>
+            <Router history={browserHistory} children={routes.buildRoutes()} />
+        </IntlProvider>
+    </Provider>,
+    document.getElementById('react-app')
+)

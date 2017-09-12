@@ -1,0 +1,17 @@
+{
+  "globalDependencies": {
+    "react-dropzone": "file:typings/custom/react-dropzone.d.ts"
+  },
+  "dependencies": {
+    "formsy-react": "file:typings/custom/formsy-react.d.ts",
+    "formsy-react-components": "file:typings/custom/formsy-react-components.d.ts",
+    "pageType": "file:typings/custom/pageType.d.ts",
+    "rc-progress": "file:typings/custom/rc-progress.d.ts",
+    "react-autosuggest": "file:typings/custom/react-autosuggest.d.ts",
+    "react-codemirror": "file:typings\\custom\\react-codemirror.d.ts",
+    "react-copy-to-clipboard": "file:typings/custom/react-copy-to-clipboard.d.ts",
+    "react-markdown": "file:typings\\custom\\react-markdown.d.ts",
+    "react-s-alert": "file:typings/custom/react-s-alert.d.ts",
+    "reactstrap": "file:typings/custom/reactstrap.d.ts"
+  }
+}
