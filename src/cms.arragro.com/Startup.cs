@@ -88,18 +88,18 @@ namespace cms.arragro.com
                     {
                         options.AddPolicy("ReadOnly", policy =>
                         {
-                            policy.RequireClaim(ClaimTypes.Role, RoleClaimTypes.Administrator.ToString(), RoleClaimTypes.ContentAuthor.ToString(), RoleClaimTypes.ReadOnly.ToString());
+                            policy.RequireClaim(ClaimTypes.Role, Lookups.Roles.Administrator, Lookups.Roles.ContentAuthor, Lookups.Roles.ReadOnly);
                             policy.AuthenticationSchemes.Add(IdentityConstants.ApplicationScheme);
                             policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
                         });
                         options.AddPolicy("AdministratorOnly", policy =>
                         {
-                            policy.RequireClaim(ClaimTypes.Role, RoleClaimTypes.Administrator.ToString());
+                            policy.RequireClaim(ClaimTypes.Role, Lookups.Roles.Administrator);
                             policy.AuthenticationSchemes.Add(IdentityConstants.ApplicationScheme);
                         });
                         options.AddPolicy("ContentAuthors", policy =>
                         {
-                            policy.RequireClaim(ClaimTypes.Role, RoleClaimTypes.Administrator.ToString(), RoleClaimTypes.ContentAuthor.ToString());
+                            policy.RequireClaim(ClaimTypes.Role, Lookups.Roles.Administrator, Lookups.Roles.ContentAuthor);
                             policy.AuthenticationSchemes.Add(IdentityConstants.ApplicationScheme);
                         });
                     });
