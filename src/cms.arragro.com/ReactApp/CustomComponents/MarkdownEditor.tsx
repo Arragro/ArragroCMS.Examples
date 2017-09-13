@@ -1,7 +1,7 @@
 ﻿import * as React from 'react'
 import CodeMirror from 'react-codemirror'
 import ReactMarkdown from 'react-markdown'
-import { Interfaces, AssetModal, htmlHelper } from 'arragrocms-management'
+import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
 
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/eclipse.css'
@@ -26,7 +26,7 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
         }
     }
 
-    assetModal: AssetModal
+    assetModal: Components.AssetModal
     codeMirror: any 
 
     componentDidMount () {
@@ -53,7 +53,7 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
         if (show) {
             const mimeTypeFilter = 'image/*'
             const dropzoneAccept = 'image/*'
-            return <AssetModal
+            return <Components.AssetModal
                 ref={(x) => this.assetModal = x}
                 contentUrlRouteId={this.props.contentDataUrlRouteId}
                 mimeTypeFilter={mimeTypeFilter}

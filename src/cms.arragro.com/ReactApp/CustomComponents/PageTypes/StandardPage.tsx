@@ -1,6 +1,6 @@
 ﻿import * as React from 'react'
 import * as FRC from 'formsy-react-components'
-import { Interfaces, ComponentTypeBase } from 'arragrocms-management'
+import { Interfaces, Components } from 'arragrocms-management'
 
 const { Input, Textarea} = FRC
 
@@ -11,7 +11,7 @@ export interface IStandardPageState {
 }
 
 
-export default class StandardPage extends ComponentTypeBase<Interfaces.IComponentTypeBaseProps, IStandardPageState> {
+export default class StandardPage extends Components.ComponentTypeBase<Interfaces.IComponentTypeBaseProps, IStandardPageState> {
     constructor (props) {
         super(props)
         

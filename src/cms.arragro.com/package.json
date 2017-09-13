@@ -6,7 +6,7 @@
   "scripts": {
     "build-dev": "webpack --env=development --progress --profile --colors",
     "build-prod": "webpack --env=production --progress --profile --colors",
-    "run-app": "npm install && dotnet run",
+    "run-app": "npm install && npm run build-prod && dotnet run -c Release",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/Arragro/ArragroCMS#readme",
   "dependencies": {
-    "arragrocms-management": "0.0.11-alpha",
+    "arragrocms-management": "0.0.22-alpha",
     "bootstrap": "^4.0.0-alpha.6",
     "formsy-react": "^0.19.5",
     "formsy-react-components": "^0.10.1",

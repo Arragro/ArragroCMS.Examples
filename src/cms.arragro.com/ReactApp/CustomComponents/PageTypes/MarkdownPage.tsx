@@ -1,6 +1,6 @@
 ﻿import * as React from 'react'
 import * as FRC from 'formsy-react-components'
-import { Interfaces, ComponentTypeBase } from 'arragrocms-management'
+import { Interfaces, Components } from 'arragrocms-management'
 import MarkdownEditor from '../MarkdownEditor'
 
 const { Input, Textarea} = FRC
@@ -12,7 +12,7 @@ export interface IMarkdownPageState {
 }
 
 
-export default class MarkdownPage extends ComponentTypeBase<Interfaces.IComponentTypeBaseProps, IMarkdownPageState> {
+export default class MarkdownPage extends Components.ComponentTypeBase<Interfaces.IComponentTypeBaseProps, IMarkdownPageState> {
     constructor (props) {
         super(props)
         
