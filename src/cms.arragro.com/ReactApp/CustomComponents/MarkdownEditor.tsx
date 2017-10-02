@@ -61,6 +61,7 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
                 closeClick={this.closeClick}
                 dropzoneAccept={dropzoneAccept}
                 maxSize={10485760}
+                showResize={true}
             />
         } else {
             return null
