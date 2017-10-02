@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>cms.arragro.com</AssemblyName>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
