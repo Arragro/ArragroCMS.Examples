@@ -28,6 +28,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
@@ -160,7 +161,7 @@ namespace cms.arragro.com
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IAntiforgery antiforgery, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IAntiforgery antiforgery, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
         {
             loggerFactory.AddSerilog();
 
@@ -189,7 +190,7 @@ namespace cms.arragro.com
 
             app.UseAuthentication();
 
-            app.UseArragroCMS();
+            app.UseArragroCMS(serviceProvider);
 
             app.UseResponseCompression();
 
