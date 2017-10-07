@@ -1,4 +1,5 @@
-﻿using Arragro.Common.Interfaces.Providers;
+﻿using arragro.com.PageTypes;
+using Arragro.Common.Interfaces.Providers;
 using Arragro.Common.Models;
 using ArragroCMS.BusinessLayer;
 using ArragroCMS.BusinessLayer.Data.EFCore.Identity;
@@ -71,9 +72,10 @@ namespace cms.arragro.com
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddArragroCMSServices(typeof(Startup).Namespace)
+            services.AddArragroCMSServices(typeof(MarkdownPage).Namespace)
+                    .AddScoped<SiteIdFilterAttribute>()
                     .AddSingleton<ConfigurationSettings>(ConfigurationSettings)
                     .AddSingleton<SmtpSettings>(ConfigurationSettings.SmtpSettings)
                     .ConfigureDatabaseService(ConfigurationSettings)
@@ -158,10 +160,12 @@ namespace cms.arragro.com
                 config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 config.Filters.Add(new ValidateModelAttribute());
             });
+
+            return services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IAntiforgery antiforgery, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
         {
             loggerFactory.AddSerilog();
 
