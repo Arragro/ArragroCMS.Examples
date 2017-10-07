@@ -8,7 +8,6 @@
     "types": [
       "react",
       "react-dom",
-      "react-fa",
       "react-intl",
       "react-router",
       "aspnet-webpack-react"
