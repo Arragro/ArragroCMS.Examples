@@ -30,6 +30,16 @@ export default class MarkdownPage extends Components.ComponentTypeBase<Interface
         }
     }
 
+    componentWillReceiveProps(nextProps: Interfaces.IComponentTypeBaseProps) {
+        if (this.props.culture !== nextProps.culture) {
+            const pageData = this.props.contentData.pageJson[nextProps.culture] as IMarkdownPageState
+            this.setState({
+                ...this.state,
+                markdown: pageData.markdown === undefined ? '' : pageData.markdown
+            })
+        }
+    }
+
     title: any
     body: any
 

@@ -4,8 +4,8 @@ import { Interfaces, Components } from 'arragrocms-management'
 import MarkdownConfiguration from './CustomComponents/ConfigurationTypes/MarkdownConfiguration'
 import MarkdownPage from './CustomComponents/PageTypes/MarkdownPage'
 
-const PAGETYPES_MARKDOWN = 'cms.arragro.com.PageTypes.MarkdownPage'
-const CONFIGURATIONTYPES_MARKDOWN = 'cms.arragro.com.PageTypes.MarkdownConfiguration'
+const PAGETYPES_MARKDOWN = 'arragro.com.PageTypes.MarkdownPage'
+const CONFIGURATIONTYPES_MARKDOWN = 'arragro.com.PageTypes.MarkdownConfiguration'
 
 export function extendPageTypeMap (): void {
 

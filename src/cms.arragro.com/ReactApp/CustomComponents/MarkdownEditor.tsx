@@ -1,5 +1,5 @@
 ﻿import * as React from 'react'
-import CodeMirror from 'react-codemirror'
+import CodeMirror from 'react-codemirror2'
 import ReactMarkdown from 'react-markdown'
 import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
 
@@ -24,14 +24,12 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
         this.state = {
             showImageAssetModal: false
         }
+
+        this.onChange = this.onChange.bind(this)
     }
 
     assetModal: Components.AssetModal
     codeMirror: any 
-
-    componentDidMount () {
-        this.codeMirror.getCodeMirror().refresh()
-    }
     
     closeClick = () => {
         this.setState({
@@ -77,6 +75,10 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
         })
     }
 
+    onChange(editor, metadata, value) {
+        this.props.onChange(value)
+    }
+
     render () {
         const options = {
             lineNumbers: true,
@@ -91,10 +93,10 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
                 <div className='col-6 full-width-buttons'>
                     {this.getImageAssetModal(this.state.showImageAssetModal)}
                     {htmlHelper.renderButton('btn-primary', this.showImageAssetModal.bind(this), '', 'Select Image', true, false)}
-                    <CodeMirror ref={(x) => this.codeMirror = x} value={this.props.value} options={options} onChange={this.props.onChange} />
+                    <CodeMirror ref={(x) => this.codeMirror = x} value={this.props.value} options={options} onChange={this.onChange} />
                 </div>
                 <div className='col-6 pt-4 mt-3'>
-                    <ReactMarkdown source={this.props.value} escapeHtml={true} />
+                    <ReactMarkdown source={this.props.value} escapeHtml={false} />
                 </div>
             </div>
         )
