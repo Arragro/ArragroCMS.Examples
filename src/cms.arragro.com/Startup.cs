@@ -118,6 +118,7 @@ namespace cms.arragro.com
             var supportedCultures = new CultureInfo[] { new CultureInfo("en-nz") };
 
             services.CreateAndMigrateDatabase(ConfigurationSettings, defaultCulture, supportedCultures);
+            services.SeedCmsDatabase();
 
             var serviceBuilder = services.BuildServiceProvider();
             var jwtSettings = serviceBuilder.GetService<ISettings>().GetJwtSettings();
