@@ -12,7 +12,7 @@ export interface IMarkdownPageState {
 }
 
 
-export default class MarkdownPage extends Components.ComponentTypeBase<Interfaces.IComponentTypeBaseProps, IMarkdownPageState> {
+export default class MarkdownPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, IMarkdownPageState> {
     constructor (props) {
         super(props)
         
@@ -47,13 +47,6 @@ export default class MarkdownPage extends Components.ComponentTypeBase<Interface
         title: '',
         markdown: '',
         version: -1,
-    }
-
-    public getModel () {
-        return {
-            title: this.title.getValue(),
-            markdown: this.state.markdown
-        }
     }
 
     onMarkdownEditorChange = (markdown) => {
