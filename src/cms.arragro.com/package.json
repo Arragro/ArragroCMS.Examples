@@ -28,6 +28,7 @@
     "arragrocms-management": "^0.0.54-alpha",
     "bootstrap": "^4.0.0-alpha.6",
     "codemirror": "^5.30.0",
+    "popper.js": "^1.12.5",
     "formsy-react": "^0.19.5",
     "formsy-react-components": "^0.10.1",
     "history": "^4.6.1",
