@@ -1,9 +1,10 @@
-﻿using arragro.com.PageTypes;
+﻿using arragro.com.ContentTypes.Pages;
+using arragro.com.ContentTypes.Post;
 using ArragroCMS.BusinessLayer.Data.EFCore.Identity.Models;
 using ArragroCMS.BusinessLayer.Data.Entities;
 using ArragroCMS.BusinessLayer.Domains;
-using ArragroCMS.Core.Enums;
 using ArragroCMS.Core.Web.DataTransformationObjects;
+using ArragroCMS.Core.Web.Enums;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
@@ -15,6 +16,7 @@ namespace cms.arragro.com
     {
         private static readonly CultureInfo _culture_en = new CultureInfo("en");
         private static readonly CultureInfo _culture_en_nz = new CultureInfo("en-nz");
+
         private static void CreatePage(
             Site site, User adminUser, UrlRoutes urlRoutes, Contents contents, IMapper mapper,
             string url, string title, MarkdownPage en, MarkdownPage en_nz)
@@ -25,6 +27,24 @@ namespace cms.arragro.com
                 var parentUrlRoute = new UrlRoute(site.SiteId, url, UrlRouteType.Page, adminUser.Id);
 
                 var content = new Content(parentUrlRoute, title, typeof(MarkdownPage));
+                content.AddContent(_culture_en, en);
+                content.AddContent(_culture_en_nz, en_nz);
+                var contentDto = mapper.Map<ContentDtoJsonAsObject>(content);
+                contentDto.Status = Status.Published.ToString();
+
+                content = contents.AddOrUpdateContent(contentDto, parentUrlRoute.CreatedBy).Single(x => x.Status == Status.Published);
+            }
+        }
+        private static void CreatePost(
+            Site site, User adminUser, UrlRoutes urlRoutes, Contents contents, IMapper mapper,
+            string url, string title, MarkdownPost en, MarkdownPost en_nz)
+        {
+            var testUrlRoute = urlRoutes.FindUrlRoute(url, Status.Published);
+            if (testUrlRoute == null)
+            {
+                var parentUrlRoute = new UrlRoute(site.SiteId, url, UrlRouteType.Post, adminUser.Id);
+
+                var content = new Content(parentUrlRoute, title, typeof(MarkdownPost));
                 content.AddContent(_culture_en, en);
                 content.AddContent(_culture_en_nz, en_nz);
                 var contentDto = mapper.Map<ContentDtoJsonAsObject>(content);
@@ -59,6 +79,14 @@ namespace cms.arragro.com
                 var home_en = new MarkdownPage { Title = "Home Page EN", Markdown = "This is the EN home page." };
                 var home_en_nz = new MarkdownPage { Title = "Home Page EN-NZ", Markdown = "This is the EN-NZ home page." };
                 CreatePage(site, adminUser, urlRoutes, contents, mapper, "home", "Home Page", home_en, home_en_nz);
+
+                for (var i = 0; i < 50; i++)
+                {
+                    var postNumber = i + 1;
+                    var post_en = new MarkdownPost { Title = $"Post {postNumber} EN", Markdown = "This is the EN post." };
+                    var post_en_nz = new MarkdownPost { Title = $"Post {postNumber} EN-NZ", Markdown = "This is the EN-NZ post." };
+                    CreatePost(site, adminUser, urlRoutes, contents, mapper, $"post-{postNumber}", $"Post {postNumber}", post_en, post_en_nz);
+                }
             }
         }
     }

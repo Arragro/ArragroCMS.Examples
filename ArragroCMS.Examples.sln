@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cms.arragro.com", "src\cms.arragro.com\cms.arragro.com.csproj", "{8519BC1C-B6DA-4A82-80E7-F647F6451741}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "arragro.com.PageTypes", "src\arragro.com.PageTypes\arragro.com.PageTypes.csproj", "{79929EFC-8DAC-4164-B9AE-1B2CD1BC708C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "www.arragro.com", "src\www.arragro.com\www.arragro.com.csproj", "{F5B503E9-0B15-44B6-886C-76F820431EA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "www.arragro.com", "src\www.arragro.com\www.arragro.com.csproj", "{F5B503E9-0B15-44B6-886C-76F820431EA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "arragro.com.ContentTypes", "src\arragro.com.ContentTypes\arragro.com.ContentTypes.csproj", "{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{8519BC1C-B6DA-4A82-80E7-F647F6451741}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8519BC1C-B6DA-4A82-80E7-F647F6451741}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8519BC1C-B6DA-4A82-80E7-F647F6451741}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79929EFC-8DAC-4164-B9AE-1B2CD1BC708C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79929EFC-8DAC-4164-B9AE-1B2CD1BC708C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79929EFC-8DAC-4164-B9AE-1B2CD1BC708C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79929EFC-8DAC-4164-B9AE-1B2CD1BC708C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5B503E9-0B15-44B6-886C-76F820431EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5B503E9-0B15-44B6-886C-76F820431EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5B503E9-0B15-44B6-886C-76F820431EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5B503E9-0B15-44B6-886C-76F820431EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

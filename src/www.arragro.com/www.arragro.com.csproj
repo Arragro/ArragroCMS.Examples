@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-005" />
+    <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-007" />
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.0" />
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\arragro.com.PageTypes\arragro.com.PageTypes.csproj" />
+    <ProjectReference Include="..\arragro.com.ContentTypes\arragro.com.ContentTypes.csproj" />
   </ItemGroup>
 
   <ItemGroup>

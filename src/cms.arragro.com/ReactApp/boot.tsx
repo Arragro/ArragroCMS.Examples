@@ -7,14 +7,14 @@ import { Provider } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 import { browserHistory, Router } from 'react-router'
 
-import { extendPageTypeMap, extendConfigurationTypeMap } from './componentExtentionTypes'
+import { extendContentTypeMap, extendConfigurationTypeMap } from './componentExtentionTypes'
 
 import { configureStore, Routes } from 'arragrocms-management'
 
 let store = configureStore(browserHistory)
 let routes = new Routes()
 
-extendPageTypeMap()
+extendContentTypeMap()
 extendConfigurationTypeMap()
 
 ReactDOM.render(

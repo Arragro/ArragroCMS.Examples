@@ -16,12 +16,12 @@ export default class StandardPage extends Components.ComponentTypeBase<Interface
         super(props)
         
         if (this.props.contentData) {
-            if (this.props.contentData.pageJson &&
-                this.props.contentData.pageJson[this.props.culture] !== undefined) {
+            if (this.props.contentData.contentJson &&
+                this.props.contentData.contentJson[this.props.culture] !== undefined) {
                 this.state = {
-                    title: this.props.contentData.pageJson[this.props.culture].title,
-                    body: this.props.contentData.pageJson[this.props.culture].body,
-                    version: this.props.contentData.pageJson[this.props.culture].version
+                    title: this.props.contentData.contentJson[this.props.culture].title,
+                    body: this.props.contentData.contentJson[this.props.culture].body,
+                    version: this.props.contentData.contentJson[this.props.culture].version
                 }
             } else {
                 this.state = this.defaultStandardPage

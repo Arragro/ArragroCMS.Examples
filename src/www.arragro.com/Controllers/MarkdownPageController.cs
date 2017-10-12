@@ -1,10 +1,9 @@
-﻿using arragro.com.PageTypes;
+﻿using arragro.com.ContentTypes.Pages;
 using ArragroCMS.Core.Web.Enums;
 using ArragroCMS.Web.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace www.arragro.com.Controllers

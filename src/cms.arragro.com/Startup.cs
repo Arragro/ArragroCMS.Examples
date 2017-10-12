@@ -1,4 +1,5 @@
-﻿using arragro.com.PageTypes;
+﻿using arragro.com.ContentTypes.Pages;
+using arragro.com.ContentTypes.Post;
 using Arragro.Common.Interfaces.Providers;
 using Arragro.Common.Models;
 using ArragroCMS.BusinessLayer;
@@ -74,7 +75,7 @@ namespace cms.arragro.com
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddArragroCMSServices(typeof(MarkdownPage).Namespace)
+            services.AddArragroCMSServices("arragro.com.ContentTypes")
                     .AddScoped<SiteIdFilterAttribute>()
                     .AddSingleton<ConfigurationSettings>(ConfigurationSettings)
                     .AddSingleton<SmtpSettings>(ConfigurationSettings.SmtpSettings)

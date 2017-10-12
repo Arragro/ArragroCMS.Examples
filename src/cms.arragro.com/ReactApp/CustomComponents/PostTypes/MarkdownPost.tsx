@@ -5,14 +5,14 @@ import MarkdownEditor from '../MarkdownEditor'
 
 const { Input, Textarea} = FRC
 
-export interface IMarkdownPageState {
+export interface IMarkdownPostState {
     title: string
     markdown: string
     version: number
 }
 
 
-export default class MarkdownPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, IMarkdownPageState> {
+export default class MarkdownPost extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, IMarkdownPostState> {
     constructor (props) {
         super(props)
         
@@ -32,7 +32,7 @@ export default class MarkdownPage extends Components.StateManagedComponentTypeBa
 
     componentWillReceiveProps(nextProps: Interfaces.IComponentTypeBaseProps) {
         if (this.props.culture !== nextProps.culture) {
-            const pageData = this.props.contentData.contentJson[nextProps.culture] as IMarkdownPageState
+            const pageData = this.props.contentData.contentJson[nextProps.culture] as IMarkdownPostState
             this.setState({
                 ...this.state,
                 markdown: pageData.markdown === undefined ? '' : pageData.markdown
@@ -43,7 +43,7 @@ export default class MarkdownPage extends Components.StateManagedComponentTypeBa
     title: any
     body: any
 
-    defaultStandardPage: IMarkdownPageState = {
+    defaultStandardPage: IMarkdownPostState = {
         title: '',
         markdown: '',
         version: -1,

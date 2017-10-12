@@ -4,10 +4,10 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace arragro.com.PageTypes
+namespace arragro.com.ContentTypes.Post
 {
-    [DisplayName("Markdown Page")]
-    public class MarkdownPage : RulesBase<MarkdownPage>, ICliPageType
+    [DisplayName("Markdown Post")]
+    public class MarkdownPost : RulesBase<MarkdownPost>, ICliPostType
     {
         [Required]
         [MaxLength(512)]
