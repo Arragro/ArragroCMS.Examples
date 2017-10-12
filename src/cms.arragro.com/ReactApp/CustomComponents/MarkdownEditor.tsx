@@ -26,6 +26,7 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
         }
 
         this.onChange = this.onChange.bind(this)
+        this.selectClick = this.selectClick.bind(this)
     }
 
     assetModal: Components.AssetModal
@@ -39,8 +40,8 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
     }
 
     selectClick = (asset: Interfaces.IAsset) => {
-        let cursor = this.codeMirror.getCodeMirror().getCursor()
-        this.codeMirror.getCodeMirror().replaceRange(`![${asset.alt}](${window.location.origin}/${asset.url})`, cursor, cursor)
+        let cursor = this.codeMirror.editor.getCursor()
+        this.codeMirror.editor.replaceRange(`![${asset.alt}](${window.location.origin}/${asset.url})`, cursor, cursor)
         this.setState({
             ...this.state,
             showImageAssetModal: false
