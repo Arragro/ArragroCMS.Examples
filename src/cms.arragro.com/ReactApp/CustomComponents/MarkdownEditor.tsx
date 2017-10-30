@@ -9,8 +9,11 @@ import 'codemirror/mode/markdown/markdown'
 
 export interface IMarkdownEditorProps {
     contentDataUrlRouteId: string
+    name: string
+    label: string
     value: string
-    onChange(value)
+    showAssetPicker: boolean
+    onChange(name, value)
 }
 
 export interface IMarkdownEditorState {
@@ -18,7 +21,7 @@ export interface IMarkdownEditorState {
 }
 
 export default class MarkdownEditor extends React.Component<IMarkdownEditorProps, IMarkdownEditorState> {
-    constructor (props) {
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -26,12 +29,11 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
         }
 
         this.onChange = this.onChange.bind(this)
-        this.selectClick = this.selectClick.bind(this)
     }
 
     assetModal: Components.AssetModal
-    codeMirror: any 
-    
+    codeMirror: any
+
     closeClick = () => {
         this.setState({
             ...this.state,
@@ -54,7 +56,7 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
             const dropzoneAccept = 'image/*'
             return <Components.AssetModal
                 ref={(x) => this.assetModal = x}
-                contentUrlRouteId={this.props.contentDataUrlRouteId}
+                contentUrlRouteId={this.props.contentDataUrlRouteId}                
                 mimeTypeFilter={mimeTypeFilter}
                 selectClick={this.selectClick}
                 closeClick={this.closeClick}
@@ -77,26 +79,32 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
     }
 
     onChange(editor, metadata, value) {
-        this.props.onChange(value)
+        this.props.onChange(this.props.name, value)
     }
 
-    render () {
+    render() {
         const options = {
             lineNumbers: true,
             readOnly: false,
             mode: 'markdown',
             theme: 'eclipse',
+            autofocus: false,
             lineWrapping: true
         }
 
+        const markdownClass = this.props.showAssetPicker ? 'col-6 pt-4 mt-3' : 'col-6'
+
         return (
-            <div className='d-flex col-12 no-gutters'>
+            <div className='row no-gutters'>
+                <div className='form-group col-12'>
+                    <label className="control-label">{this.props.label}</label>
+                </div>
                 <div className='col-6 full-width-buttons'>
                     {this.getImageAssetModal(this.state.showImageAssetModal)}
-                    {htmlHelper.renderButton('btn-primary', this.showImageAssetModal.bind(this), '', 'Select Image', true, false)}
-                    <CodeMirror ref={(x) => this.codeMirror = x} value={this.props.value} options={options} onChange={this.onChange} />
+                    {htmlHelper.renderButton('btn-primary', this.showImageAssetModal.bind(this), '', 'Select Image', this.props.showAssetPicker, false)}
+                    <CodeMirror ref={(x) => this.codeMirror = x} value={this.props.value} options={options} onChange={this.onChange} autoScrollCursorOnSet={false} />
                 </div>
-                <div className='col-6 pt-4 mt-3'>
+                <div className={markdownClass}>
                     <ReactMarkdown source={this.props.value} escapeHtml={false} />
                 </div>
             </div>

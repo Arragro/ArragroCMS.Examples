@@ -74,7 +74,14 @@ export default class MarkdownPost extends Components.StateManagedComponentTypeBa
                     />
                 </div>
                 <div className='col-12 no-gutters'>
-                    <MarkdownEditor contentDataUrlRouteId={this.props.contentData.urlRouteId} value={this.state.markdown} onChange={this.onMarkdownEditorChange.bind(this)} />
+                    <MarkdownEditor 
+                        contentDataUrlRouteId={this.props.contentData.urlRouteId}
+                        name='markdown'
+                        label='Content'
+                        value={this.state.markdown} 
+                        onChange={this.onMarkdownEditorChange.bind(this)} 
+                        showAssetPicker={true}
+                    />
                 </div>
             </div>
         )

@@ -1,6 +1,8 @@
 ﻿import 'bootstrap/dist/css/bootstrap.min.css'
 import 'arragrocms-management/dist/main.css'
 
+import '../wwwroot/less/site.less'
+
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
@@ -11,7 +13,7 @@ import { extendContentTypeMap, extendConfigurationTypeMap } from './componentExt
 
 import { configureStore, Routes } from 'arragrocms-management'
 
-let store = configureStore(browserHistory)
+let store = configureStore(browserHistory, true)
 let routes = new Routes()
 
 extendContentTypeMap()

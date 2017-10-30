@@ -68,7 +68,11 @@ namespace www.arragro.com
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            app.UseArragroCMS(serviceProvider);
+
+            var defaultCulture = new CultureInfo("en");
+            var supportedCultures = new CultureInfo[] { new CultureInfo("en") };
+
+            app.UseArragroCMS(defaultCulture, supportedCultures);
 
             app.UseResponseCompression();
 

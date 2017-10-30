@@ -30,16 +30,6 @@ export default class MarkdownPage extends Components.StateManagedComponentTypeBa
         }
     }
 
-    componentWillReceiveProps(nextProps: Interfaces.IComponentTypeBaseProps) {
-        if (this.props.culture !== nextProps.culture) {
-            const pageData = this.props.contentData.contentJson[nextProps.culture] as IMarkdownPageState
-            this.setState({
-                ...this.state,
-                markdown: pageData.markdown === undefined ? '' : pageData.markdown
-            })
-        }
-    }
-
     title: any
     body: any
 
@@ -47,13 +37,6 @@ export default class MarkdownPage extends Components.StateManagedComponentTypeBa
         title: '',
         markdown: '',
         version: -1,
-    }
-
-    onMarkdownEditorChange = (markdown) => {
-        this.setState({
-            ...this.state,
-            markdown
-        }, () => this.onChange('markdown', markdown))
     }
 
     public render () {
@@ -74,7 +57,14 @@ export default class MarkdownPage extends Components.StateManagedComponentTypeBa
                     />
                 </div>
                 <div className='col-12 no-gutters'>
-                    <MarkdownEditor contentDataUrlRouteId={this.props.contentData.urlRouteId} value={this.state.markdown} onChange={this.onMarkdownEditorChange.bind(this)} />
+                    <MarkdownEditor 
+                        contentDataUrlRouteId={this.props.contentData.urlRouteId} 
+                        name='markdown'
+                        label='Content'
+                        value={this.state.markdown} 
+                        onChange={this.onChange} 
+                        showAssetPicker={true}
+                    />
                 </div>
             </div>
         )
