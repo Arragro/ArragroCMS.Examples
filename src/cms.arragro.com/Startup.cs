@@ -53,7 +53,8 @@ namespace cms.arragro.com
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
 
             Configuration = builder.Build();
 
@@ -75,19 +76,25 @@ namespace cms.arragro.com
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddArragroCMSServices("arragro.com.ContentTypes")
-                    .AddScoped<SiteIdFilterAttribute>()
-                    .AddSingleton<ConfigurationSettings>(ConfigurationSettings)
-                    .AddSingleton<SmtpSettings>(ConfigurationSettings.SmtpSettings)
-                    .ConfigureDatabaseService(ConfigurationSettings)
-                    .AddAutoMapper(cfg => cfg.AddProfile<ArragroCMSAutoMapperProfile>())
-                    .AddAntiforgery(options =>
-                    {
-                        options.HeaderName = "X-CSRF-TOKEN-ARRAGROCMS";
-                    })
-                    .AddSingleton<ArragroCMS.Core.Interfaces.Providers.IStorageProvider, ArragroCMS.Providers.AzureStorageProvider>()
-                    .AddSingleton<IImageProvider, Arragro.Providers.ImageMagickProvider.ImageProvider>()
+            try
+            {
+                services.AddArragroCMSServices("arragro.com.ContentTypes")
+                        .AddScoped<SiteIdFilterAttribute>()
+                        .AddSingleton<ConfigurationSettings>(ConfigurationSettings)
+                        .AddSingleton<SmtpSettings>(ConfigurationSettings.SmtpSettings)
+                        .ConfigureDatabaseService(ConfigurationSettings)
+                        .AddAutoMapper(cfg => cfg.AddProfile<ArragroCMSAutoMapperProfile>())
+                        .AddAntiforgery(options =>
+                        {
+                            options.HeaderName = "X-CSRF-TOKEN-ARRAGROCMS";
+                        })
+                        .AddSingleton<ArragroCMS.Core.Interfaces.Providers.IStorageProvider, ArragroCMS.Providers.AzureStorageProvider>()
+                        .AddSingleton<IImageProvider, Arragro.Providers.ImageMagickProvider.ImageProvider>()
+#if DEBUG
                     .AddSingleton<IEmailProvider, Arragro.Providers.MailKitEmailProvider.EmailProvider>()
+#elif RELEASE
+                    .AddSingleton<IEmailProvider, Arragro.Providers.SendgridEmailProvider.EmailProvider>()
+#endif
                     .AddAuthorization(options =>
                     {
                         options.AddPolicy("ReadOnly", policy =>
@@ -108,62 +115,68 @@ namespace cms.arragro.com
                         });
                     });
 
-            services.AddIdentity<User, Role>(config =>
-            {
-                config.SignIn.RequireConfirmedEmail = true;
-            })
-                .AddEntityFrameworkStores<ArragroCmsIdentityContext>()
-                .AddDefaultTokenProviders();
-
-            var defaultCulture = new CultureInfo("en");
-            var supportedCultures = new CultureInfo[] { new CultureInfo("en-nz") };
-
-            services.CreateAndMigrateDatabase(ConfigurationSettings, defaultCulture, supportedCultures);
-            services.SeedCmsDatabase();
-
-            var serviceBuilder = services.BuildServiceProvider();
-            var jwtSettings = serviceBuilder.GetService<ISettings>().GetJwtSettings();
-
-            services.ConfigureApplicationCookie(config =>
-            {
-                config.Events.OnRedirectToAccessDenied = (ctx) => CookieEventHandler(ctx, HttpStatusCode.Unauthorized);
-                config.Events.OnRedirectToLogin = (ctx) => CookieEventHandler(ctx, HttpStatusCode.Forbidden);
-            });
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+                services.AddIdentity<User, Role>(config =>
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidIssuer = jwtSettings.Issuer,
-                        ValidAudience = jwtSettings.Audience,
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key)),
-                        ValidateLifetime = true
-                    };
+                    config.SignIn.RequireConfirmedEmail = true;
+                })
+                    .AddEntityFrameworkStores<ArragroCmsIdentityContext>()
+                    .AddDefaultTokenProviders();
+
+                var defaultCulture = new CultureInfo("en");
+                var supportedCultures = new CultureInfo[] { new CultureInfo("en-nz") };
+
+                services.CreateAndMigrateDatabase(ConfigurationSettings, defaultCulture, supportedCultures);
+                //services.SeedCmsDatabase();
+
+                var serviceBuilder = services.BuildServiceProvider();
+                var jwtSettings = serviceBuilder.GetService<ISettings>().GetJwtSettings();
+
+                services.ConfigureApplicationCookie(config =>
+                {
+                    config.Events.OnRedirectToAccessDenied = (ctx) => CookieEventHandler(ctx, HttpStatusCode.Unauthorized);
+                    config.Events.OnRedirectToLogin = (ctx) => CookieEventHandler(ctx, HttpStatusCode.Forbidden);
                 });
 
-            services.AddScoped<SignInManager<User>, UserSignIn<User>>();
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidIssuer = jwtSettings.Issuer,
+                            ValidAudience = jwtSettings.Audience,
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key)),
+                            ValidateLifetime = true
+                        };
+                    });
 
-            services.Configure<GzipCompressionProviderOptions>
-                (options => options.Level = CompressionLevel.Fastest);
+                services.AddScoped<SignInManager<User>, UserSignIn<User>>();
 
-            services.AddResponseCompression(options =>
+                services.Configure<GzipCompressionProviderOptions>
+                    (options => options.Level = CompressionLevel.Fastest);
+
+                services.AddResponseCompression(options =>
+                {
+                    options.Providers.Add<GzipCompressionProvider>();
+                });
+
+                services.AddMvc(config =>
+                {
+                    var defaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
+                                     .RequireAuthenticatedUser()
+                                     .Build();
+                    config.Filters.Add(new AuthorizeFilter(defaultPolicy));
+                    config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    config.Filters.Add(new ValidateModelAttribute());
+                });
+
+                return services.BuildServiceProvider();
+            }
+            catch (Exception ex)
             {
-                options.Providers.Add<GzipCompressionProvider>();
-            });
-
-            services.AddMvc(config =>
-            {
-                var defaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
-                                 .RequireAuthenticatedUser()
-                                 .Build();
-                config.Filters.Add(new AuthorizeFilter(defaultPolicy));
-                config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                config.Filters.Add(new ValidateModelAttribute());
-            });
-
-            return services.BuildServiceProvider();
+                Log.Logger.Error<Exception>("Configure Services Failed: {ex}", ex);
+                throw;
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

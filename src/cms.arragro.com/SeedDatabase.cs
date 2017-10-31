@@ -32,7 +32,8 @@ namespace cms.arragro.com
                 var contentDto = mapper.Map<ContentDtoJsonAsObject>(content);
                 contentDto.Status = Status.Published.ToString();
 
-                content = contents.AddOrUpdateContent(contentDto, parentUrlRoute.CreatedBy).Single(x => x.Status == Status.Published);
+                var contentResult = contents.AddOrUpdateContent(contentDto, parentUrlRoute.CreatedBy);
+                content = contentResult.Single(x => x.Status == Status.Published);
             }
         }
         private static void CreatePost(
@@ -50,7 +51,19 @@ namespace cms.arragro.com
                 var contentDto = mapper.Map<ContentDtoJsonAsObject>(content);
                 contentDto.Status = Status.Published.ToString();
 
-                content = contents.AddOrUpdateContent(contentDto, parentUrlRoute.CreatedBy).Single(x => x.Status == Status.Published);
+                var contentResult = contents.AddOrUpdateContent(contentDto, parentUrlRoute.CreatedBy);
+                content = contentResult.Single(x => x.Status == Status.Published);
+            }
+        }
+
+        private static void CreatePosts(Site site, User adminUser, UrlRoutes urlRoutes, Contents contents, IMapper mapper)
+        {
+            for (var i = 0; i < 50; i++)
+            {
+                var postNumber = i + 1;
+                var post_en = new MarkdownPost { Title = $"Post {postNumber} EN", Markdown = "This is the EN post." };
+                var post_en_nz = new MarkdownPost { Title = $"Post {postNumber} EN-NZ", Markdown = "This is the EN-NZ post." };
+                CreatePost(site, adminUser, urlRoutes, contents, mapper, $"post-{postNumber}", $"Post {postNumber}", post_en, post_en_nz);
             }
         }
 
@@ -80,13 +93,7 @@ namespace cms.arragro.com
                 var home_en_nz = new MarkdownPage { Title = "Home Page EN-NZ", Markdown = "This is the EN-NZ home page." };
                 CreatePage(site, adminUser, urlRoutes, contents, mapper, "home", "Home Page", home_en, home_en_nz);
 
-                for (var i = 0; i < 50; i++)
-                {
-                    var postNumber = i + 1;
-                    var post_en = new MarkdownPost { Title = $"Post {postNumber} EN", Markdown = "This is the EN post." };
-                    var post_en_nz = new MarkdownPost { Title = $"Post {postNumber} EN-NZ", Markdown = "This is the EN-NZ post." };
-                    CreatePost(site, adminUser, urlRoutes, contents, mapper, $"post-{postNumber}", $"Post {postNumber}", post_en, post_en_nz);
-                }
+                CreatePosts(site, adminUser, urlRoutes, contents, mapper);
             }
         }
     }
