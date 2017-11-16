@@ -5,14 +5,6 @@ import { Components } from 'arragrocms-management'
 import { ICarousel } from '../../interfaces'
 import SortableCarouselForm from './SortableCarouselForm'
 
-interface SortableItemProps {
-    itemIndex: number
-    contentUrlRouteId: string
-    carousel: ICarousel
-    onChange (index: number, carousel: ICarousel)
-    onDelete (index: number)
-}
-
 interface SortableListProps {
     name: string
     carousels: Array<ICarousel>
