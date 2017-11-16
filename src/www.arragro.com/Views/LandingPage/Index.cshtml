@@ -1,0 +1,19 @@
+﻿@model arragro.com.ContentTypes.Pages.LandingPage
+
+
+@section header {
+    <header>
+        <div id="background-wrap">
+
+            <clouds clouds=Model.InfiniteClouds cloud-banner-texts=Model.CloudBannerTexts />
+
+        </div>
+    </header>
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <p>@Html.Raw(@CommonMark.CommonMarkConverter.Convert(Html.Encode(Model.MarkdownIntro).Replace("&#xA;", "\n")))</p>
+    </div>
+</div>
