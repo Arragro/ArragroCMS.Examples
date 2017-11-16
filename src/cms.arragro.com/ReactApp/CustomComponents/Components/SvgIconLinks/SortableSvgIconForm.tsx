@@ -30,15 +30,19 @@ const SortableSvgIcon: React.StatelessComponent<SortableItemProps<ISvgIconLink>>
                     maxLength: 'There is a 255 character limit to this field.'
                 }}
             />
-            
-            <Textarea
+
+            <Components.AssetPicker
                 name='svg'
-                label='Svg'
+                label='SVG'
+                required
+                selectedAsset={props.item.svg}
+                contentUrlRouteId={props.contentUrlRouteId}
+                dropzoneAccept='image/svg+xml'
+                mimeTypeFilter='image/svg+xml'
+                maxSize={10485760}
+                showResize={true}
                 onChange={props.onChange}
                 value={props.item.svg}
-                required
-                rows={10}
-                cols={80}
             />
             
             <Input

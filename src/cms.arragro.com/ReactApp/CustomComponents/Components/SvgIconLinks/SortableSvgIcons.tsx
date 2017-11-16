@@ -10,7 +10,7 @@ interface SortableListProps<ItemType> {
     svgIconLinks: Array<ISvgIconLink>
     contentUrlRouteId: string
     newItem: ISvgIconLink
-    onChange (name: string, svgIconLinks: Array<ISvgIconLink>)
+    onChange(name: string, svgIconLinks: Array<ISvgIconLink>)
 }
 
 export default class SortableCarousel extends React.Component<SortableListProps<ISvgIconLink>> {
@@ -33,7 +33,7 @@ export default class SortableCarousel extends React.Component<SortableListProps<
 
     getItemDetails = (item: ISvgIconLink) => {
         if (item.svg.length > 0) {
-            return <div dangerouslySetInnerHTML={{__html: item.svg}}></div>
+            return <img src={item.svg} />
         }
         return null
     }
