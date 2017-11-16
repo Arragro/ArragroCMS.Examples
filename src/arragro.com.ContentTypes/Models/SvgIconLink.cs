@@ -12,5 +12,6 @@ namespace arragro.com.ContentTypes.Models
         [Required]
         [MaxLength(2000)]
         public string Href { get; set; }
+        public string Markdown { get; set; }
     }
 }

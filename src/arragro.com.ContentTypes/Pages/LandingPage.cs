@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace arragro.com.ContentTypes.Pages
 {
@@ -15,15 +14,21 @@ namespace arragro.com.ContentTypes.Pages
         [Required]
         [MaxLength(512)]
         public string Title { get; set; }
-        public List<Carousel> Carousels { get; set; }
-        public List<SvgIconLink> SvgIconLinks { get; set; }
-        
-        public Carousel GetRandomCarousel()
+        public List<Cloud> StartingClouds { get; set; }
+        public List<Cloud> InfiniteClouds { get; set; }
+        public List<CloudBannerText> CloudBannerTexts { get; set; }
+        public string MarkdownIntro { get; set; }
+        public List<SvgIconLink> SvgIconLinksServices { get; set; }
+        public string MarkdownOutro { get; set; }
+
+        public LandingPage()
         {
-            var random = new Random();
-            int index = random.Next(Carousels.Count());
-            return Carousels.ElementAt(index);
+            StartingClouds = new List<Cloud>();
+            InfiniteClouds = new List<Cloud>();
+            CloudBannerTexts = new List<CloudBannerText>();
+            SvgIconLinksServices = new List<SvgIconLink>();
         }
+
 
         public decimal Version
         {
