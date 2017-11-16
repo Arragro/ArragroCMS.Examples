@@ -1,6 +1,7 @@
 ﻿import * as React from 'react'
 import CodeMirror from 'react-codemirror2'
 import ReactMarkdown from 'react-markdown'
+import * as Formsy from 'formsy-react'
 import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
 
 import 'codemirror/lib/codemirror.css'
@@ -13,6 +14,7 @@ export interface IMarkdownEditorProps {
     label: string
     value: string
     showAssetPicker: boolean
+    options?: any
     onChange(name, value)
 }
 
@@ -20,7 +22,7 @@ export interface IMarkdownEditorState {
     showImageAssetModal: boolean
 }
 
-export default class MarkdownEditor extends React.Component<IMarkdownEditorProps, IMarkdownEditorState> {
+class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdownEditorState> {
     constructor(props) {
         super(props)
 
@@ -52,8 +54,8 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
 
     getImageAssetModal = (show: boolean) => {
         if (show) {
-            const mimeTypeFilter = 'image/*'
-            const dropzoneAccept = 'image/*'
+            const mimeTypeFilter = 'image/jpeg,image/png,image/pjpeg'
+            const dropzoneAccept = 'image/jpeg,image/png,image/pjpeg'
             return <Components.AssetModal
                 ref={(x) => this.assetModal = x}
                 contentUrlRouteId={this.props.contentDataUrlRouteId}                
@@ -80,10 +82,16 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
 
     onChange(editor, metadata, value) {
         this.props.onChange(this.props.name, value)
+        this.props.setValue(value)
+    }
+
+    isValid() {
+        return false
     }
 
     render() {
         const options = {
+            ...this.props.options,
             lineNumbers: true,
             readOnly: false,
             mode: 'markdown',
@@ -93,13 +101,15 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
         }
 
         const markdownClass = this.props.showAssetPicker ? 'col-6 pt-4 mt-3' : 'col-6'
+        const styleIssue = { border: '1px solid red' }
+        const style = (this.props.showRequired() && this.props.isFormSubmitted() ? styleIssue : this.props.showError() ? styleIssue : {})
 
         return (
             <div className='row no-gutters'>
                 <div className='form-group col-12'>
                     <label className="control-label">{this.props.label}</label>
                 </div>
-                <div className='col-6 full-width-buttons'>
+                <div className='col-6 full-width-buttons' style={style}>
                     {this.getImageAssetModal(this.state.showImageAssetModal)}
                     {htmlHelper.renderButton('btn-primary', this.showImageAssetModal.bind(this), '', 'Select Image', this.props.showAssetPicker, false)}
                     <CodeMirror ref={(x) => this.codeMirror = x} value={this.props.value} options={options} onChange={this.onChange} autoScrollCursorOnSet={false} />
@@ -111,3 +121,8 @@ export default class MarkdownEditor extends React.Component<IMarkdownEditorProps
         )
     }
 }
+
+var markdownEditor = Formsy.HOC(MarkdownEditor)
+
+debugger
+export default markdownEditor
