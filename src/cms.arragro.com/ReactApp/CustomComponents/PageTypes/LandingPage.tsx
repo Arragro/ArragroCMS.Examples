@@ -2,34 +2,50 @@
 import * as FRC from 'formsy-react-components'
 import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
 
-import { ICarousel, ISvgIconLink } from '../interfaces'
+import { ICloud, ICloudBannerText, ISvgIconLink } from '../interfaces'
 
-import SortableCarousel from '../Components/Carousel/SortableCarousel'
+import SortableClouds from '../Components/Clouds/SortableClouds'
+import SortableCloudBannerTexts from '../Components/CloudBannerTexts/SortableCloudBannerTexts'
 import SortableSvgIcons from '../Components/SvgIconLinks/SortableSvgIcons'
+import MarkdownEditor from '../MarkdownEditor'
 
 const { Input, Textarea } = FRC
 
 const landingPageHelper = {
-    newCarousel: (): ICarousel => {
+    newCloud: (): ICloud => {
         return {
             name: '',
+            svgBased: false,
+            svgIcon: '',
             imageUrl: '',
             imageAlt: '',
+            markdown: '',
             hasLink: false,
             linkText: '',
-            href:''
+            href: '',
         }
     },
 
-    newRandomCarousel: (): Array<ICarousel> => {
-        return new Array<ICarousel>()
+    newClouds: (): Array<ICloud> => {
+        return new Array<ICloud>()
+    },
+
+    newCloudBannerText: (): ICloudBannerText => {
+        return {
+            markdown: ''
+        }
+    },
+
+    newCloudBannerTexts: (): Array<ICloudBannerText> => {
+        return new Array<ICloudBannerText>()
     },
 
     newSvgIconLink: (): ISvgIconLink => {
         return {
             title: '',
             svg: '',
-            href: ''
+            href: '',
+            markdown: ''
         }
     }
 }
@@ -37,8 +53,12 @@ const landingPageHelper = {
 
 export interface ILandingPageState {
     title: string
-    carousels: Array<ICarousel>
-    svgIconLinks: Array<ISvgIconLink>
+    startingClouds: Array<ICloud>
+    infinteClouds: Array<ICloud>
+    cloudBannerTexts: Array<ICloudBannerText>
+    markdownIntro: string
+    svgIconLinksServices: Array<ISvgIconLink>
+    markdownOutro: string
 }
 
 
@@ -47,21 +67,34 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
         super(props)
     }
 
-    sortableCarousel: SortableCarousel
+    sortableStartingClouds: SortableClouds
+    sortableInfiniteClouds: SortableClouds
+    sortableCloudBannerTexts: SortableCloudBannerTexts
     sortableSvgIcons: SortableSvgIcons
 
     public render() {
-        let source = '# This is a header\n\nAnd this is a paragraph'
         
         const pageData = this.props.contentData.contentJson[this.props.culture] as ILandingPageState
         const landingPage = {
             title: pageData.title === undefined ? '' : pageData.title,
-            carousels: pageData.carousels === undefined ?
-                    landingPageHelper.newRandomCarousel() :
-                    pageData.carousels,
-            svgIconLinks: pageData.svgIconLinks === undefined ?
+            startingClouds: pageData.startingClouds === undefined ?
+                landingPageHelper.newClouds() :
+                pageData.startingClouds,
+            infinteClouds: pageData.infinteClouds === undefined ?
+                landingPageHelper.newClouds() :
+                pageData.infinteClouds,
+            cloudBannerTexts: pageData.cloudBannerTexts === undefined ?
+                landingPageHelper.newCloudBannerTexts() :
+                pageData.cloudBannerTexts,
+            markdownIntro: pageData.markdownIntro === undefined ?
+                '' :
+                pageData.markdownIntro,
+            svgIconLinksServices: pageData.svgIconLinksServices === undefined ?
                 [] :
-                pageData.svgIconLinks,
+                pageData.svgIconLinksServices,
+            markdownOutro: pageData.markdownOutro === undefined ?
+                '' :
+                pageData.markdownOutro
         }
 
         return (
@@ -78,13 +111,46 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 </div>
                 <hr className='col-12' />
                 <div className='col-12 no-gutters full-width-buttons'>
-                    <SortableCarousel
-                        ref={x => this.sortableCarousel = x}
+                    <SortableClouds
+                        ref={x => this.sortableStartingClouds = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
-                        name='carousels'
-                        carousels={landingPage.carousels}
-                        newItem={landingPageHelper.newCarousel()}
+                        name='startingClouds'
+                        label='Starting Clouds'
+                        clouds={landingPage.startingClouds}
+                        newItem={landingPageHelper.newCloud()}
                         onChange={this.onChange}
+                    />
+                </div>
+                <div className='col-12 no-gutters full-width-buttons'>
+                    <SortableClouds
+                        ref={x => this.sortableInfiniteClouds = x}
+                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        name='infinteClouds'
+                        label='Infinite Clouds'
+                        clouds={landingPage.infinteClouds}
+                        newItem={landingPageHelper.newCloud()}
+                        onChange={this.onChange}
+                    />
+                </div>
+                <div className='col-12 no-gutters full-width-buttons'>
+                    <SortableCloudBannerTexts
+                        ref={x => this.sortableCloudBannerTexts = x}
+                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        name='cloudBannerTexts'
+                        cloudBannerTexts={landingPage.cloudBannerTexts}
+                        newItem={landingPageHelper.newCloudBannerText()}
+                        onChange={this.onChange}
+                    />
+                </div>
+                <hr className='col-12' />
+                <div className='col-12 no-gutters'>
+                    <MarkdownEditor
+                        contentDataUrlRouteId={this.props.contentData.urlRouteId}
+                        name='markdownIntro'
+                        label='Introduction'
+                        value={landingPage.markdownIntro}
+                        onChange={this.onChange}
+                        showAssetPicker={true}
                     />
                 </div>
                 <hr className='col-12' />
@@ -92,13 +158,23 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                     <SortableSvgIcons
                         ref={x => this.sortableSvgIcons = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
-                        name='svgIconLinks'
-                        svgIconLinks={landingPage.svgIconLinks}
+                        name='svgIconLinksServices'
+                        svgIconLinksServices={landingPage.svgIconLinksServices}
                         newItem={landingPageHelper.newSvgIconLink()}
                         onChange={this.onChange}
                     />
                 </div>
                 <hr className='col-12' />
+                <div className='col-12 no-gutters'>
+                    <MarkdownEditor
+                        contentDataUrlRouteId={this.props.contentData.urlRouteId}
+                        name='markdownOutro'
+                        label='Outro'
+                        value={landingPage.markdownOutro}
+                        onChange={this.onChange}
+                        showAssetPicker={true}
+                    />
+                </div>
             </div>
         )
     }
