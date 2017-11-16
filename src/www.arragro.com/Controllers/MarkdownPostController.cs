@@ -15,7 +15,7 @@ namespace www.arragro.com.Controllers
         public MarkdownPostController(IArragroCmsManagementClient arragroCmsManagementClient)
         {
             _arragroCmsManagementClient = arragroCmsManagementClient;
-        }        
+        }
 
         // GET: /<controller>/
         public async Task<IActionResult> Index(Guid siteId, Guid id, Status status)

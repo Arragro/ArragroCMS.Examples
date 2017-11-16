@@ -17,19 +17,18 @@ namespace www.arragro.com.Controllers
             _arragroCmsManagementClient = arragroCmsManagementClient;
         }
 
-        // GET: /<controller>/
         public async Task<IActionResult> Home(Guid siteId, Guid id, Status status)
         {
-            var content = await _arragroCmsManagementClient.GetContentAsync<MarkdownPage>("home", CultureInfo.CurrentCulture, Status.Published);
+            var content = await _arragroCmsManagementClient.GetContentAsync<MarkdownPage>("home-current", CultureInfo.CurrentCulture, Status.Published);
 
-            return View("Index", content);
+            return View("HomePageOveride", content);
         }
-
-        // GET: /<controller>/
+        
         public async Task<IActionResult> Index(Guid siteId, Guid id, Status status)
         {
-            var content = await _arragroCmsManagementClient.GetContentAsync<MarkdownPage>(siteId, CultureInfo.CurrentCulture, id, status);
-            return View(content);
+            var content = await _arragroCmsManagementClient.GetContentAsync<MarkdownPage>(siteId, id, status);
+            ViewBag.Content = content.ContentDto;
+            return View(content.ParsedContent[CultureInfo.CurrentCulture.Name]);
         }
     }
 }
