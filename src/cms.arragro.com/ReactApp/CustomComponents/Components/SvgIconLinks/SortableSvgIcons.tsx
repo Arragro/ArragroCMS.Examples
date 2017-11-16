@@ -7,10 +7,10 @@ import SortableSvgIconForm from './SortableSvgIconForm'
 
 interface SortableListProps<ItemType> {
     name: string
-    svgIconLinks: Array<ISvgIconLink>
+    svgIconLinksServices: Array<ISvgIconLink>
     contentUrlRouteId: string
     newItem: ISvgIconLink
-    onChange(name: string, svgIconLinks: Array<ISvgIconLink>)
+    onChange(name: string, svgIconLinksServices: Array<ISvgIconLink>)
 }
 
 export default class SortableCarousel extends React.Component<SortableListProps<ISvgIconLink>> {
@@ -53,7 +53,7 @@ export default class SortableCarousel extends React.Component<SortableListProps<
                     name={this.props.name}
                     typeName='Svg Icon Links'
                     contentUrlRouteId={this.props.contentUrlRouteId} 
-                    items={this.props.svgIconLinks} 
+                    items={this.props.svgIconLinksServices} 
                     newItem={this.props.newItem}
                     getName={(item: ISvgIconLink) => item.title}
                     getItemHeader={this.getItemHeader}
