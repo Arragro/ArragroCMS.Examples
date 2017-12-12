@@ -1,4 +1,4 @@
-﻿using Arragro.Common.RulesExceptions;
+﻿using Arragro.Core.Common.RulesExceptions;
 using System.ComponentModel.DataAnnotations;
 
 namespace arragro.com.ContentTypes.Models

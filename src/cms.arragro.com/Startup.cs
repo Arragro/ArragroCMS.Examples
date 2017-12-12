@@ -1,7 +1,5 @@
-﻿using arragro.com.ContentTypes.Pages;
-using arragro.com.ContentTypes.Post;
-using Arragro.Common.Interfaces.Providers;
-using Arragro.Common.Models;
+﻿using Arragro.Core.Common.Interfaces.Providers;
+using Arragro.Core.Common.Models;
 using ArragroCMS.BusinessLayer;
 using ArragroCMS.BusinessLayer.Data.EFCore.Identity;
 using ArragroCMS.BusinessLayer.Data.EFCore.Identity.Models;
@@ -88,7 +86,7 @@ namespace cms.arragro.com
                         {
                             options.HeaderName = "X-CSRF-TOKEN-ARRAGROCMS";
                         })
-                        .AddSingleton<ArragroCMS.Core.Interfaces.Providers.IStorageProvider, ArragroCMS.Providers.AzureStorageProvider>()
+                        .AddSingleton< ArragroCMS.Core.Interfaces.Providers.IStorageProvider, ArragroCMS.Providers.AzureStorageProvider>()
                         .AddSingleton<IImageProvider, Arragro.Providers.ImageMagickProvider.ImageProvider>()
 #if DEBUG
                     .AddSingleton<IEmailProvider, Arragro.Providers.MailKitEmailProvider.EmailProvider>()

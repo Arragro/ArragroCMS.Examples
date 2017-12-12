@@ -1,5 +1,5 @@
 ﻿using arragro.com.ContentTypes.Models;
-using Arragro.Common.RulesExceptions;
+using Arragro.Core.Common.RulesExceptions;
 using ArragroCMS.Core.Web.Interfaces;
 using System;
 using System.Collections.Generic;
