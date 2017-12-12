@@ -11,9 +11,9 @@ import { browserHistory, Router } from 'react-router'
 
 import { extendContentTypeMap, extendConfigurationTypeMap } from './componentExtentionTypes'
 
-import { configureStore, Routes } from 'arragrocms-management'
+import { Redux, Routes } from 'arragrocms-management'
 
-let store = configureStore(browserHistory, true)
+let store = Redux.configureStore(browserHistory, true)
 let routes = new Routes()
 
 extendContentTypeMap()
