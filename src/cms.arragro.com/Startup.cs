@@ -2,9 +2,11 @@
 using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
 using ArragroCMS.Web.Management.Middleware;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
@@ -62,6 +64,12 @@ namespace cms.arragro.com
 
                 services.AddMvc(config =>
                 {
+                    var defaultPolicy = new AuthorizationPolicyBuilder(services.GetDefaultAuthenticationSchemas())
+                                     .RequireAuthenticatedUser()
+                                     .Build();
+
+                    config.Filters.Add(new AuthorizeFilter(defaultPolicy));
+
                     config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     config.Filters.Add(new ValidateModelAttribute());
                 });
