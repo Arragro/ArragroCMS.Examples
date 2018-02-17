@@ -52,7 +52,7 @@ namespace www.arragro.com.TagHelpers
         
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            var sitemapContainer = await _arragroCmsManagementClient.GetSitemapAsync();
+            var sitemapContainer = await _arragroCmsManagementClient.GetSitemapAsync(Request.Host.Host, Request.Host.Port);
 
             output.TagName = "ul";
             output.Attributes.Add(new TagHelperAttribute("class", "navbar-nav"));
