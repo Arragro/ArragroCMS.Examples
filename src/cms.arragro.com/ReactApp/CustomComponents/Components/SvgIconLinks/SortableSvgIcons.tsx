@@ -24,7 +24,6 @@ export default class SortableCarousel extends React.Component<SortableListProps<
     sortableItems: Components.SortableItems<ISvgIconLink>
 
     getItemHeader = (item: ISvgIconLink) => {
-        debugger
         if (item.title.length > 0) {
             return <span>{item.title}</span>
         }

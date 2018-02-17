@@ -20,17 +20,17 @@ const SortableCloudForm: React.StatelessComponent<SortableCloudFormFormProps> = 
         if (svgBased) {
             return <div>
                 <Components.AssetPicker
-                    name='svgIcon'
+                    name='imageUrl'
                     label='SVG'
-                    required
-                    selectedAsset={props.item.svgIcon}
+                    // required
+                    selectedAsset={props.item.imageUrl}
                     contentUrlRouteId={props.contentUrlRouteId}
                     dropzoneAccept='image/svg+xml'
                     mimeTypeFilter='image/svg+xml'
                     maxSize={10485760}
                     showResize={true}
                     onChange={props.onChange}
-                    value={props.item.svgIcon}
+                    value={props.item.imageUrl}
                 />
             </div>
         } else {
@@ -38,7 +38,7 @@ const SortableCloudForm: React.StatelessComponent<SortableCloudFormFormProps> = 
                 <Components.AssetPicker
                     name='imageUrl'
                     label='Image'
-                    required
+                    // required
                     selectedAsset={props.item.imageUrl}
                     contentUrlRouteId={props.contentUrlRouteId}
                     dropzoneAccept='image/jpeg,image/pjpeg,image/png,image/gif'

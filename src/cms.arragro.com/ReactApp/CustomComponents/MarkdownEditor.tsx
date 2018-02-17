@@ -124,5 +124,4 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
 
 var markdownEditor = Formsy.HOC(MarkdownEditor)
 
-debugger
 export default markdownEditor
