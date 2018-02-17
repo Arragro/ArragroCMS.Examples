@@ -5,7 +5,11 @@
     <header>
         <div id="background-wrap">
 
-            <clouds clouds=Model.InfiniteClouds cloud-banner-texts=Model.CloudBannerTexts />
+            <clouds clouds=Model.StartingClouds starting=true class-name="starting-clouds" />
+
+            <clouds clouds=Model.InfiniteClouds class-name="infinite-clouds" />
+
+            <cloud-banner-text cloud-banner-texts=Model.CloudBannerTexts class-name="banner-text" interval=6000 />
 
         </div>
     </header>
