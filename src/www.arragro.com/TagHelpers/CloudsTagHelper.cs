@@ -1,9 +1,13 @@
 ﻿using arragro.com.ContentTypes.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor.TagHelpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace www.arragro.com.TagHelpers
@@ -11,32 +15,12 @@ namespace www.arragro.com.TagHelpers
     public class CloudsTagHelper : TagHelper
     {
         public List<Cloud> Clouds { get; set; }
-        public List<CloudBannerText> CloudBannerTexts { get; set; }
-
-        private string GetBannerText(CloudBannerText cloudBannerText, int index)
-        {
-            var className = $"x-text-{index}";
-
-            return $@"
-<div class='{className}'>
-    <h1>{CommonMark.CommonMarkConverter.Convert(WebUtility.HtmlEncode(cloudBannerText.Markdown).Replace("&#xA;", "\n"))}</h1>
-</div>";
-        }
-
-        private string GetBannerTexts()
-        {
-            var sb = new StringBuilder();
-            for (var i = 0; i < CloudBannerTexts.Count; i++)
-            {
-                var cloudBannerText = CloudBannerTexts[i];
-                sb.AppendLine(GetBannerText(cloudBannerText, i));
-            }
-            return sb.ToString();
-        }
+        public bool Starting { get; set; } = false;
+        public string ClassName { get; set; }
 
         private TagBuilder GetCloud(Cloud cloud, int index)
         {
-            var className = $"x{index}-starting";
+            var className = $"cloud-{index + 1}";
             var tagBuilder = new TagBuilder(cloud.HasLink ? "a" : "div");
             tagBuilder.Attributes.Add("class", className);
 
@@ -52,11 +36,11 @@ namespace www.arragro.com.TagHelpers
 
             tagBuilder.InnerHtml.AppendHtml($@"
 <div class='cloud'>
-    <img src='~/images/svgs/cloud.svg' alt='Cloud' />
-    <div class='cloud-image'><img src='${cloud.ImageUrl}' alt='${cloud.ImageUrlAlt}'</div>
+    <img src='/images/svgs/cloud.svg' alt='Cloud' />
+    <div class='cloud-image'><img src='{cloud.ImageUrl}' alt='{cloud.ImageUrlAlt}' /></div>
 </div>");
 
-            tagBuilder.TagRenderMode = TagRenderMode.SelfClosing;
+            tagBuilder.TagRenderMode = TagRenderMode.Normal;
 
             return tagBuilder;
         }
@@ -64,27 +48,15 @@ namespace www.arragro.com.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";
+            output.Attributes.Add(new TagHelperAttribute("class", ClassName));
 
             var html = string.Empty;
-            if (Clouds.Count == 0)
+            for (var i = 0; i < Clouds.Count; i++)
             {
-                html = GetBannerTexts();
-            }
-            else if (Clouds.Count == 1)
-            {
-                html = GetCloud(Clouds[0], 1).ToString();
-                html += GetBannerTexts();
-            }
-            else
-            {
-                for (var i = 0; i < Clouds.Count; i++)
+                using (var writer = new StringWriter())
                 {
-                    html += GetCloud(Clouds[0], 1).ToString();
-
-                    if (i == 2)
-                    {
-                        html += GetBannerTexts();
-                    }
+                    GetCloud(Clouds[i], i).WriteTo(writer, HtmlEncoder.Default);
+                    html += writer.ToString();
                 }
             }
 
