@@ -19,7 +19,7 @@ namespace www.arragro.com.Controllers
         
         public async Task<IActionResult> Home(Guid siteId, Guid id, Status status)
         {
-            var content = await _arragroCmsManagementClient.GetContentAsync<LandingPage>("home", Status.Published);
+            var content = await _arragroCmsManagementClient.GetContentAsync<LandingPage>(Request.Host.Host, Request.Host.Port, "home", Status.Published);
             ViewBag.Content = content.ContentDto;
             return View(content.ParsedContent[CultureInfo.CurrentCulture.Name]);
         }
