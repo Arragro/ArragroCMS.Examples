@@ -22,7 +22,6 @@ const SortableCloudForm: React.StatelessComponent<SortableCloudFormFormProps> = 
                 <Components.AssetPicker
                     name='imageUrl'
                     label='SVG'
-                    // required
                     selectedAsset={props.item.imageUrl}
                     contentUrlRouteId={props.contentUrlRouteId}
                     dropzoneAccept='image/svg+xml'
@@ -38,7 +37,6 @@ const SortableCloudForm: React.StatelessComponent<SortableCloudFormFormProps> = 
                 <Components.AssetPicker
                     name='imageUrl'
                     label='Image'
-                    // required
                     selectedAsset={props.item.imageUrl}
                     contentUrlRouteId={props.contentUrlRouteId}
                     dropzoneAccept='image/jpeg,image/pjpeg,image/png,image/gif'
