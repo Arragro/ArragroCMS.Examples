@@ -11,6 +11,7 @@ interface SortableCloudsProps {
     clouds: Array<ICloud>
     contentUrlRouteId: string
     newItem: ICloud
+    maxClouds: number
     onChange(name: string, carousels: Array<ICloud>)
 }
 
@@ -34,11 +35,7 @@ export default class SortableClouds extends React.Component<SortableCloudsProps>
     }
 
     getItemDetails = (item: ICloud) => {
-        if (item.svgBased) {
-            return <div dangerouslySetInnerHTML={{ __html: item.svgIcon }}></div>
-        } else {
-            return <img src={item.imageUrl} alt={item.imageAlt} />
-        }
+        return <img src={item.imageUrl} alt={item.imageAlt} />
     }
     
     getForm = (index: number, item: ICloud, onChange: (name, value) => void) => {
@@ -63,7 +60,7 @@ export default class SortableClouds extends React.Component<SortableCloudsProps>
                     getItemDetails={this.getItemDetails}
                     getForm={this.getForm}
                     onChange={this.props.onChange}
-                    maxNumberOfItems={2}
+                    maxNumberOfItems={this.props.maxClouds}
                 />;
     }
 }

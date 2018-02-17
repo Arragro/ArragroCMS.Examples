@@ -10,7 +10,6 @@ export interface ICarousel extends IItemType {
 export interface ICloud extends IItemType {
     name: string
     svgBased: boolean
-    svgIcon: string
     imageUrl: string
     imageAlt: string
     markdown: string

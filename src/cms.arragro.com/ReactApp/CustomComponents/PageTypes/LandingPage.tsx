@@ -16,7 +16,6 @@ const landingPageHelper = {
         return {
             name: '',
             svgBased: false,
-            svgIcon: '',
             imageUrl: '',
             imageAlt: '',
             markdown: '',
@@ -54,7 +53,7 @@ const landingPageHelper = {
 export interface ILandingPageState {
     title: string
     startingClouds: Array<ICloud>
-    infinteClouds: Array<ICloud>
+    infiniteClouds: Array<ICloud>
     cloudBannerTexts: Array<ICloudBannerText>
     markdownIntro: string
     svgIconLinksServices: Array<ISvgIconLink>
@@ -80,9 +79,9 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
             startingClouds: pageData.startingClouds === undefined ?
                 landingPageHelper.newClouds() :
                 pageData.startingClouds,
-            infinteClouds: pageData.infinteClouds === undefined ?
+            infiniteClouds: pageData.infiniteClouds === undefined ?
                 landingPageHelper.newClouds() :
-                pageData.infinteClouds,
+                pageData.infiniteClouds,
             cloudBannerTexts: pageData.cloudBannerTexts === undefined ?
                 landingPageHelper.newCloudBannerTexts() :
                 pageData.cloudBannerTexts,
@@ -119,17 +118,19 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                         clouds={landingPage.startingClouds}
                         newItem={landingPageHelper.newCloud()}
                         onChange={this.onChange}
+                        maxClouds={5}
                     />
                 </div>
                 <div className='col-12 no-gutters full-width-buttons'>
                     <SortableClouds
                         ref={x => this.sortableInfiniteClouds = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
-                        name='infinteClouds'
+                        name='infiniteClouds'
                         label='Infinite Clouds'
-                        clouds={landingPage.infinteClouds}
+                        clouds={landingPage.infiniteClouds}
                         newItem={landingPageHelper.newCloud()}
                         onChange={this.onChange}
+                        maxClouds={14}
                     />
                 </div>
                 <div className='col-12 no-gutters full-width-buttons'>
