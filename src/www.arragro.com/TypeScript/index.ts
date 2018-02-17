@@ -1,1 +1,1 @@
-﻿import '../wwwroot/css/site.less'
+﻿import '../wwwroot/css/site.scss'
