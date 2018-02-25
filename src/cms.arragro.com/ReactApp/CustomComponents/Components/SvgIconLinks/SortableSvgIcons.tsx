@@ -29,13 +29,6 @@ export default class SortableCarousel extends React.Component<SortableListProps<
         }
         return null
     }
-
-    getItemDetails = (item: ISvgIconLink) => {
-        if (item.svg.length > 0) {
-            return <img src={item.svg} />
-        }
-        return null
-    }
     
     getForm = (index: number, item: ISvgIconLink, onChange: (name, value) => void) => {
         return <SortableSvgIconForm        
@@ -56,7 +49,7 @@ export default class SortableCarousel extends React.Component<SortableListProps<
                     newItem={this.props.newItem}
                     getName={(item: ISvgIconLink) => item.title}
                     getItemHeader={this.getItemHeader}
-                    getItemDetails={this.getItemDetails}
+                    getItemDetails={() => null}
                     getForm={this.getForm}
                     onChange={this.props.onChange}
                 />;

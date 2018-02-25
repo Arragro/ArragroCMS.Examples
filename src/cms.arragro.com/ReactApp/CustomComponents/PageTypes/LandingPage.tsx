@@ -2,9 +2,9 @@
 import * as FRC from 'formsy-react-components'
 import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
 
-import { ICloud, ICloudBannerText, ISvgIconLink } from '../interfaces'
+import { ITile, ICloudBannerText, ISvgIconLink } from '../interfaces'
 
-import SortableClouds from '../Components/Clouds/SortableClouds'
+import SortableTiles from '../Components/Tiles/SortableTiles'
 import SortableCloudBannerTexts from '../Components/CloudBannerTexts/SortableCloudBannerTexts'
 import SortableSvgIcons from '../Components/SvgIconLinks/SortableSvgIcons'
 import MarkdownEditor from '../MarkdownEditor'
@@ -12,7 +12,7 @@ import MarkdownEditor from '../MarkdownEditor'
 const { Input, Textarea } = FRC
 
 const landingPageHelper = {
-    newCloud: (): ICloud => {
+    newTile: (): ITile => {
         return {
             name: '',
             svgBased: false,
@@ -22,11 +22,12 @@ const landingPageHelper = {
             hasLink: false,
             linkText: '',
             href: '',
+            cssClass: ''
         }
     },
 
-    newClouds: (): Array<ICloud> => {
-        return new Array<ICloud>()
+    newTiles: (): Array<ITile> => {
+        return new Array<ITile>()
     },
 
     newCloudBannerText: (): ICloudBannerText => {
@@ -52,11 +53,14 @@ const landingPageHelper = {
 
 export interface ILandingPageState {
     title: string
-    startingClouds: Array<ICloud>
-    infiniteClouds: Array<ICloud>
+    startingClouds: Array<ITile>
+    infiniteClouds: Array<ITile>
     cloudBannerTexts: Array<ICloudBannerText>
     markdownIntro: string
     svgIconLinksServices: Array<ISvgIconLink>
+    whatWeveDones: Array<ITile>
+    technologyClouds: Array<ITile>
+    technologyMarkdown: string
     markdownOutro: string
 }
 
@@ -66,10 +70,12 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
         super(props)
     }
 
-    sortableStartingClouds: SortableClouds
-    sortableInfiniteClouds: SortableClouds
+    sortableStartingClouds: SortableTiles
+    sortableInfiniteClouds: SortableTiles
     sortableCloudBannerTexts: SortableCloudBannerTexts
     sortableSvgIcons: SortableSvgIcons
+    sortableTechnologyClouds: SortableTiles
+    sortableWhatWeveDones: SortableTiles
 
     public render() {
         
@@ -77,10 +83,10 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
         const landingPage = {
             title: pageData.title === undefined ? '' : pageData.title,
             startingClouds: pageData.startingClouds === undefined ?
-                landingPageHelper.newClouds() :
+                landingPageHelper.newTiles() :
                 pageData.startingClouds,
             infiniteClouds: pageData.infiniteClouds === undefined ?
-                landingPageHelper.newClouds() :
+                landingPageHelper.newTiles() :
                 pageData.infiniteClouds,
             cloudBannerTexts: pageData.cloudBannerTexts === undefined ?
                 landingPageHelper.newCloudBannerTexts() :
@@ -91,6 +97,15 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
             svgIconLinksServices: pageData.svgIconLinksServices === undefined ?
                 [] :
                 pageData.svgIconLinksServices,
+            whatWeveDones: pageData.whatWeveDones === undefined ?
+                landingPageHelper.newTiles() :
+                pageData.whatWeveDones,
+            technologyClouds: pageData.technologyClouds === undefined ?
+                landingPageHelper.newTiles() :
+                pageData.technologyClouds,
+            technologyMarkdown: pageData.technologyMarkdown === undefined ?
+                '' :
+                pageData.technologyMarkdown,
             markdownOutro: pageData.markdownOutro === undefined ?
                 '' :
                 pageData.markdownOutro
@@ -110,27 +125,32 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 </div>
                 <hr className='col-12' />
                 <div className='col-12 no-gutters full-width-buttons'>
-                    <SortableClouds
+                    <SortableTiles
                         ref={x => this.sortableStartingClouds = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
                         name='startingClouds'
                         label='Starting Clouds'
                         clouds={landingPage.startingClouds}
-                        newItem={landingPageHelper.newCloud()}
+                        newItem={landingPageHelper.newTile()}
                         onChange={this.onChange}
-                        maxClouds={5}
+                        maxClouds={4}
+                        linkIsMandatory={false}
+                        useMarkdown={false}
                     />
                 </div>
+                <hr className='col-12' />
                 <div className='col-12 no-gutters full-width-buttons'>
-                    <SortableClouds
+                    <SortableTiles
                         ref={x => this.sortableInfiniteClouds = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
                         name='infiniteClouds'
                         label='Infinite Clouds'
                         clouds={landingPage.infiniteClouds}
-                        newItem={landingPageHelper.newCloud()}
+                        newItem={landingPageHelper.newTile()}
                         onChange={this.onChange}
-                        maxClouds={14}
+                        maxClouds={8}
+                        linkIsMandatory={false}
+                        useMarkdown={false}
                     />
                 </div>
                 <div className='col-12 no-gutters full-width-buttons'>
@@ -163,6 +183,47 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                         svgIconLinksServices={landingPage.svgIconLinksServices}
                         newItem={landingPageHelper.newSvgIconLink()}
                         onChange={this.onChange}
+                    />
+                </div>
+                <hr className='col-12' />
+                <div className='col-12 no-gutters full-width-buttons'>
+                    <SortableTiles
+                        ref={x => this.sortableWhatWeveDones = x}
+                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        name='whatWeveDones'
+                        label="What We've Done Tiles"
+                        clouds={landingPage.whatWeveDones}
+                        newItem={landingPageHelper.newTile()}
+                        onChange={this.onChange}
+                        maxClouds={4}
+                        linkIsMandatory={true}
+                        useMarkdown={true}
+                    />
+                </div>
+                <hr className='col-12' />
+                <div className='col-12 no-gutters full-width-buttons'>
+                    <SortableTiles
+                        ref={x => this.sortableTechnologyClouds = x}
+                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        name='technologyClouds'
+                        label='Technology Clouds'
+                        clouds={landingPage.technologyClouds}
+                        newItem={landingPageHelper.newTile()}
+                        onChange={this.onChange}
+                        maxClouds={5}
+                        linkIsMandatory={false}
+                        useMarkdown={false}
+                    />
+                </div>
+                <hr className='col-12' />
+                <div className='col-12 no-gutters'>
+                    <MarkdownEditor
+                        contentDataUrlRouteId={this.props.contentData.urlRouteId}
+                        name='technologyMarkdown'
+                        label='Technology Markdown'
+                        value={landingPage.technologyMarkdown}
+                        onChange={this.onChange}
+                        showAssetPicker={true}
                     />
                 </div>
                 <hr className='col-12' />
