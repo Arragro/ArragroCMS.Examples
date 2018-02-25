@@ -2,22 +2,167 @@
 
 
 @section header {
-    <header>
+    <header id="landingPageHeader">
         <div id="background-wrap">
 
             <clouds clouds=Model.StartingClouds starting=true class-name="starting-clouds" />
+
+            <div class="sun">
+                <div class="ray-box">
+                    <div class="ray ray1"></div>
+                    <div class="ray ray2"></div>
+                    <div class="ray ray3"></div>
+                    <div class="ray ray4"></div>
+                    <div class="ray ray5"></div>
+                    <div class="ray ray6"></div>
+                    <div class="ray ray7"></div>
+                    <div class="ray ray8"></div>
+                    <div class="ray ray9"></div>
+                    <div class="ray ray10"></div>
+                </div>
+            </div>
 
             <clouds clouds=Model.InfiniteClouds class-name="infinite-clouds" />
 
             <cloud-banner-text cloud-banner-texts=Model.CloudBannerTexts class-name="banner-text" interval=6000 />
 
+            <div class="look-down">
+                <div class="fa-2x"><i class="fal fa-chevron-circle-down"></i></div>
+            </div>
+
         </div>
     </header>
 }
 
-
-<div class="row">
-    <div class="col-md-12">
-        <p>@Html.Raw(@CommonMark.CommonMarkConverter.Convert(Html.Encode(Model.MarkdownIntro).Replace("&#xA;", "\n")))</p>
+@if (!string.IsNullOrWhiteSpace(Model.MarkdownIntro))
+{
+    <div id="intro">
+        <div class="container d-flex justify-content-center">
+            <div class="col-lg-10">
+                @Html.Raw(@CommonMark.CommonMarkConverter.Convert(Model.MarkdownIntro.Replace("&#xA;", "\n")))
+            </div>
+        </div>
     </div>
-</div>
+}
+
+@if (Model.SvgIconLinksServices.Any())
+{
+    <div id="services">
+        <div class="container">
+            <div class="row">
+                @foreach (var service in Model.SvgIconLinksServices)
+                {
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <a href="@service.Href">
+                            <div class="service-svg">
+                                <span class="fa-layers fa-fw">
+                                    <i class="fas fa-circle" data-fa-transform="grow-20"></i>
+                                    <i class="@service.Svg fa-inverse" data-fa-transform="grow-4"></i>
+                                </span>
+                            </div>
+                            <div class="service-markdown">
+                                <h5>@service.Title</h5>
+                                @Html.Raw(@CommonMark.CommonMarkConverter.Convert(service.Markdown.Replace("&#xA;", "\n")))
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.WhatWeveDones.Any())
+{
+    <div id="whatWeveDone">
+        <h3>Our work</h3>
+        <div class="container">
+            <div class="row justify-content-center">
+                @foreach (var whatWeveDone in Model.WhatWeveDones)
+                {
+                    <div class="col-12 col-md-6 col-xl-5 @Html.Raw(string.IsNullOrWhiteSpace(whatWeveDone.CssClass) ? "" : whatWeveDone.CssClass)">
+                        <a href="@whatWeveDone.Href">
+                            <div class="what-weve-done-img row align-items-center">
+                                <div class="col-12">
+                                    <img src="@whatWeveDone.ImageUrl" alt="@whatWeveDone.ImageUrlAlt" />
+                                </div>
+                            </div>
+                            <div class="what-weve-done-markdown">
+                                @*<h5>@whatWeveDone.Name</h5>*@
+                                @Html.Raw(@CommonMark.CommonMarkConverter.Convert(whatWeveDone.Markdown.Replace("&#xA;", "\n")))
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@Html.Partial("TechnologyClouds", Model)
+
+@section scripts {
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
+    <script type="text/javascript">
+
+        var allClouds = new TimelineLite(),
+            $cloudContainer = $("#cloudContainer"),
+            startTimings = [50, 64, 58, 47],
+            timings = [60, 74, 68, 77, 60, 74, 68, 77],
+            delays = [8, 18, 10, 20, 32, 46, 49, 40, 55],
+            animatedCloudStartingLeft = [44, 2, 65, 5],
+            animatedCloudLeft = [-68, -120, -82, -134, -68, -120, -82, -134];
+
+        function processStartClouds(startClouds) {
+            for (var i = 0; i < startClouds.length; i++) {
+                //dynamically create a cloud element
+                var cloud = startClouds[i];
+
+                //set its initial position and opacity using GSAP
+                TweenLite.set(cloud, { left: animatedCloudStartingLeft[i].toString() + '%', opacity: 0 });
+                //create a repeating timeline for this cloud
+                var cloudTl = new TimelineMax({ repeat: 0 });
+                //fade opacity to 1
+                cloudTl.to(cloud, 3, { opacity: 1 })
+                    //move cloud across its container div with random duration. Start time = 0
+                    .to(cloud, startTimings[i], { left: "100%", ease: Linear.easeNone }, 0)
+                    //0.5 seconds before timeline ends start fading opacity to 0
+                    .to(cloud, .5, { opacity: 0 }, "-=0.5")
+                //add this cloud's timeline to the allClouds timeline at a random start time.
+                allClouds.add(cloudTl, 0);
+            }
+        }
+
+        function processInfiniteClouds(infiniteClouds) {
+
+            //loop through creation of 10 clouds
+            for (var i = 0; i < infiniteClouds.length; i++) {
+                //dynamically create a cloud element
+                var cloud = infiniteClouds[i];
+
+                //set its initial position and opacity using GSAP
+                TweenLite.set(cloud, { left: "-20%", opacity: 0 });
+                //create a repeating timeline for this cloud
+                var cloudTl = new TimelineMax({ repeat: -1 });
+                //fade opacity to 1
+                cloudTl.to(cloud, 3, { opacity: 1 })
+                    //move cloud across its container div with random duration. Start time = 0
+                    .to(cloud, timings[i], { left: "100%", ease: Linear.easeNone }, 0)
+                    //0.5 seconds before timeline ends start fading opacity to 0
+                    .to(cloud, .5, { opacity: 0 }, "-=0.5")
+                //add this cloud's timeline to the allClouds timeline at a random start time.
+                allClouds.add(cloudTl, delays[i]);
+            }
+        }
+
+        function initClouds() {
+
+            processStartClouds($('.starting-clouds div[class^="cloud-wrapper-"]'));
+            processInfiniteClouds($('.infinite-clouds div[class^="cloud-wrapper-"]'));
+        }
+
+        initClouds();
+
+    </script>
+}
