@@ -20,7 +20,7 @@ namespace www.arragro.com.TagHelpers
 
         private TagBuilder GetCloud(Cloud cloud, int index)
         {
-            var className = $"cloud-{index + 1}";
+            var className = $"cloud-wrapper-{index + 1}";
             var tagBuilder = new TagBuilder(cloud.HasLink ? "a" : "div");
             tagBuilder.Attributes.Add("class", className);
 
@@ -35,9 +35,11 @@ namespace www.arragro.com.TagHelpers
             }
 
             tagBuilder.InnerHtml.AppendHtml($@"
-<div class='cloud'>
-    <img src='/images/svgs/cloud.svg' alt='Cloud' />
-    <div class='cloud-image'><img src='{cloud.ImageUrl}' alt='{cloud.ImageUrlAlt}' /></div>
+<div class='cloud-{index + 1}'>
+    <div class='cloud'>
+        <img src='/images/svgs/cloud-shadow.svg' alt='Cloud' />
+        {(cloud.ImageUrl.Length > 0 ? $"<div class='cloud-image'><img src='{cloud.ImageUrl}' alt='{cloud.ImageUrlAlt}' /></div>" : "")}
+    </div>
 </div>");
 
             tagBuilder.TagRenderMode = TagRenderMode.Normal;
