@@ -11,7 +11,7 @@ namespace www.arragro.com.TagHelpers
         
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            var className = $"x{Index}-starting";
+            var className = $"cloud-{Index + 1}";
 
             if (Cloud.HasLink)
             {
@@ -30,10 +30,10 @@ namespace www.arragro.com.TagHelpers
             output.Attributes.Add(new TagHelperAttribute("class", className));
 
             output.Content.SetHtmlContent($@"
-<div class='cloud'>
-    <img src='~/images/svgs/cloud.svg' alt='Cloud' />
-    <div class='cloud-image'><img src='${Cloud.ImageUrl}' alt='${Cloud.ImageUrlAlt}'</div>
-</div>");
+    <div class='cloud'>
+        <img src='/images/svgs/cloud-shadow.svg' alt='Cloud' />
+        {(Cloud.ImageUrl.Length > 0 ? $"<div class='cloud-image'><img src='{Cloud.ImageUrl}' alt='{Cloud.ImageUrlAlt}' /></div>" : "")}
+    </div>");
             output.TagMode = TagMode.StartTagAndEndTag;
         }
     }
