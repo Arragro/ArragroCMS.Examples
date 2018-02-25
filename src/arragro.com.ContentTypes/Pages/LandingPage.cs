@@ -19,6 +19,9 @@ namespace arragro.com.ContentTypes.Pages
         public List<CloudBannerText> CloudBannerTexts { get; set; }
         public string MarkdownIntro { get; set; }
         public List<SvgIconLink> SvgIconLinksServices { get; set; }
+        public List<Tile> WhatWeveDones { get; set; }
+        public List<Cloud> TechnologyClouds { get; set; }
+        public string TechnologyMarkdown { get; set; }
         public string MarkdownOutro { get; set; }
 
         public LandingPage()
@@ -27,6 +30,8 @@ namespace arragro.com.ContentTypes.Pages
             InfiniteClouds = new List<Cloud>();
             CloudBannerTexts = new List<CloudBannerText>();
             SvgIconLinksServices = new List<SvgIconLink>();
+            WhatWeveDones = new List<Tile>();
+            TechnologyClouds = new List<Cloud>();
         }
 
 
