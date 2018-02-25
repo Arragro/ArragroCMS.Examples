@@ -1,0 +1,229 @@
+﻿@import '../mixin.scss';
+@import 'header.scss';
+
+.cloud {
+    position: relative;
+    width: 20vh;
+    min-width: 100px;
+    z-index: 1;
+
+    & > img {
+        width: 100%;
+    }
+
+    .cloud-image {
+        position: absolute;
+        width: 50%;
+        top: 42%;
+        left: 25%;
+
+        img {
+            width: 100%;
+        }
+    }
+}
+
+div[class^='cloud-'] {
+    margin-bottom: 3%;
+}
+
+div#intro {
+    padding: 2.5rem 0;
+    // border-bottom: 1px solid $lightGray;
+
+    h3 {
+        text-align: center;
+    }
+
+    text-align: justify;
+}
+
+div#services {
+    padding-top: 3rem;
+    // background-color: $lighterGray;
+    // border-bottom: 1px solid $lightGray;
+    a {
+        color: $gray;
+
+        .service-svg {
+            font-size: 3em;
+
+            svg {
+                @include transform-nav();
+
+                &.fa-circle {
+                    color: $blue;
+                }
+            }
+
+            &:focus, &:hover {
+                //color: $blue;
+                fill: $blue;
+                text-decoration: none;
+
+                svg {
+                    @include transform-nav-grow(1.2);
+                }
+            }
+        }
+    }
+
+    div[class^='col'] {
+        //max-height: 500px;
+        margin-bottom: 3rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    span {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .service-markdown {
+        padding-top: 4rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        text-rendering: optimizeLegibility;
+        text-align: justify;
+
+        h5 {
+            text-align: center;
+        }
+    }
+}
+
+div#whatWeveDone {
+    padding: 2rem 0 2rem 0;
+
+    a {
+        color: $gray;
+        text-decoration: none;
+    }
+
+    > h3 {
+        font-size: 1.75em;
+        text-align: center;
+        padding: 0 1em 0.5em 1em;
+    }
+
+    .what-weve-done-img {
+        height: 100px;
+        > div {
+            img {
+                width: 100%;
+                max-width: 300px;
+                display: block;
+                margin: 0 auto;
+            }
+
+            &.bayleys-case-study {
+                img {
+                    max-width: 180px;
+                }
+            }
+        }
+    }
+
+    .what-weve-done-markdown {
+        padding-top: 2rem;
+        text-align: justify;
+    }
+}
+
+a#technologies {
+    color: $gray;
+    text-decoration: none;
+
+    > div {
+        max-width: 1440px;
+    }
+
+    h3 {
+        font-size: 1.75em;
+        text-align: center;
+        padding: 0 1em;
+    }
+
+    .cloud {
+        margin: 0 auto;
+        width: 60vw;
+        margin-left: -9vw;
+        max-width: 500px;
+
+
+        @media (orientation: portrait) and (min-width: 768px) {
+            width: 40vw;
+            margin-left: 0vw;
+        }
+
+        @media (orientation: portrait) and (min-width: 1024px) {
+            width: 35vw;
+            margin-left: 4vw;
+        }
+
+        @media (orientation: landscape) and (min-width: 640px) {
+            width: 40vw;
+            margin-left: 0vw;
+        }
+
+        @media (orientation: landscape) and (min-width: 1366px) {
+            width: 33vw;
+            margin-left: 3vw;
+        }
+
+        @media (orientation: landscape) and (min-width: 2000px) {
+            margin-left: 0vw;
+        }
+    }
+
+    .col-5 {
+        padding: 0;
+    }
+
+    .middle, .bottom {
+        margin-top: -2rem;
+
+        @media (orientation: portrait) and (min-width: 412px) {
+            margin-top: -2.5rem;
+        }
+
+        @media (orientation: portrait) and (min-width: 768px) {
+            margin-top: -5rem;
+        }
+
+        @media (orientation: portrait) and (min-width: 1024px) {
+            margin-top: -7rem;
+        }
+
+        @media (orientation: landscape) and (min-width: 640px) {
+            margin-top: -4rem;
+        }
+
+        @media (orientation: landscape) and (min-width: 736px) {
+            margin-top: -4.5rem;
+        }
+
+        @media (orientation: landscape) and (min-width: 1024px) {
+            margin-top: -7rem;
+        }
+
+        @media (orientation: landscape) and (min-width: 1366px) {
+            margin-top: -10rem;
+        }
+    }
+
+    .top, .bottom {
+        .cloud {
+            z-index: 1;
+        }
+    }
+
+    .middle {
+        .cloud {
+            z-index: 2;
+        }
+    }
+}
