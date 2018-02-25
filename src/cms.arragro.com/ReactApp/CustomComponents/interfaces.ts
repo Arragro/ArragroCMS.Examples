@@ -7,7 +7,7 @@ export interface ICarousel extends IItemType {
     href: string
 }
 
-export interface ICloud extends IItemType {
+export interface ITile extends IItemType {
     name: string
     svgBased: boolean
     imageUrl: string
@@ -16,6 +16,7 @@ export interface ICloud extends IItemType {
     hasLink: boolean
     linkText: string
     href: string
+    cssClass: string
 }
 
 export interface IRandomCarousel {

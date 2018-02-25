@@ -1,11 +1,11 @@
 import * as React from 'react'
 import * as FRC from 'formsy-react-components'
 import * as ReactSortableHOC from 'react-sortable-hoc'
-import { Components } from 'arragrocms-management'
+import MarkdownEditor from '../../MarkdownEditor'
 
 import { ISvgIconLink } from '../../interfaces'
 
-const { Input, Textarea } = FRC
+const { Input, Textarea, Select } = FRC
 
 interface SortableItemProps<ItemType> {
     contentUrlRouteId: string
@@ -13,6 +13,18 @@ interface SortableItemProps<ItemType> {
     item: ItemType
     onChange (name: string, value: string)    
 }
+
+const selectOptions = [
+    { value: 'fal fa-code', label: 'Code' },
+    { value: 'fal fa-lightbulb', label: 'Lightbulb' },
+    { value: 'fal fa-cloud', label: 'Cloud' },
+    { value: 'fal fa-dollar-sign', label: 'Dollar' }
+];
+
+const singleSelectOptions = [
+    { value: '', label: 'Please select...' },
+    ...selectOptions,
+];
 
 const SortableSvgIcon: React.StatelessComponent<SortableItemProps<ISvgIconLink>> = (props) => {
     return <div>
@@ -31,18 +43,13 @@ const SortableSvgIcon: React.StatelessComponent<SortableItemProps<ISvgIconLink>>
                 }}
             />
 
-            <Components.AssetPicker
-                name='svg'
-                label='SVG'
+            <Select
+                name="svg"
+                label="Select SVG"
+                options={singleSelectOptions}
                 required
-                selectedAsset={props.item.svg}
-                contentUrlRouteId={props.contentUrlRouteId}
-                dropzoneAccept='image/svg+xml'
-                mimeTypeFilter='image/svg+xml'
-                maxSize={10485760}
-                showResize={true}
-                onChange={props.onChange}
                 value={props.item.svg}
+                onChange={props.onChange}
             />
             
             <Input
@@ -52,13 +59,22 @@ const SortableSvgIcon: React.StatelessComponent<SortableItemProps<ISvgIconLink>>
                 onChange={props.onChange}
                 value={props.item.href}
                 validations={{
-                    isValidUrl: 0,
+                    isUrlRoute: 0,
                     maxLength: 2000
                 }}
                 validationErrors={{
-                    isValidUrl: 'Please supply a valid url e.g. "https://www.test-url-example.com".',
+                    isUrlRoute: 'Please supply a valid url route e.g. "home".',
                     maxLength: 'There is a 2000 character limit to this field.'
                 }}
+            />
+
+            <MarkdownEditor
+                contentDataUrlRouteId={props.contentUrlRouteId}
+                name='markdown'
+                label='Markdown'
+                value={props.item.markdown}
+                onChange={props.onChange}
+                showAssetPicker={true}
             />
         </div>
 }
