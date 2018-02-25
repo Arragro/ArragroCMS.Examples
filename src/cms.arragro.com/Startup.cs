@@ -52,7 +52,7 @@ namespace cms.arragro.com
         {
             try
             {
-                services.AddDefaultArragroCmsServices(ConfigurationSettings, new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, "arragro.com.ContentTypes");
+                services.AddDefaultArragroCmsServices(ConfigurationSettings, new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, new TimeSpan(1, 0, 0), "arragro.com.ContentTypes");
 
                 services.Configure<GzipCompressionProviderOptions>
                     (options => options.Level = CompressionLevel.Fastest);
