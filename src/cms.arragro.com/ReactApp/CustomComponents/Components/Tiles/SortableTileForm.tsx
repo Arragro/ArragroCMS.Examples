@@ -3,18 +3,21 @@ import * as FRC from 'formsy-react-components'
 import * as ReactSortableHOC from 'react-sortable-hoc'
 import { Components } from 'arragrocms-management'
 
-import { ICloud } from '../../interfaces'
+import MarkdownEditor from '../../MarkdownEditor'
+import { ITile } from '../../interfaces'
 
 const { Input, Checkbox, Textarea } = FRC
 
-interface SortableCloudFormFormProps {
+interface SortableTileFormProps {
     contentUrlRouteId: string
     index: number
-    item: ICloud
+    item: ITile
+    linkIsMandatory: boolean
+    useMarkdown: boolean
     onChange (name: string, value: string)    
 }
 
-const SortableCloudForm: React.StatelessComponent<SortableCloudFormFormProps> = (props) => {
+const SortableTileForm: React.StatelessComponent<SortableTileFormProps> = (props) => {
 
     const getSvgOrImageInputs = (svgBased: boolean) => {
         if (svgBased) {
@@ -50,6 +53,19 @@ const SortableCloudForm: React.StatelessComponent<SortableCloudFormFormProps> = 
         }
     }
 
+    const getMarkdown = () => {
+        if (props.useMarkdown) {
+            return <MarkdownEditor
+                contentDataUrlRouteId={props.contentUrlRouteId}
+                name='markdown'
+                label='Markdown'
+                value={props.item.markdown}
+                onChange={props.onChange}
+                showAssetPicker={true}
+            />
+        }
+    }
+
     const getHasLinkInputs = (hasLink: boolean) => {
         if (hasLink) {
             return <div>
@@ -75,11 +91,11 @@ const SortableCloudForm: React.StatelessComponent<SortableCloudFormFormProps> = 
                     onChange={props.onChange}
                     value={props.item.href}
                     validations={{
-                        isValidUrl: 0,
+                        isUrlRoute: 0,
                         maxLength: 2000
                     }}
                     validationErrors={{
-                        isValidUrl: 'Please supply a valid url e.g. "https://www.test-url-example.com".',
+                        isUrlRoute: 'Please supply a valid url route e.g. "home".',
                         maxLength: 'There is a 2000 character limit to this field.'
                     }}
                 />
@@ -87,6 +103,58 @@ const SortableCloudForm: React.StatelessComponent<SortableCloudFormFormProps> = 
             </div>
         }
         return null
+    }
+
+    const getHasLinkCheckBoxAndLinkInputs = () => {
+        if (props.linkIsMandatory === true) {
+            return <div>
+
+                <Input
+                    type='text'
+                    name='linkText'
+                    label='Link Text'
+                    required
+                    onChange={props.onChange}
+                    value={props.item.linkText}
+                    validations={{
+                        maxLength: 100
+                    }}
+                    validationErrors={{
+                        maxLength: 'There is a 100 character limit to this field.'
+                    }}
+                />
+
+                <Input
+                    type='text'
+                    name='href'
+                    label='Href'
+                    required
+                    onChange={props.onChange}
+                    value={props.item.href}
+                    validations={{
+                        isUrlRoute: 0,
+                        maxLength: 2000
+                    }}
+                    validationErrors={{
+                        isUrlRoute: 'Please supply a valid url route e.g. "home".',
+                        maxLength: 'There is a 2000 character limit to this field.'
+                    }}
+                />
+
+            </div>
+
+        }
+
+        return <div>
+            <Checkbox
+                name="hasLink"
+                value={props.item.hasLink}
+                label="Has Link"
+                onChange={props.onChange}
+            />
+
+            { getHasLinkInputs(props.item.hasLink) }
+        </div>
     }
 
     return <div>
@@ -127,16 +195,25 @@ const SortableCloudForm: React.StatelessComponent<SortableCloudFormFormProps> = 
             }}
         />
 
-        <Checkbox
-            name="hasLink"
-            value={props.item.hasLink}
-            label="Has Link"
-            onChange={props.onChange}
-        />
+        {getMarkdown()}
 
-        {getHasLinkInputs(props.item.hasLink)}
+        {getHasLinkCheckBoxAndLinkInputs()}
+
+        <Input
+            type='text'
+            name='cssClass'
+            label='Class'
+            onChange={props.onChange}
+            value={props.item.cssClass}
+            validations={{
+                maxLength: 30
+            }}
+            validationErrors={{
+                maxLength: 'There is a 30 character limit to this field.'
+            }}
+        />
 
     </div>
 }
 
-export default SortableCloudForm
+export default SortableTileForm
