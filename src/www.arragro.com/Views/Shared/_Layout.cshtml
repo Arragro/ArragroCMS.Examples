@@ -12,8 +12,12 @@
     <link rel="manifest" href="//arragro-static-web.azureedge.net/public/images/favicon/manifest.json">
     <link rel="mask-icon" href="//arragro-static-web.azureedge.net/public/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="theme-color" content="#ffffff">
-    
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <script src="~/fontawesome/js/fontawesome.js"></script>
+    <script src="~/fontawesome/js/fa-custom.js"></script>
+
     <environment names="Development">
         <link rel="stylesheet" href="~/dist/main.css" asp-append-version="true" />
     </environment>
@@ -26,7 +30,7 @@
 
     <nav class="navbar navbar-expand-md fixed-top navbar-light">
         <div class="container">
-            <a asp-area="" asp-controller="MarkdownPage" asp-action="Home" class="navbar-brand"><img src="~/images/logo-blue.png" /> Arragro</a>
+            <a asp-area="" asp-controller="MarkdownPage" asp-action="Home" class="navbar-brand"><img src="~/images/svgs/ArragroLogoNew.svg" /> Arragro</a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -40,12 +44,8 @@
     </nav>
 
     @RenderSection("header", required: false)
-
-    <div class="container">
-        <div>
-            @RenderBody()
-        </div>
-    </div>
+    
+    @RenderBody()
 
     <footer>
         <div class="container">
@@ -56,16 +56,20 @@
                         <ul>
                             <li>
                                 <a href="mailto:enquiries@arragro.com">
-                                    <div class="d-flex flex-row">
-                                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z" /></svg></div>
+                                    <div class="contact d-flex flex-row">
+                                        <div class="icon">
+                                            <i class="fas fa-envelope"></i>                                        
+                                        </div>
                                         <div class="text">enquiries@arragro.com</div>
                                     </div>
                                 </a>
                             </li>
                             <li>
                                 <a href="tel:+08001231234">
-                                    <div class="d-flex flex-row">
-                                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M476.536 22.921L382.288 1.18c-21.6-4.984-43.609 6.185-52.339 26.556l-43.5 101.492c-7.982 18.626-2.604 40.598 13.081 53.43l40.016 32.741c-28.537 52.375-71.771 95.609-124.147 124.147l-32.741-40.015c-12.832-15.685-34.804-21.063-53.43-13.081L27.736 329.949C7.365 338.68-3.804 360.691 1.18 382.287l21.742 94.25C27.74 497.417 46.072 512 67.5 512 312.347 512 512 313.731 512 67.5c0-21.429-14.583-39.761-35.464-44.579zM69.289 463.996l-20.921-90.669 98.212-42.091 55.716 68.094c98.805-46.353 150.588-98.036 197.036-197.035l-68.097-55.715 42.092-98.212 90.669 20.921c-.947 217.588-177.09 393.755-394.707 394.707z"></path></svg></div>
+                                    <div class="contact d-flex flex-row">
+                                        <div class="icon">
+                                            <i class="fas fa-phone"></i>
+                                        </div>
                                         <div class="text">08001231234</div>
                                     </div>
                                 </a>
