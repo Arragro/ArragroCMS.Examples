@@ -24,7 +24,9 @@ namespace cms.arragro.com
         public const string ObjectIdentifierType = "http://schemas.microsoft.com/identity/claims/objectidentifier";
         public const string TenantIdType = "http://schemas.microsoft.com/identity/claims/tenantid";
 
-        public Startup(IHostingEnvironment env)
+        private readonly ILoggerFactory _loggerFactory;
+        
+        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             Log.Logger = new LoggerConfiguration()
               .Enrich.FromLogContext()
@@ -37,10 +39,18 @@ namespace cms.arragro.com
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+            
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
 
             Configuration = builder.Build();
 
             ConfigurationSettings = Configuration.Get<ConfigurationSettings>();
+
+            _loggerFactory = loggerFactory;
+            _loggerFactory.AddSerilog();
 
         }
 
@@ -52,7 +62,12 @@ namespace cms.arragro.com
         {
             try
             {
+                var logger = _loggerFactory.CreateLogger<Startup>();
+                logger.LogInformation("Starting the configuration of the ArragroCmsServices");
+
                 services.AddDefaultArragroCmsServices(ConfigurationSettings, new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, new TimeSpan(1, 0, 0), "arragro.com.ContentTypes");
+
+                logger.LogInformation("Finished configuring of the ArragroCmsServices");
 
                 services.Configure<GzipCompressionProviderOptions>
                     (options => options.Level = CompressionLevel.Fastest);
@@ -87,7 +102,6 @@ namespace cms.arragro.com
         public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
         {
             loggerFactory.AddSerilog();
-
             appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
             if (env.IsDevelopment())
