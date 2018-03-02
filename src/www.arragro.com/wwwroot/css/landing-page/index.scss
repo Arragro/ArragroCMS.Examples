@@ -55,15 +55,15 @@ div#services {
                     color: $blue;
                 }
             }
+        }
 
-            &:focus, &:hover {
-                //color: $blue;
-                fill: $blue;
-                text-decoration: none;
+        &:focus, &:hover {
+            //color: $blue;
+            fill: $blue;
+            text-decoration: none;
 
-                svg {
-                    @include transform-nav-grow(1.2);
-                }
+            svg {
+                @include transform-nav-grow(1.2);
             }
         }
     }
@@ -106,29 +106,27 @@ div#whatWeveDone {
     > h3 {
         font-size: 1.75em;
         text-align: center;
-        padding: 0 1em 0.5em 1em;
+        padding: 0 1em 0em 1em;
     }
 
     .what-weve-done-img {
         height: 100px;
-        > div {
-            img {
-                width: 100%;
-                max-width: 300px;
-                display: block;
-                margin: 0 auto;
-            }
+        img {
+            width: 100%;
+            max-width: 300px;
+            display: block;
+            margin: 0 auto;
+        }
 
-            &.bayleys-case-study {
-                img {
-                    max-width: 180px;
-                }
+        &.bayleys-case-study {
+            img {
+                max-width: 180px;
             }
         }
     }
 
     .what-weve-done-markdown {
-        padding-top: 2rem;
+        padding-top: 1rem;
         text-align: justify;
     }
 }

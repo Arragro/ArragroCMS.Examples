@@ -9,7 +9,7 @@ header#landingPageHeader {
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
-    height: 95vh;
+    height: 90vh;
     overflow: hidden;
     background: $blue;
     z-index: -1;
@@ -42,11 +42,7 @@ header#landingPageHeader {
     .infinite-clouds {
         @include generate-clouds(infinite, false, 6);
     }
-
-
-
-
-
+        
     .carousel-fade .carousel-item {
         opacity: 0;
         transition-duration: 3s;
