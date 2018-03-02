@@ -60,11 +60,11 @@
                                     <i class="@service.Svg fa-inverse" data-fa-transform="grow-4"></i>
                                 </span>
                             </div>
-                            <div class="service-markdown">
-                                <h5>@service.Title</h5>
-                                @Html.Raw(@CommonMark.CommonMarkConverter.Convert(service.Markdown.Replace("&#xA;", "\n")))
-                            </div>
                         </a>
+                        <div class="service-markdown">
+                            <h5>@service.Title</h5>
+                            @Html.Raw(@CommonMark.CommonMarkConverter.Convert(service.Markdown.Replace("&#xA;", "\n")))
+                        </div>
                     </div>
                 }
             </div>
@@ -87,11 +87,11 @@
                                     <img src="@whatWeveDone.ImageUrl" alt="@whatWeveDone.ImageUrlAlt" />
                                 </div>
                             </div>
-                            <div class="what-weve-done-markdown">
-                                @*<h5>@whatWeveDone.Name</h5>*@
-                                @Html.Raw(@CommonMark.CommonMarkConverter.Convert(whatWeveDone.Markdown.Replace("&#xA;", "\n")))
-                            </div>
                         </a>
+                        <div class="what-weve-done-markdown">
+                            @*<h5>@whatWeveDone.Name</h5>*@
+                            @Html.Raw(@CommonMark.CommonMarkConverter.Convert(whatWeveDone.Markdown.Replace("&#xA;", "\n")))
+                        </div>
                     </div>
                 }
             </div>
@@ -100,6 +100,8 @@
 }
 
 @Html.Partial("TechnologyClouds", Model)
+
+@Html.Partial("ContactForm", new ContactForm())
 
 @section scripts {
 
@@ -164,5 +166,34 @@
 
         initClouds();
 
+
+        var $contactForm = $('form#contactForm');
+
+        $contactForm.on('submit', function() {
+            var $recaptchaResponse = $(this).find('.g-recaptcha-response'),
+                $recaptchaError = $(this).find('.field-validation-error'),
+                recaptchaValid = true;
+            if ($recaptchaResponse.val() === '') {
+                $recaptchaError.removeClass('invisible');
+            } else {
+                $recaptchaError.addClass('invisible');
+            }
+            console.log('contactForm:submit', $(this).serialize());
+            if ($(this).valid && recaptchaValid) {
+                $.post('/api/contact', $(this).serialize(), function (data) {
+                    if (data.result) {
+                        alert('Sent Enquiry');
+                    } else {
+                        alert('Failed to send Enquiry');
+                        console.log(data.message);
+                    }
+                })
+
+            }
+
+            return false;
+        });
+
     </script>
+    <google-recaptcha-client></google-recaptcha-client>
 }
