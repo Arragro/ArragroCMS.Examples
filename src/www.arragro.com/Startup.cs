@@ -1,4 +1,5 @@
 ﻿using ArragroCMS.Management.Extensions;
+using ArragroCMS.Web.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -30,6 +31,11 @@ namespace www.arragro.com
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
             Configuration = builder.Build();
         }
 
@@ -42,7 +48,7 @@ namespace www.arragro.com
             services.AddOptions()
                 .AddLogging()
                 .ConfigureArraroCMSService(Configuration)
-                .BuildServiceProvider();
+                .AddAntiforgery();
 
             services.Configure<GzipCompressionProviderOptions>
                 (options => options.Level = CompressionLevel.Fastest);
@@ -69,8 +75,8 @@ namespace www.arragro.com
                     HotModuleReplacement = true
                 });
 
-                app.UseDeveloperExceptionPage();
             }
+            app.UseDeveloperExceptionPage();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
