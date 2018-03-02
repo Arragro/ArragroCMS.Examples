@@ -1,10 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ArragroCMS.Web.Interfaces;
+﻿using arragro.com.ContentTypes.Pages;
 using ArragroCMS.Core.Web.Enums;
-using arragro.com.ContentTypes.Pages;
+using ArragroCMS.Web.Data;
+using ArragroCMS.Web.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace www.arragro.com.Controllers
 {
