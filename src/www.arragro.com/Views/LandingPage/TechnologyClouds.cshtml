@@ -43,10 +43,10 @@
             }
         </div>
     </div>
-    <div class="container d-flex justify-content-center">
-        <div class="col-lg-10">
-            @Html.Raw(@CommonMark.CommonMarkConverter.Convert(Model.TechnologyMarkdown.Replace("&#xA;", "\n")))
-        </div>
-    </div>
 </a>
+<div class="container d-flex justify-content-center">
+    <div class="col-lg-10">
+        @Html.Raw(@CommonMark.CommonMarkConverter.Convert(Model.TechnologyMarkdown.Replace("&#xA;", "\n")))
+    </div>
+</div>
 }
