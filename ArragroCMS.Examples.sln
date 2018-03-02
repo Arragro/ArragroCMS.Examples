@@ -1,13 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cms.arragro.com", "src\cms.arragro.com\cms.arragro.com.csproj", "{8519BC1C-B6DA-4A82-80E7-F647F6451741}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "www.arragro.com", "src\www.arragro.com\www.arragro.com.csproj", "{F5B503E9-0B15-44B6-886C-76F820431EA7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "arragro.com.ContentTypes", "src\arragro.com.ContentTypes\arragro.com.ContentTypes.csproj", "{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{02645822-CCA2-43C5-8171-81D47D3676A2}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{27F18BBE-3282-4926-AF0C-EE2DBC9B2FD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "arragro.com.functions", "functions\arragro.com.functions\arragro.com.functions.csproj", "{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +38,16 @@ Global
 		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9} = {27F18BBE-3282-4926-AF0C-EE2DBC9B2FD5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B4EF3DE3-03B8-4BB2-8E5D-A2B478A32140}
