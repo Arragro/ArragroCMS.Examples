@@ -1,9 +1,0 @@
-{
-  "IsEncrypted": false,
-  "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-  "SendgridKey": "KEY",
-  "Values": {
-    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "AzureWebJobsDashboard": "UseDevelopmentStorage=true"
-  }
-}
