@@ -1,0 +1,106 @@
+-
+  branches:
+    only:
+      - master
+      - master_appeyor
+  version: 1.0.0.{build}
+  configuration: Release
+  platform: Any CPU
+  image: Visual Studio 2017
+  cache:
+    - packages -> **\packages.config
+    - projectA\libs
+    - node_modules
+    - '%APPDATA%\npm-cache'
+    - '%USERPROFILE%\.nuget\packages -> **\project.json'
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  environment:
+    # Don't report back to the mothership
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    nodejs_version: "7.2.0"
+  init:
+  - nuget sources update -Name nuget.org -Source https://api.nuget.org/v3/index.json
+  install:
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+  - npm install npm@latest -g
+  - npm install typescript@2.3.4 -g
+  - npm install webpack -g
+  - npm install typings -g
+  # install modules
+  - cmd: >- 
+      cd src\cms.arragro.com
+
+      npm install
+
+      cd ..\..\
+  before_build:
+  - ps: >-
+      $Env:appveyor_build_folder
+
+      $Env:NODE_ENV
+
+      appveyor-retry dotnet restore -v Minimal;
+  - cmd: >-
+      cd src\cms.arragro.com
+   
+      typings install
+
+      webpack --progress
+
+      cd ..\..\
+  build_script:
+  - dotnet build "src\cms.arragro.com" -c %CONFIGURATION%
+  - dotnet build "src\www.arragro.com" -c %CONFIGURATION%
+  - dotnet build "functions\arragro.com/functions" -c %CONFIGURATION%
+  after_build:
+  - dotnet publish .\src\cms.arragro.com --output %appveyor_build_folder%\publish\cms.aragro.com --configuration %CONFIGURATION%
+  - dotnet publish .\src\www.arragro.com --output %appveyor_build_folder%\publish\www.arragro.com --configuration %CONFIGURATION%
+  - dotnet publish .\functions\arragro.com.functions --output %appveyor_build_folder%\publish\arragro.com.functions --configuration %CONFIGURATION%
+  test: off
+  artifacts:
+  - path: publish\cms.aragro.com
+    name: cms.aragro.com
+  - path: publish\www.arragro.com
+    name: www.arragro.com
+  - path: publish\arragro.com.functions
+    name: arragro.com.functions
+  deploy:
+  - provider: WebDeploy
+    server: https://arragro-cms.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-cms
+    website: arragro-cms
+    remove_files: true
+    # ntlm: true
+    username: $arragro-cms
+    password:
+      secure: zlaTVNSRLXI9jdRZR8QubthCB/pvLGfWEBc1vigPDKjD8LRUVWcKe4QDk50nqvPg5piV5mrjzyQyhYOJjLW71g==
+    artifact: cms.arragro.com
+    do_not_use_checksum: true
+    app_offline: true
+  - provider: WebDeploy
+    server: https://arragro.scm.azurewebsites.net:443/msdeploy.axd?site=arragro
+    website: arragro
+    remove_files: true
+    # ntlm: true
+    username: $arragro
+    password:
+      secure: R6gZ3cN3ljXg5jmPQ5Z/3pgkwBN2q2xfFHRN2FzBMqOKx6F6AlDNUvZJpSS0uJbWrYqyTh9rbouOTehj4jLV0g==
+    artifact: www.arragro.com
+    do_not_use_checksum: true
+    app_offline: true
+  - provider: WebDeploy
+    server: https://arragro.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-functions
+    website: arragro-functions
+    remove_files: true
+    # ntlm: true
+    username: $arragro-functions
+    password:
+      secure: MXs0a2ETZczCMk6AUkdEQiMMtzAYFsr+3Zhump2pieZYL2+Ng7foWyfihA7V8YDMqkfq8lygcOgd3CxfBqYQeQ==
+    artifact: arragro.com.functions
+    do_not_use_checksum: true
+    app_offline: true
