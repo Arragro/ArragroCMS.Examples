@@ -3,7 +3,7 @@
     only:
       - master
       - master_appveyor
-  version: 1.0.0.{build}
+  version: 1.0.{build}
   configuration: Release
   platform: Any CPU
   image: Visual Studio 2017
