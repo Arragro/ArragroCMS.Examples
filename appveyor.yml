@@ -63,7 +63,7 @@
   test: off
   artifacts:
   - path: publish\cms.aragro.com
-    name: cms.aragro.com
+    name: cms.arragro.com
   - path: publish\www.arragro.com
     name: www.arragro.com
   - path: publish\arragro.com.functions
