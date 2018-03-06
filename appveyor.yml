@@ -92,7 +92,7 @@
     do_not_use_checksum: true
     app_offline: true
   - provider: WebDeploy
-    server: https://arragro.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-functions
+    server: https://arragro-functions.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-functions
     website: arragro-functions
     remove_files: true
     # ntlm: true
