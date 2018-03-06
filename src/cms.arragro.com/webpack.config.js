@@ -1,16 +1,8 @@
 ﻿const path = require('path');
-const glob = require('glob-all');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack');
-const { dependencies } = require('./package.json');
-
-const manifest = path.join(__dirname, 'wwwroot', 'dist', 'dll', 'vendor-manifest.json');
-
-const extractLess = new ExtractTextPlugin({
-    filename: "[name].[contenthash].css",
-    disable: process.env.NODE_ENV === "development"
-});
+const sharedConfig = require('./webpack.shared.config');
 
 module.exports = (env) => {
 
@@ -18,7 +10,6 @@ module.exports = (env) => {
 
     let config = {
         devtool: 'source-map',
-        mode: process.env.NODE_ENV,
         resolve: {
             alias: {
                 react: path.resolve(__dirname, './node_modules/react'),
@@ -27,7 +18,7 @@ module.exports = (env) => {
             extensions: ['.js', '.jsx', '.ts', '.tsx']
         },
         module: {
-            rules: [
+            loaders: [
                 {
                     test: /\.ts(x?)$/,
                     include: /ReactApp/,
@@ -47,7 +38,10 @@ module.exports = (env) => {
             ]
         },
         entry: {
-            main: ['./ReactApp/boot.tsx', './wwwroot/less/site.less']
+            main: ['./ReactApp/boot.tsx'],
+            vendor: [
+                'babel-polyfill',
+            ].concat(sharedConfig.vendors)
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
@@ -58,39 +52,30 @@ module.exports = (env) => {
             new webpack.optimize.OccurrenceOrderPlugin()
         ].concat(
             isDevBuild ? [
-                new webpack.DllReferencePlugin({
-                    context: process.cwd(),
-                    manifest: require(manifest),
-                    sourceType: 'var',
-                }),
-                new ExtractTextPlugin('main.css')
+                new ExtractTextPlugin('main.css'),
+                new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
             ] : [
-                //new webpack.LoaderOptionsPlugin({
-                //    minimize: true,
-                //    debug: false
-                //}),
+                new webpack.optimize.UglifyJsPlugin({
+                    beautify: false,
+                    mangle: {
+                        screw_ie8: true,
+                        keep_fnames: true
+                    },
+                    compress: {
+                        screw_ie8: true
+                    },
+                    comments: false
+                }),
+                new webpack.LoaderOptionsPlugin({
+                    minimize: true,
+                    debug: false
+                }),
                 new ExtractTextPlugin('main.css'),
                 new webpack.DefinePlugin({
-                    'process.env': {
-                        // This has effect on the react lib size
-                        'NODE_ENV': JSON.stringify('production'),
-                    }
-                })
+                    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+                }),
+                new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
             ])
-    }
-
-    if (!isDevBuild) {
-        config.optimization = {
-            splitChunks: {
-                cacheGroups: {
-                    commons: {
-                        test: /[\\/]node_modules[\\/]/,
-                        name: "dll/vendor.dll",
-                        chunks: "all"
-                    }
-                }
-            }
-        }
     }
     
     return config
