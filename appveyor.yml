@@ -29,11 +29,14 @@
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
   - npm install npm@latest -g
-  - npm install cross-env@5.0.5 -g
   - npm install typings -g
   # install modules
   - cmd: >- 
       cd src\cms.arragro.com
+
+      npm install
+
+      cd ..\www.arragro.com
 
       npm install
 
