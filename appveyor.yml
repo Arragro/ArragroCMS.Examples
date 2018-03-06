@@ -51,6 +51,10 @@
 
       npm run build-prod
 
+      cd ..\www.arragro.com
+
+      npm run build-prod
+
       cd ..\..\
   build_script:
   - dotnet build "src\cms.arragro.com" -c %CONFIGURATION%
