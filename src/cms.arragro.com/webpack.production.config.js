@@ -1,59 +1,72 @@
-﻿var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+﻿const path = require('path');
+const glob = require('glob-all');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const PurifyCSSPlugin = require('purifycss-webpack');
+const { dependencies } = require('./package.json');
 
-module.exports = {
-    resolve: {
-        alias: {
-            react: path.resolve(__dirname, './node_modules/react'),
-            React: path.resolve(__dirname, './node_modules/react')
+const manifest = path.join(__dirname, 'wwwroot', 'dist', 'dll', 'vendor-manifest.json');
+
+console.log(__dirname)
+
+module.exports = (env) => {
+
+    const isDevBuild = !(env && env.prod);
+
+    console.log('env:', env)
+    console.log(process.env.NODE_ENV)
+    console.log('isDev', isDevBuild)
+
+    let config = {
+        devtool: 'source-map',
+        mode: process.env.NODE_ENV,
+        resolve: {
+            alias: {
+                react: path.resolve(__dirname, './node_modules/react'),
+                React: path.resolve(__dirname, './node_modules/react')
+            },
+            extensions: ['.js', '.jsx', '.ts', '.tsx']
         },
-        extensions: ['.js', '.jsx', '.ts', '.tsx']
-    },
-    module: {
-        loaders: [
-            { test: /\.ts(x?)$/, include: /ReactApp/, exclude: /node_modules/, loader: 'babel-loader' },
-            { test: /\.ts(x?)$/, include: /ReactApp/, exclude: /node_modules/, loader: 'ts-loader?silent' },
-            { test: /\.css$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }) },
-            { test: /\.less/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!less-loader' }) },
-            { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
-            { test: /\.woff(\?\S*)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-            { test: /\.(ttf|eot|svg)(\?\S*)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' }
+        module: {
+            rules: [
+                {
+                    test: /\.ts(x?)$/,
+                    include: /ReactApp/,
+                    exclude: /node_modules/,
+                    use: [
+                        { loader: 'babel-loader' },
+                        { loader: 'ts-loader?silent=true' }
+                    ]
+                },
+                { test: /\.(less|css)$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!less-loader' }) },
+                { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
+                { test: /\.woff(\?\S*)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
+                { test: /\.(ttf|eot|svg)(\?\S*)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' }
+            ]
+        },
+        entry: {
+            main: ['./ReactApp/boot.tsx']
+        },
+        output: {
+            path: path.join(__dirname, 'wwwroot', 'dist'),
+            filename: '[name].js',
+            publicPath: '/dist/'
+        },
+        plugins: [
+            new webpack.optimize.OccurrenceOrderPlugin(),
+            new ExtractTextPlugin('main.css'),
+            new webpack.LoaderOptionsPlugin({
+                minimize: true,
+                debug: false
+            }),
+            new webpack.DefinePlugin({
+                'process.env': {
+                    // This has effect on the react lib size
+                    'NODE_ENV': JSON.stringify('production'),
+                }
+            })
         ]
-    },
-    entry: {
-        main: ['./ReactApp/boot.tsx'],
-        vendor: ['react', 'react-dom', 'react-intl', 'react-router']
-    },
-    output: {
-        path: path.join(__dirname, 'wwwroot', 'dist'),
-        filename: '[name].js',
-        publicPath: '/dist/'
-    },
-    plugins: [
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            beautify: false,
-            mangle: {
-                screw_ie8: true,
-                keep_fnames: true
-            },
-            compress: {
-                screw_ie8: true
-            },
-            comments: false
-        }),
-        new webpack.LoaderOptionsPlugin({
-            minimize: true,
-            debug: false
-        }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                // This has effect on the react lib size
-                'NODE_ENV': JSON.stringify('production'),
-            }
-        }),
-        new ExtractTextPlugin('main.css'),
-        new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }) // Moves vendor content out of other bundles
-    ]
+    }
+
+    return config
 };

@@ -1,5 +1,5 @@
 ﻿import * as React from 'react'
-import CodeMirror from 'react-codemirror2'
+import { Controlled as CodeMirror } from 'react-codemirror2'
 import ReactMarkdown from 'react-markdown'
 import * as Formsy from 'formsy-react'
 import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
@@ -7,6 +7,7 @@ import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/eclipse.css'
 import 'codemirror/mode/markdown/markdown'
+import 'codemirror/addon/display/autorefresh'
 
 export interface IMarkdownEditorProps {
     contentDataUrlRouteId: string
@@ -97,7 +98,8 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
             mode: 'markdown',
             theme: 'eclipse',
             autofocus: false,
-            lineWrapping: true
+            lineWrapping: true,
+            autoRefresh: true
         }
 
         const markdownClass = this.props.showAssetPicker ? 'col-6 pt-4 mt-3' : 'col-6'
@@ -112,7 +114,12 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
                 <div className='col-6 full-width-buttons' style={style}>
                     {this.getImageAssetModal(this.state.showImageAssetModal)}
                     {htmlHelper.renderButton('btn-primary', this.showImageAssetModal.bind(this), '', 'Select Image', this.props.showAssetPicker, false)}
-                    <CodeMirror ref={(x) => this.codeMirror = x} value={this.props.value} options={options} onChange={this.onChange} autoScrollCursorOnSet={false} />
+                    <CodeMirror 
+                        ref={(x) => this.codeMirror = x} 
+                        value={this.props.value} 
+                        options={options} 
+                        onChange={this.onChange}                         
+                        onBeforeChange={this.onChange} />
                 </div>
                 <div className={markdownClass}>
                     <ReactMarkdown source={this.props.value} escapeHtml={false} />

@@ -1,8 +1,6 @@
 {
   "dependencies": {
     "formsy-react": "file:typings/custom/formsy-react.d.ts",
-    "formsy-react-components": "file:typings/custom/formsy-react-components.d.ts",
-    "react-codemirror": "file:typings\\custom\\react-codemirror2.d.ts",
-    "react-markdown": "file:typings\\custom\\react-markdown.d.ts"
+    "formsy-react-components": "file:typings/custom/formsy-react-components.d.ts"
   }
 }

@@ -1,20 +1,30 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "module": "es2015",
     "moduleResolution": "node",
     "target": "es6",
-    "jsx": "preserve",
-    "sourceMap": true,
+    "jsx": "react",
     "experimentalDecorators": true,
-    "types": [
-      "react",
-      "react-dom",
-      "react-intl",
-      "react-router",
-      "aspnet-webpack-react"
-    ]
+    "sourceMap": true,
+    "skipDefaultLibCheck": true,
+    "strict": false,
+    "lib": [ "es6", "dom" ],
+    "types": [ "webpack-env" ]
   },
   "compileOnSave": false,
+  "files": [
+    "typings/index.d.ts"
+  ],
+  "include": [
+    "ReactApp"
+  ],
+  "typeRoots": [
+    "./node_modules/@types",
+    "./typings"
+  ],
   "exclude": [
+    "bin",
     "node_modules",
     "typings/custom"
   ]

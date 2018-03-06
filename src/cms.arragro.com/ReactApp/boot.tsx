@@ -1,7 +1,4 @@
-﻿import 'bootstrap/dist/css/bootstrap.min.css'
-import 'arragrocms-management/dist/main.css'
-
-import '../wwwroot/less/site.less'
+﻿import '../wwwroot/less/site.less'
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'

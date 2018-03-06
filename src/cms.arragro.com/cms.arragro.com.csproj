@@ -28,4 +28,8 @@
     <ProjectReference Include="..\arragro.com.ContentTypes\arragro.com.ContentTypes.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\dist\dll\" />
+  </ItemGroup>
+
 </Project>

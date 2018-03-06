@@ -109,7 +109,7 @@ namespace cms.arragro.com
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true,
-                    ReactHotModuleReplacement = true
+                    //ReactHotModuleReplacement = true
                 });
 
                 app.UseDeveloperExceptionPage();

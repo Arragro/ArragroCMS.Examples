@@ -5,16 +5,16 @@ declare module 'react-markdown' {
 // Project: https://github.com/rexxars/react-markdown
 // Definitions by: Ruslan Ibragimov <https://github.com/IRus>, Kohei Asai <me@axross.io>
 
-import { Component, ReactElement, ReactNode, ReactType } from 'react';
+import { Component, ReactElement, ReactNode, ReactType } from 'react'
 
 class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> { }
 
 namespace ReactMarkdown {
     interface AllowNode {
-        readonly type: string;
-        readonly renderer: string;
-        readonly props: any;
-        readonly children: ReactNode[];
+        readonly type: string
+        readonly renderer: string
+        readonly props: any
+        readonly children: ReactNode[]
     }
 
     interface WalkerNode {
@@ -23,41 +23,41 @@ namespace ReactMarkdown {
     }
 
     interface NodeWalker {
-        next: () => WalkerNode;
+        next: () => WalkerNode
     }
 
-    export type NodeType = 'HtmlInline' | 'HtmlBlock' | 'Text' | 'Paragraph' | 'Heading' | 'Softbreak' | 'Hardbreak' | 'Link' | 'Image' | 'Emph' | 'Code' | 'CodeBlock' | 'BlockQuote' | 'List' | 'Item' | 'Strong' | 'ThematicBreak';
+    export type NodeType = 'HtmlInline' | 'HtmlBlock' | 'Text' | 'Paragraph' | 'Heading' | 'Softbreak' | 'Hardbreak' | 'Link' | 'Image' | 'Emph' | 'Code' | 'CodeBlock' | 'BlockQuote' | 'List' | 'Item' | 'Strong' | 'ThematicBreak'
 
     export interface ReactMarkdownProps {
-        readonly className?: string;
-        readonly containerProps?: any;
-        readonly source: string;
-        readonly containerTagName?: string;
-        readonly childBefore?: any;
-        readonly childAfter?: any;
-        readonly sourcePos?: boolean;
-        readonly escapeHtml?: boolean;
-        readonly skipHtml?: boolean;
-        readonly softBreak?: string;
-        readonly allowNode?: (node: AllowNode) => boolean;
-        readonly allowedTypes?: NodeType[];
-        readonly disallowedTypes?: NodeType[];
-        readonly transformLinkUri?: (uri: string) => string;
-        readonly transformImageUri?: (uri: string) => string;
-        readonly unwrapDisallowed?: boolean;
-        readonly renderers?: { [nodeType: string]: ReactType };
-        readonly walker?: NodeWalker;
+        readonly className?: string
+        readonly containerProps?: any
+        readonly source: string
+        readonly containerTagName?: string
+        readonly childBefore?: any
+        readonly childAfter?: any
+        readonly sourcePos?: boolean
+        readonly escapeHtml?: boolean
+        readonly skipHtml?: boolean
+        readonly softBreak?: string
+        readonly allowNode?: (node: AllowNode) => boolean
+        readonly allowedTypes?: NodeType[]
+        readonly disallowedTypes?: NodeType[]
+        readonly transformLinkUri?: (uri: string) => string
+        readonly transformImageUri?: (uri: string) => string
+        readonly unwrapDisallowed?: boolean
+        readonly renderers?: { [nodeType: string]: ReactType }
+        readonly walker?: NodeWalker
     }
 
-    type Renderer<T> = (props: T) => ReactElement<T>;
+    type Renderer<T> = (props: T) => ReactElement<T>
     interface Renderers {
-        [key: string]: string | Renderer<any>;
+        [key: string]: string | Renderer<any>
     }
 
-    export var types: NodeType[];
-    export var renderers: Renderers;
-    export var uriTransformer: (uri: string) => string;
+    export let types: NodeType[]
+    export let renderers: Renderers
+    export let uriTransformer: (uri: string) => string
 }
 
-export default ReactMarkdown;
+export default ReactMarkdown
 }
