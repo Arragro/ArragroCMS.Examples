@@ -80,6 +80,10 @@
     artifact: cms.arragro.com
     do_not_use_checksum: true
     app_offline: true
+    aspnet_core: true
+    sync_retry_attempts: 5
+    sync_retry_interval: 1000
+    aspnet_core_force_restart: true
   - provider: WebDeploy
     server: https://arragro.scm.azurewebsites.net:443/msdeploy.axd?site=arragro
     website: arragro
@@ -91,6 +95,10 @@
     artifact: www.arragro.com
     do_not_use_checksum: true
     app_offline: true
+    aspnet_core: true
+    sync_retry_attempts: 5
+    sync_retry_interval: 1000
+    aspnet_core_force_restart: true
   - provider: WebDeploy
     server: https://arragro-functions.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-functions
     website: arragro-functions
@@ -102,3 +110,7 @@
     artifact: arragro.com.functions
     do_not_use_checksum: true
     app_offline: true
+    aspnet_core: true
+    sync_retry_attempts: 5
+    sync_retry_interval: 1000
+    aspnet_core_force_restart: true
