@@ -1,25 +1,31 @@
 ﻿const path = require('path');
+const glob = require('glob-all');
 const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (env) => {
 
     const isDevBuild = !(env && env.prod);
+    const purifyPaths = glob.sync([
+        path.join(__dirname, 'Views/**/*.cshtml'),
+        path.join(__dirname, 'wwwroot/dist/*.js'),
+        path.join(__dirname, 'wwwroot/dist/fontawesome/js/fa-custom.js'),
+        path.join(__dirname, 'wwwroot/dist/fontawesome/js/fontawesome.js')
+    ])
+
+    console.log(purifyPaths)
 
     let config = {
         devtool: 'source-map',
         resolve: {
-            alias: {
-                react: path.resolve(__dirname, './node_modules/react'),
-                React: path.resolve(__dirname, './node_modules/react')
-            },
             extensions: ['.js', '.jsx', '.ts', '.tsx']
         },
         module: {
             loaders: [
                 {
                     test: /\.ts(x?)$/,
-                    include: /ReactApp/,
+                    include: /TypeScript/,
                     exclude: /node_modules/,
                     use: [
                         { loader: 'babel-loader' },
@@ -34,7 +40,7 @@ module.exports = (env) => {
         },
         entry: {
             main: ['./Typescript/index.ts'],
-            vendor: ["jquery"]
+            vendor: ['jquery', 'jquery-validation', 'jquery-validation-unobtrusive', 'bootstrap', 'popper.js']
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
@@ -42,23 +48,20 @@ module.exports = (env) => {
             publicPath: '/dist/'
         },
         plugins: [
-            new webpack.optimize.OccurrenceOrderPlugin()
+            new webpack.optimize.OccurrenceOrderPlugin(),
+            new webpack.ProvidePlugin({
+                $: "jquery",
+                jQuery: "jquery",
+                "window.jQuery": "jquery",
+                Popper: ['popper.js', 'default']
+            })
         ].concat(
             isDevBuild ? [
                 new ExtractTextPlugin('main.css'),
-                new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' })
+                new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
             ] : [
-                    new webpack.optimize.UglifyJsPlugin({
-                        beautify: false,
-                        mangle: {
-                            screw_ie8: true,
-                            keep_fnames: true
-                        },
-                        compress: {
-                            screw_ie8: true
-                        },
-                        comments: false
-                    }),
+                    new ExtractTextPlugin('main.css'),
+                    new UglifyJSPlugin(),
                     new webpack.LoaderOptionsPlugin({
                         minimize: true,
                         debug: false
@@ -67,14 +70,7 @@ module.exports = (env) => {
                         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
                     }),
                     require('autoprefixer'),
-                    new webpack.ProvidePlugin({
-                        $: "jquery",
-                        jQuery: "jquery",
-                        "window.jQuery": "jquery",
-                        Popper: ['popper.js', 'default']
-                    }),
-                    new ExtractTextPlugin('main.css'),
-                    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' })
+                    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
                 ])
     }
 

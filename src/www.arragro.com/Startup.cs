@@ -1,7 +1,9 @@
 ﻿using ArragroCMS.Management.Extensions;
 using ArragroCMS.Web.Data;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -48,7 +50,12 @@ namespace www.arragro.com
             services.AddOptions()
                 .AddLogging()
                 .ConfigureArraroCMSService(Configuration)
-                .AddAntiforgery();
+                .AddAntiforgery(options =>
+                {
+                    options.HeaderName = "X-CSRF-TOKEN";
+                    options.Cookie.SameSite = SameSiteMode.Strict;
+                    options.Cookie.Name = "arragro-antiforgery";
+                });
 
             services.Configure<GzipCompressionProviderOptions>
                 (options => options.Level = CompressionLevel.Fastest);
@@ -62,7 +69,7 @@ namespace www.arragro.com
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime, IAntiforgery antiforgery)
         {
             loggerFactory.AddSerilog();
 
@@ -74,8 +81,8 @@ namespace www.arragro.com
                 {
                     HotModuleReplacement = true
                 });
-
             }
+
             app.UseDeveloperExceptionPage();
 
             app.UseDefaultFiles();

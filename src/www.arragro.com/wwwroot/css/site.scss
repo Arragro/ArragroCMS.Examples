@@ -1,4 +1,6 @@
-﻿@import "mixin.scss";
+﻿@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+@import "mixin.scss";
 
 body {
     color: darken($gray, 10%);
