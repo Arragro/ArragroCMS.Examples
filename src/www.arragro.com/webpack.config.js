@@ -3,18 +3,11 @@ const glob = require('glob-all');
 const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin")
 
 module.exports = (env) => {
 
     const isDevBuild = !(env && env.prod);
-    const purifyPaths = glob.sync([
-        path.join(__dirname, 'Views/**/*.cshtml'),
-        path.join(__dirname, 'wwwroot/dist/*.js'),
-        path.join(__dirname, 'wwwroot/dist/fontawesome/js/fa-custom.js'),
-        path.join(__dirname, 'wwwroot/dist/fontawesome/js/fontawesome.js')
-    ])
-
-    console.log(purifyPaths)
 
     let config = {
         devtool: 'source-map',
@@ -70,7 +63,10 @@ module.exports = (env) => {
                         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
                     }),
                     require('autoprefixer'),
-                    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
+                    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }),
+                    new CompressionPlugin({
+                        test: /\.(js|css)/
+                    })
                 ])
     }
 

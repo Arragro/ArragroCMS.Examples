@@ -8,7 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TypeScript\fa-custom.ts" />
+    <None Remove="TypeScript\fontawesome.ts" />
     <None Remove="TypeScript\landingPage.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TypeScript\fa-custom.ts">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="TypeScript\fontawesome.ts">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

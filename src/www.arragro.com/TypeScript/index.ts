@@ -6,6 +6,8 @@ import 'jquery-validation'
 import 'jquery-validation-unobtrusive'
 import 'bootstrap'
 import 'popper.js'
+import './fontawesome'
+import './fa-custom'
 
 $(document).ready(function () {
 
