@@ -11,8 +11,10 @@
 <form id="contactForm">
     <input type="hidden" id="RequestVerificationToken"
            name="__RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
-    <div class="row">
-        <div class="container">
+    <div class="container d-flex justify-content-center">
+        <div class="row p-0 col-lg-10">
+
+            <h3 class="col-12">Get in touch</h3>
             <div class="col-12 col-md-6">
                 <div class="form-group">
                     <label asp-for="FirstName"></label>
@@ -38,15 +40,21 @@
             <div class="col-12 col-md-6">
                 <div class="form-group">
                     <label asp-for="Message"></label>
-                    <textarea asp-for="Message" class="form-control" placeholder="Message" rows="6"></textarea>
+                    <textarea asp-for="Message" class="form-control" placeholder="Message" rows="5"></textarea>
                     <span asp-validation-for="Message" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <google-recaptcha>
+                            <google-recaptcha-response asp-for="RecapchtaResponse"></google-recaptcha-response>
+                        </google-recaptcha>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Make Enquiry</button>
+                    </div>
                 </div>
             </div>
 
-            <google-recaptcha>
-                <google-recaptcha-response asp-for="RecapchtaResponse"></google-recaptcha-response>
-            </google-recaptcha>
         </div>
     </div>
-    <button type="submit">Make Enquiry</button>
 </form>

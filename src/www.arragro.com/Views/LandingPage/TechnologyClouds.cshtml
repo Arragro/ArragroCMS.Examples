@@ -2,51 +2,53 @@
 
 @if (Model.TechnologyClouds.Any())
 {
-<a id="technologies" href="/technologies">
-    <div class="container-fluid">
-        <h3>Technologies we use</h3>
-        <div class="top d-flex justify-content-center">
-            @if (Model.TechnologyClouds.Count > 0)
-            {
-                <div class='col-5 col-xs-4'>
-                    <cloud cloud=@Model.TechnologyClouds.ElementAt(0) index=0 />
-                </div>
-            }
+<div id="technologies">
+    <a id="technologiesCloud" href="/technologies">
+        <div class="container-fluid">
+            <h3>Technologies we use</h3>
+            <div class="top d-flex justify-content-center">
+                @if (Model.TechnologyClouds.Count > 0)
+                {
+                    <div class='col-5 col-xs-4'>
+                        <cloud cloud=@Model.TechnologyClouds.ElementAt(0) index=0 />
+                    </div>
+                }
 
-            @if (Model.TechnologyClouds.Count > 1)
-            {
-                <div class='col-5 col-xs-4'>
-                    <cloud cloud=@Model.TechnologyClouds.ElementAt(1) index=1 />
-                </div>
-            }
+                @if (Model.TechnologyClouds.Count > 1)
+                {
+                    <div class='col-5 col-xs-4'>
+                        <cloud cloud=@Model.TechnologyClouds.ElementAt(1) index=1 />
+                    </div>
+                }
+            </div>
+            <div class="middle d-flex justify-content-center">
+                @if (Model.TechnologyClouds.Count == 5)
+                {
+                    <div class='col-5 col-xs-4'>
+                        <cloud cloud=@Model.TechnologyClouds.ElementAt(4) index=5 />
+                    </div>
+                }
+            </div>
+            <div class="bottom d-flex justify-content-center">
+                @if (Model.TechnologyClouds.Count > 2)
+                {
+                    <div class='col-5 col-xs-4'>
+                        <cloud cloud=@Model.TechnologyClouds.ElementAt(2) index=2 />
+                    </div>
+                }
+                @if (Model.TechnologyClouds.Count > 3)
+                {
+                    <div class='col-5 col-xs-4'>
+                        <cloud cloud=@Model.TechnologyClouds.ElementAt(3) index=3 />
+                    </div>
+                }
+            </div>
         </div>
-        <div class="middle d-flex justify-content-center">
-            @if (Model.TechnologyClouds.Count == 5)
-            {
-                <div class='col-5 col-xs-4'>
-                    <cloud cloud=@Model.TechnologyClouds.ElementAt(4) index=5 />
-                </div>
-            }
+    </a>
+    <div class="container d-flex justify-content-center">
+        <div class="col-lg-10">
+            @Html.Raw(@CommonMark.CommonMarkConverter.Convert(Model.TechnologyMarkdown.Replace("&#xA;", "\n")))
         </div>
-        <div class="bottom d-flex justify-content-center">
-            @if (Model.TechnologyClouds.Count > 2)
-            {
-                <div class='col-5 col-xs-4'>
-                    <cloud cloud=@Model.TechnologyClouds.ElementAt(2) index=2 />
-                </div>
-            }
-            @if (Model.TechnologyClouds.Count > 3)
-            {
-                <div class='col-5 col-xs-4'>
-                    <cloud cloud=@Model.TechnologyClouds.ElementAt(3) index=3 />
-                </div>
-            }
-        </div>
-    </div>
-</a>
-<div class="container d-flex justify-content-center">
-    <div class="col-lg-10">
-        @Html.Raw(@CommonMark.CommonMarkConverter.Convert(Model.TechnologyMarkdown.Replace("&#xA;", "\n")))
     </div>
 </div>
 }

@@ -10,9 +10,11 @@ namespace arragro.com.ContentTypes.Models
         public string RecapchtaResponse { get; set; }
         [Required]
         [MaxLength(100)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
         [Required]
         [MaxLength(100)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         [MaxLength(100)]
         public string Company { get; set; }

@@ -65,14 +65,17 @@ const initialiseLandingPage = () => {
 
     $contactForm.on('submit', function () {
         var $recaptchaResponse = $(this).find('.g-recaptcha-response'),
-            $recaptchaError = $(this).find('.field-validation-error'),
+            $recaptchaError = $recaptchaResponse.find('.field-validation-error'),
             recaptchaValid = true;
         if ($recaptchaResponse.val() === '') {
             $recaptchaError.removeClass('invisible');
+            recaptchaValid = false;
         } else {
             $recaptchaError.addClass('invisible');
+            recaptchaValid = true;
         }
-        if ($(this).valid && recaptchaValid) {
+
+        if ($(this).valid() && recaptchaValid) {
             $.ajax({
                 url: '/api/contact',
                 contentType: 'application/x-www-form-urlencoded',
