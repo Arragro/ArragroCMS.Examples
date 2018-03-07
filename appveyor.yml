@@ -92,6 +92,7 @@
     sync_retry_attempts: 5
     sync_retry_interval: 1000
     aspnet_core_force_restart: true
+    skip_dirs: \\App_Data
   - provider: WebDeploy
     server: https://arragro.scm.azurewebsites.net:443/msdeploy.axd?site=arragro
     website: arragro
@@ -107,6 +108,7 @@
     sync_retry_attempts: 5
     sync_retry_interval: 1000
     aspnet_core_force_restart: true
+    skip_dirs: \\App_Data
 #  - provider: WebDeploy
 #    server: https://arragro-functions.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-functions
 #    website: arragro-functions
