@@ -17,15 +17,14 @@ module.exports = (env) => {
         module: {
             loaders: [
                 {
-                    test: /\.ts(x?)$/,
-                    include: /TypeScript/,
+                    test: /\.ts$/,
                     exclude: /node_modules/,
                     use: [
                         { loader: 'babel-loader' },
                         { loader: 'ts-loader?silent=true' }
                     ]
                 },
-                { test: /\.scss/, exclude: /node_modules/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader']}) },
+                { test: /\.scss?/, exclude: /node_modules/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader']}) },
                 { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
                 { test: /\.woff(\?\S*)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
                 { test: /\.(ttf|eot|svg)(\?\S*)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' }

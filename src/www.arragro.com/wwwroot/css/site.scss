@@ -171,25 +171,72 @@ footer {
     }
 }
 
-#contactForm {
-    padding: 3rem 0;
-    background: lighten($blue, 35%);
-    border-top: 1px solid $lightGray;
+@import './landing-page/mixin.scss';
 
-    button {
-        height: 60px;
+#contactFormContainer {
+    perspective: 1000px;
+    position: relative;
+
+    .flipper {
         width: 100%;
-        border-radius: 0;
-        margin-top: -.7rem;
-        background-color: $blue;
+        max-height: 100%;
+        transform-style: preserve-3d;
+        transition: all .6s ease-in-out;
+        visibility: visible;
+        opacity: 1;
+    }
 
-        &:hover {
-            background-color: darken($blue, 20%);
+    .front, .back {
+        position: absolute;
+        backface-visibility: hidden;
+    }
+
+    #contactForm {
+        visibility: visible;
+        opacity: 1;
+        width: 100%;
+        padding: 3rem 0;
+        background: lighten($blue, 35%);
+        border-top: 1px solid $lightGray;
+
+        button {
+            height: 60px;
+            width: 100%;
+            border-radius: 0;
+            margin-top: -.7rem;
+            background-color: $blue;
+
+            &:hover {
+                background-color: darken($blue, 20%);
+            }
+        }
+
+        .g-recaptcha {
+            margin-top: -.3rem;
         }
     }
 
-    .g-recaptcha {
-        margin-top: -.3rem;
+    .flipper.flipped {
+        transform: rotateX(180deg);
+    }
+
+    #sentMessage {
+        width: 100%;
+        overflow: hidden;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .back {
+        transform: rotateX(180deg);
+        text-align: center;
+        background-color: darken($blue, 5%);
+        color: white;
+        text-shadow: 2px 2px 8px darken($blue, 50%);
+    }
+
+    .starting-clouds {
+        @include generate-clouds(null, true);
     }
 }
 

@@ -8,16 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="TypeScript\fa-custom.ts" />
-    <None Remove="TypeScript\fontawesome.ts" />
+    <None Remove="TypeScript\clouds.ts" />
+    <None Remove="TypeScript\fa-custom.js" />
+    <None Remove="TypeScript\fontawesome.js" />
     <None Remove="TypeScript\landingPage.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="TypeScript\fa-custom.ts">
+    <Content Include="TypeScript\fa-custom.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="TypeScript\fontawesome.ts">
+    <Content Include="TypeScript\fontawesome.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
@@ -53,6 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="TypeScript\clouds.ts" />
     <TypeScriptCompile Include="TypeScript\landingPage.ts" />
   </ItemGroup>
 
