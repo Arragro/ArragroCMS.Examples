@@ -19,7 +19,7 @@ namespace arragro.com.ContentTypes.Models
         [MaxLength(100)]
         public string Company { get; set; }
         [Required]
-        [RegularExpression(@"^(\+\s?)?((?<!\+.*)\(\+?\d+([\s\-\.]?\d+)?\)|\d+)([\s\-\.]?(\(\d+([\s\-\.]?\d+)?\)|\d+))*(\s?(x|ext\.?)\s?\d+)?$", ErrorMessage = "Please supply a valid phone number")]
+        [RegularExpression(@"^\+?\d{7,13}$", ErrorMessage = "Please supply a valid phone number")]
         public string Phone { get; set; }
         [Required]
         [MaxLength(2000)]

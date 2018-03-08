@@ -77,10 +77,10 @@ namespace www.arragro.com
 
             if (env.IsDevelopment())
             {
-                //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                //{
-                //    HotModuleReplacement = true
-                //});
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true
+                });
             }
 
             app.UseDeveloperExceptionPage();

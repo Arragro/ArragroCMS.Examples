@@ -8,14 +8,29 @@ const initialiseLandingPage = () => {
         processInfiniteClouds($('header .infinite-clouds div[class^="cloud-wrapper-"]'));
     }
 
+    try {
+        initClouds();
+    } catch (e) {
+        console.log('error-initClouds', e);
+    }
 
-    initClouds();
 
+    const $contactForm = $('form#contactForm');
+    const $contactFormContainer = $('#contactFormContainer');
+    const $sentMessage = $('#sentMessage');
 
-    var $contactForm = $('form#contactForm');
+    const isIE = () => {
+        return false || !!(document as any).documentMode
+    }
 
-    $contactForm.on('submit', function () {
-        var $recaptchaResponse = $(this).find('.g-recaptcha-response'),
+    const isEdge = () => {
+        return !isIE && !!window.styleMedia
+    }
+
+    $contactForm.on('submit', function (e) {
+        e.preventDefault();
+        debugger
+        var $recaptchaResponse = $contactForm.find('.g-recaptcha-response'),
             $recaptchaError = $recaptchaResponse.find('.field-validation-error'),
             recaptchaValid = true;
         if ($recaptchaResponse.val() === '') {
@@ -25,8 +40,8 @@ const initialiseLandingPage = () => {
             $recaptchaError.addClass('invisible');
             recaptchaValid = true;
         }
-
-        if ($(this).valid() && recaptchaValid) {
+        debugger
+        if ($contactForm.valid() && recaptchaValid) {
             $.ajax({
                 url: '/api/contact',
                 contentType: 'application/x-www-form-urlencoded',
@@ -34,11 +49,21 @@ const initialiseLandingPage = () => {
                 type: "POST"
             }).done(function (data) {
                 if (data.result) {
-                    $('#contactFormContainer .flipper').addClass('flipped');
                     processStartClouds($('#contactFormContainer .starting-clouds div[class^="cloud-wrapper-"]'), 3);
-                    setTimeout(function () {
-                        $('#contactFormContainer').slideUp(4000);
-                    }, 3000);
+                    if (isIE()) {
+                        $sentMessage.hide().addClass('hide');
+                        $contactForm.fadeOut(2000);
+                        $sentMessage.fadeIn(2000, function () {
+                            setTimeout(function () {
+                                $contactFormContainer.slideUp(2000);
+                            }, 2000)
+                        });
+                    } else {
+                        $('#contactFormContainer .flipper').addClass('flipped');
+                        setTimeout(function () {
+                            $contactFormContainer.slideUp(2000);
+                        }, 2000);
+                    }
                 } else {
                     alert('Failed to send Enquiry');
                     console.log(data.message);

@@ -18,7 +18,11 @@ module.exports = (env) => {
             loaders: [
                 {
                     test: /\.ts$/,
-                    exclude: /node_modules/,
+                    include: /app/,
+                    exclude: [
+                        /node_modules/,
+                        /obj/
+                    ],
                     use: [
                         { loader: 'babel-loader' },
                         { loader: 'ts-loader?silent=true' }
@@ -31,7 +35,7 @@ module.exports = (env) => {
             ]
         },
         entry: {
-            main: ['./Typescript/index.ts'],
+            main: ['./app/index.ts'],
             vendor: ['jquery', 'jquery-validation', 'jquery-validation-unobtrusive', 'bootstrap', 'popper.js']
         },
         output: {
