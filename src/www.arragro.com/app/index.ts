@@ -16,11 +16,14 @@ $(document).ready(function () {
     initialiseLandingPage()
 
     if ($('#contactFormContainer').length > 0) {
-        const $contactFormContainer = $('#contactFormContainer .flipper')
+        const $flipper = $('#contactFormContainer .flipper')
         const $contactForm = $('#contactForm')
         const $sentMessage = $('#sentMessage')
 
-        $contactFormContainer.height($contactForm.outerHeight())
+console.log($contactForm.outerHeight())
+console.log($contactForm[0].offsetHeight)
+
+        $flipper.height($contactForm.outerHeight())
         $sentMessage.height($contactForm.outerHeight())
     }
 
