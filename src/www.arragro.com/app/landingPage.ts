@@ -50,9 +50,14 @@ const initialiseLandingPage = () => {
             $sendEnquiry.removeClass('hide')
             $makeEnquiryButton.attr('disabled', 'disabled')
 
-            setTimeout(function () {
-                processStartClouds($('#contactFormContainer .starting-clouds div[class^="cloud-wrapper-"]'), 3)
-                setTimeout(function () {
+            $.ajax({
+                url: '/api/contact',
+                contentType: 'application/x-www-form-urlencoded',
+                data: $(this).serialize(),
+                type: 'POST'
+            }).done(function (data) {
+                if (data.result) {
+                    processStartClouds($('#contactFormContainer .starting-clouds div[class^="cloud-wrapper-"]'), 3)
                     if (isIE()) {
                         $sentMessage.hide().addClass('hide')
                         $contactForm.slideDown(2000)
@@ -67,36 +72,11 @@ const initialiseLandingPage = () => {
                             $contactFormContainer.slideUp(2000)
                         }, 2000)
                     }
-                }, 2000)
-            }, 1000)
-
-            // $.ajax({
-            //     url: '/api/contact',
-            //     contentType: 'application/x-www-form-urlencoded',
-            //     data: $(this).serialize(),
-            //     type: 'POST'
-            // }).done(function (data) {
-            //     if (data.result) {
-            //         processStartClouds($('#contactFormContainer .starting-clouds div[class^="cloud-wrapper-"]'), 3)
-            //         if (isIE()) {
-            //             $sentMessage.hide().addClass('hide')
-            //             $contactForm.fadeOut(2000)
-            //             $sentMessage.fadeIn(2000, function () {
-            //                 setTimeout(function () {
-            //                     $contactFormContainer.slideUp(2000)
-            //                 }, 2000)
-            //             })
-            //         } else {
-            //             $('#contactFormContainer .flipper').addClass('flipped')
-            //             setTimeout(function () {
-            //                 $contactFormContainer.slideUp(2000)
-            //             }, 2000)
-            //         }
-            //     } else {
-            //         alert('Failed to send Enquiry')
-            //         console.log(data.message)
-            //     }
-            // })
+                } else {
+                    alert('Failed to send Enquiry')
+                    console.log(data.message)
+                }
+            })
         }
 
         return false
