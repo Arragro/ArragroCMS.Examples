@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "moduleResolution": "node",
     "target": "es6",
     "jsx": "preserve",
@@ -10,5 +12,5 @@
   "exclude": [
     "node_modules",
     "typings/custom"
-  ]
+  ],
 }

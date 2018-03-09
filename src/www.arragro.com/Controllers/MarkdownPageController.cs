@@ -17,11 +17,9 @@ namespace www.arragro.com.Controllers
             _arragroCmsManagementClient = arragroCmsManagementClient;
         }
 
-        public async Task<IActionResult> Home(Guid siteId, Guid id, Status status)
+        public IActionResult Home(Guid siteId, Guid id, Status status)
         {
-            var content = await _arragroCmsManagementClient.GetContentAsync<MarkdownPage>(Request.Host.Host, Request.Host.Port, "home", CultureInfo.CurrentCulture, Status.Published);
-
-            return View("HomePageOveride", content);
+            return View("HomePageOveride");
         }
         
         public async Task<IActionResult> Index(Guid siteId, Guid id, Status status)

@@ -9,8 +9,6 @@ import 'popper.js'
 import './fontawesome'
 import './fa-custom'
 
-import { processStartClouds } from './clouds'
-
 $(document).ready(function () {
 
     initialiseLandingPage()
@@ -19,9 +17,6 @@ $(document).ready(function () {
         const $flipper = $('#contactFormContainer .flipper')
         const $contactForm = $('#contactForm')
         const $sentMessage = $('#sentMessage')
-
-console.log($contactForm.outerHeight())
-console.log($contactForm[0].offsetHeight)
 
         $flipper.height($contactForm.outerHeight())
         $sentMessage.height($contactForm.outerHeight())

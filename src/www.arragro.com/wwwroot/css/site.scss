@@ -171,6 +171,10 @@ footer {
     }
 }
 
+.hide {
+    display: none;
+}
+
 @import './landing-page/mixin.scss';
 
 #contactFormContainer {
@@ -218,25 +222,73 @@ footer {
     }
 
     .flipper.flipped {
-        transform: rotateX(180deg);
+        transform: none;
+        max-height: 300px;
+        transition: none;
+
+        & .back {
+            max-height: 300px;
+            transition: max-height 2s ease-in-out;
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .front {
+            display: none;
+        }
+        
+        @media (min-width: 768px) {
+            max-height: 100%;
+            transition: all .6s ease-in-out;
+            transform: rotateX(180deg);
+    
+            & .back {
+                max-height: 100%;
+                transition: none;
+            }
+    
+            .front {
+                display: block;
+            }
+        }
     }
 
     #sentMessage {
         width: 100%;
         overflow: hidden;
-        visibility: visible;
-        opacity: 1;
+
+        h2 {
+            font-size: 1.5rem;
+        }
+        [class^='cloud'] {
+            transform: scale(.9);
+        }
+        @media (min-width: 768px) {
+            h2 {
+                font-size: 2rem;
+            }
+            [class^='cloud'] {
+                transform: initial;
+            }
+        }
     }
 
     .back {
-        transform: rotateX(180deg);
         text-align: center;
         background-color: darken($blue, 5%);
         color: white;
         text-shadow: 2px 2px 8px darken($blue, 50%);
+        visibility: hidden;
+        opacity: 0;
+        max-height: 100%;
+        @media (min-width: 768px) {
+            transform: rotateX(180deg);
+            transition: none;
+            visibility: visible;
+            opacity: 1;
+        }
     }
-
-
+    
     .back.hide {
         transform: none;
     }
