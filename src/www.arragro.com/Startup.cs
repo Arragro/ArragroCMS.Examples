@@ -81,9 +81,14 @@ namespace www.arragro.com
                 {
                     HotModuleReplacement = true
                 });
-            }
 
-            app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler(("/error/exception"));
+                app.UseStatusCodePagesWithReExecute("/error/{0}");
+            }
 
             app.UseDefaultFiles();
             app.UseStaticFiles();

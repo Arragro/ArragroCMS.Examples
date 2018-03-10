@@ -1,0 +1,33 @@
+@model ErrorPage
+@{
+    Layout = "_LayoutError";
+}
+
+@section header {
+    <header id="errorNotFoundPageHeader">
+        <div id="background-wrap">
+
+            <clouds clouds=Model.StartingClouds starting=true class-name="starting-clouds" cloud-src="/images/svgs/404.svg" />
+
+            <div class="sun">
+                <div class="ray-box">
+                    <div class="ray ray1"></div>
+                    <div class="ray ray2"></div>
+                    <div class="ray ray3"></div>
+                    <div class="ray ray4"></div>
+                    <div class="ray ray5"></div>
+                    <div class="ray ray6"></div>
+                    <div class="ray ray7"></div>
+                    <div class="ray ray8"></div>
+                    <div class="ray ray9"></div>
+                    <div class="ray ray10"></div>
+                </div>
+            </div>
+
+            <clouds clouds=Model.InfiniteClouds class-name="infinite-clouds" cloud-src="/images/svgs/404.svg" />
+
+            <cloud-banner-text cloud-banner-texts=Model.CloudBannerTexts class-name="banner-text" interval=6000 />
+
+        </div>
+    </header>
+}

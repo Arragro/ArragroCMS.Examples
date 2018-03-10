@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using www.arragro.com.Models;
 
 namespace www.arragro.com.Controllers
 {
@@ -20,8 +21,9 @@ namespace www.arragro.com.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> Index(Guid siteId, Guid id, Status status)
         {
-            var content = await _arragroCmsManagementClient.GetContentAsync<MarkdownPost>(siteId, CultureInfo.CurrentCulture, id, status);
-            return View(content);
+            var content = await _arragroCmsManagementClient.GetContentAsync<MarkdownPost>(siteId, id, status);
+            ViewBag.MetaData = new MetaData(content.ContentDto);
+            return View(content.ParsedContent[CultureInfo.CurrentCulture.Name]);
         }
     }
 }

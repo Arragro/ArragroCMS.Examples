@@ -35,7 +35,7 @@ export function processInfiniteClouds(infiniteClouds) {
         let cloud = infiniteClouds[i]
 
         // set its initial position and opacity using GSAP
-        TweenLite.set(cloud, { left: '20%', opacity: 0 })
+        TweenLite.set(cloud, { left: '0%', opacity: 0 })
         // create a repeating timeline for this cloud
         let cloudTl = new TimelineMax({ repeat: -1 })
         // fade opacity to 1

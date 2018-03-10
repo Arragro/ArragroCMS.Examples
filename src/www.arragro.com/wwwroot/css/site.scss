@@ -175,8 +175,6 @@ footer {
     display: none;
 }
 
-@import './landing-page/mixin.scss';
-
 #contactFormContainer {
     perspective: 1000px;
     position: relative;
@@ -298,5 +296,34 @@ footer {
     }
 }
 
+header#errorNotFoundPageHeader {
+    @include header();
+    height: 71vh;
+    background-color: #ededed;
+
+    #background-wrap {
+        height: 110%;
+    } 
+    
+    @media (orientation: landscape) {
+        height: 71vh;
+    }
+
+    @media (min-height: 800px) {
+        //height: 100%;
+    }
+
+    @media (min-width: 813px) {
+        height: 71vh;
+    }
+
+    @media (min-width: 992px) {
+        height: 71vh;
+    }
+
+    @media (min-width: 1440px) {
+        height: 71vh;
+    }
+}
 
 @import './landing-page/index.scss';

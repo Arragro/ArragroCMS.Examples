@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using www.arragro.com.Models;
 
 namespace www.arragro.com.Controllers
 {
@@ -21,14 +22,14 @@ namespace www.arragro.com.Controllers
         public async Task<IActionResult> Home(Guid siteId, Guid id, Status status)
         {
             var content = await _arragroCmsManagementClient.GetContentAsync<LandingPage>(Request.Host.Host, Request.Host.Port, "home", Status.Published);
-            ViewBag.Content = content.ContentDto;
+            ViewBag.MetaData = new MetaData(content.ContentDto);
             return View(content.ParsedContent[CultureInfo.CurrentCulture.Name]);
         }
         
         public async Task<IActionResult> Index(Guid siteId, Guid id, Status status)
         {
             var content = await _arragroCmsManagementClient.GetContentAsync<LandingPage>(siteId, id, status);
-            ViewBag.Content = content.ContentDto;
+            ViewBag.MetaData = new MetaData(content.ContentDto);
             return View(content.ParsedContent[CultureInfo.CurrentCulture.Name]);
         }
     }

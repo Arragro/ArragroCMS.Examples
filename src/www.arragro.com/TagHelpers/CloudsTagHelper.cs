@@ -1,14 +1,9 @@
 ﻿using arragro.com.ContentTypes.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor.TagHelpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
 namespace www.arragro.com.TagHelpers
 {
@@ -17,6 +12,7 @@ namespace www.arragro.com.TagHelpers
         public List<Cloud> Clouds { get; set; }
         public bool Starting { get; set; } = false;
         public string ClassName { get; set; }
+        public string CloudSrc { get; set; } = "/images/svgs/cloud-shadow.svg";
 
         private TagBuilder GetCloud(Cloud cloud, int index)
         {
@@ -37,8 +33,8 @@ namespace www.arragro.com.TagHelpers
             tagBuilder.InnerHtml.AppendHtml($@"
 <div class='cloud-{index + 1}'>
     <div class='cloud'>
-        <img src='/images/svgs/cloud-shadow.svg' alt='Cloud' />
-        {(cloud.ImageUrl.Length > 0 ? $"<div class='cloud-image'><img src='{cloud.ImageUrl}' alt='{cloud.ImageUrlAlt}' /></div>" : "")}
+        <img src='{CloudSrc}' alt='Cloud' />
+        {(cloud.ImageUrl != null && cloud.ImageUrl.Length > 0 ? $"<div class='cloud-image'><img src='{cloud.ImageUrl}' alt='{cloud.ImageUrlAlt}' /></div>" : "")}
     </div>
 </div>");
 

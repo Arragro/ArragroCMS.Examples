@@ -1,106 +1,8 @@
 ﻿@import '../mixin.scss';
-@import 'mixin.scss';
 
 header#landingPageHeader {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-    height: 90vh;
-    overflow: hidden;
-    background: $blue;
-    z-index: -1;
 
-    #background-wrap {
-        position: relative;
-        //padding-top: 3rem;
-        font: 100% Arial, Sans Serif;
-        margin: 0;
-        vertical-align: baseline;
-        height: 95%;
-        max-width: 1440px;
-        margin: 0 auto;
-
-        .starting-clouds,
-        .infinite-clouds {
-            height: 100%;
-            width: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    }
-    /*@include generate-cloud-starting-key-frames();
-      @include generate-cloud-key-frames();*/
-    .starting-clouds {
-        @include generate-clouds(null, true);
-    }
-
-    .infinite-clouds {
-        @include generate-clouds(infinite, false, 6);
-    }
-        
-    .carousel-fade .carousel-item {
-        opacity: 0;
-        transition-duration: 3s;
-        transition-property: opacity;
-    }
-
-    .carousel-fade .carousel-item.active,
-    .carousel-fade .carousel-item-next.carousel-item-left,
-    .carousel-fade .carousel-item-prev.carousel-item-right {
-        opacity: 1;
-    }
-
-    .carousel-fade .active.carousel-item-left,
-    .carousel-fade .active.carousel-item-right {
-        opacity: 0;
-    }
-
-    .carousel-fade .carousel-item-next,
-    .carousel-fade .carousel-item-prev,
-    .carousel-fade .carousel-item.active,
-    .carousel-fade .active.carousel-item-left,
-    .carousel-fade .active.carousel-item-prev {
-        transform: translateX(0);
-        transform: translate3d(0, 0, 0);
-    }
-
-    .banner-text {
-        height: 100%;
-        position: relative;
-
-        #carousel-cloud-banner-text {
-            height: 100%;
-            text-align: center;
-            word-break: normal;
-            word-wrap: normal;
-            color: white;
-            font-size: 2vh;
-
-            .carousel-inner {
-                width: 80%;
-                max-width: 1440px;
-            }
-
-            h1 {
-                font-size: 1.8em;
-                text-shadow: 2px 2px 8px darken($blue, 50%);
-                z-index: 50;
-
-                @media (orientation: landscape) {
-                    font-size: 2.5em;
-                }
-
-                @media (orientation: landscape) and (min-width: 1024px) {
-                    font-size: 2em;
-                }
-            }
-        }
-    }
+    @include header();
 
     @keyframes bounce {
         0%, 100% {
@@ -132,30 +34,10 @@ header#landingPageHeader {
         }
     }
 
-    @media (orientation: landscape) {
-        height: 81vh;
-    }
-
     @media (min-width: 813px) {
         .look-down {
             display: none;
         }
-    }
-
-    @media (min-height: 800px) {
-        //height: 100%;
-    }
-
-    @media (min-width: 813px) {
-        height: 75vh;
-    }
-
-    @media (min-width: 992px) {
-        height: 75vh;
-    }
-
-    @media (min-width: 1440px) {
-        height: 55vh;
     }
 
     @import 'sun.scss';
