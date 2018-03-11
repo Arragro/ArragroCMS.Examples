@@ -296,7 +296,7 @@ footer {
     }
 }
 
-header#errorNotFoundPageHeader
+header#errorNotFoundPageHeader,
 header#errorPageHeader {
     @include header();
     height: 71vh;
