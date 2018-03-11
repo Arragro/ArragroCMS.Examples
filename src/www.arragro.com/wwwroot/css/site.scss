@@ -296,10 +296,18 @@ footer {
     }
 }
 
-header#errorNotFoundPageHeader {
+header#errorNotFoundPageHeader
+header#errorPageHeader {
     @include header();
     height: 71vh;
-    background-color: #ededed;
+
+    &#errorNotFoundPageHeader {
+        background-color: #ededed;
+    }
+
+    &#errorPageHeader {
+        background-color: #495057;
+    }
 
     #background-wrap {
         height: 110%;

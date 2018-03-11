@@ -42,7 +42,7 @@ namespace www.arragro.com.Controllers
             //    // Whatever you do, be careful to catch any exceptions, otherwise you'll end up with a blank page and throwing a 500
             //}
             ViewBag.MetaData = _metaDataError;
-            return View("NotFound", ErrorPage.BuildNotFound());
+            return View("Index", ErrorPage.BuildNotFound());
         }
     }
 }
