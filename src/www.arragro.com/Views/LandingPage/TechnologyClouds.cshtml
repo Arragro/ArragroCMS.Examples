@@ -47,7 +47,7 @@
     </a>
     <div class="container d-flex justify-content-center">
         <div class="col-lg-10">
-            @Html.Raw(@CommonMark.CommonMarkConverter.Convert(Model.TechnologyMarkdown.Replace("&#xA;", "\n")))
+            <markdown markdown=Model.TechnologyMarkdown></markdown>
         </div>
     </div>
 </div>

@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Arragro.Providers.SendgridEmailProvider" Version="1.0.0-alpha-194" />
-    <PackageReference Include="ArragroCMS.Web.Management" Version="1.0.0-alpha-166" />
+    <PackageReference Include="ArragroCMS.Web.Management" Version="1.0.0-alpha-167" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0" />

@@ -39,7 +39,7 @@
     <div id="intro">
         <div class="container d-flex justify-content-center">
             <div class="col-lg-10">
-                @Html.Raw(@CommonMark.CommonMarkConverter.Convert(Model.MarkdownIntro.Replace("&#xA;", "\n")))
+                <markdown markdown=Model.MarkdownIntro></markdown>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
                         </a>
                         <div class="service-markdown">
                             <h5>@service.Title</h5>
-                            @Html.Raw(@CommonMark.CommonMarkConverter.Convert(service.Markdown.Replace("&#xA;", "\n")))
+                            <markdown markdown=service.Markdown></markdown>
                         </div>
                     </div>
                 }
@@ -90,7 +90,7 @@
                         </a>
                         <div class="what-weve-done-markdown">
                             @*<h5>@whatWeveDone.Name</h5>*@
-                            @Html.Raw(@CommonMark.CommonMarkConverter.Convert(whatWeveDone.Markdown.Replace("&#xA;", "\n")))
+                            <markdown markdown=whatWeveDone.Markdown></markdown>
                         </div>
                     </div>
                 }
