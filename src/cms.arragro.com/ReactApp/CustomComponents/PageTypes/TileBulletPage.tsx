@@ -88,7 +88,6 @@ export default class TileBulletPage extends Components.StateManagedComponentType
                         type='checkbox'
                         name='cloudTileBullets'
                         label='Use Clouds for the Bullets'
-                        required
                         onChange={this.onChange}
                         value={tileBulletPage.cloudTileBullets}
                     />
