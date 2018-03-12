@@ -45,7 +45,11 @@ namespace www.arragro.com.TagHelpers
             var output = new StringBuilder();
             foreach (var sitemap in sitemapContainer.SiteMaps)
             {
-                output.Append($"<li class=\"nav-item\"><a href=\"/{sitemap.Url}{(draft ? "/draft" : "")}\" class=\"nav-link\">{sitemap.Name}</a></li>");
+                var className = "nav-link";
+                var sitemapPath = $"/{sitemap.Controller}/{sitemap.Action}/{sitemap.SiteId}/{sitemap.Id}/{sitemap.Status}".ToLower();
+                if (Request.Path.ToString().ToLower() == sitemapPath)
+                    className += " active";
+                output.Append($"<li class=\"nav-item\"><a href=\"/{sitemap.Url}{(draft ? "/draft" : "")}\" class=\"{className}\">{sitemap.Name}</a></li>");
             }
             return output.ToString();
         }
@@ -54,7 +58,7 @@ namespace www.arragro.com.TagHelpers
         {
             bool draft = Request.Path.HasValue && Request.Path.Value.ToLower().EndsWith("/draft");
             var sitemapContainer = await _arragroCmsManagementClient.GetSitemapAsync(Request.Host.Host, Request.Host.Port, draft);
-
+                        
             output.TagName = "ul";
             output.Attributes.Add(new TagHelperAttribute("class", "navbar-nav"));
             output.Content.SetHtmlContent($"{GetNavItems(sitemapContainer, draft)}");

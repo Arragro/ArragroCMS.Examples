@@ -9,11 +9,11 @@ using www.arragro.com.Models;
 
 namespace www.arragro.com.Controllers
 {
-    public class TechnologyPageController : Controller
+    public class TileBulletPageController : Controller
     {
         private readonly IArragroCmsManagementClient _arragroCmsManagementClient;
 
-        public TechnologyPageController(IArragroCmsManagementClient arragroCmsManagementClient)
+        public TileBulletPageController(IArragroCmsManagementClient arragroCmsManagementClient)
         {
             _arragroCmsManagementClient = arragroCmsManagementClient;
         }

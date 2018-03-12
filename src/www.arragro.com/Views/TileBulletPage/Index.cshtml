@@ -1,4 +1,4 @@
-﻿@model arragro.com.ContentTypes.Pages.TechnologyPage
+﻿@model arragro.com.ContentTypes.Pages.TileBulletPage
 @{
     ViewData["Title"] = "Index";
 }
@@ -15,15 +15,15 @@
         </div>
     </div>
     <div  class="container">
-    @foreach (var techSection in Model.TechnologySections)
+    @foreach (var tileBullet in Model.TileBullets)
     {
         <div class="technology-section row">
             <div class='col-12 col-lg-6 col-xl-4 align-self-center'>
-                <cloud cloud=techSection index=0 />
+                <cloud cloud=tileBullet index=0 />
             </div>
             <div class="col-12 col-lg-6 col-xl-8">
-                <h3>@techSection.Name</h3>
-                @Html.Raw(CommonMark.CommonMarkConverter.Convert(techSection.Markdown.Replace("&#xA;", "\n")))
+                <h3>@tileBullet.Name</h3>
+                @Html.Raw(CommonMark.CommonMarkConverter.Convert(tileBullet.Markdown.Replace("&#xA;", "\n")))
             </div>
         </div>
     }
