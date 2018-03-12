@@ -4,7 +4,7 @@ import { Interfaces, Components } from 'arragrocms-management'
 import MarkdownConfiguration from './CustomComponents/ConfigurationTypes/MarkdownConfiguration'
 import MarkdownPage from './CustomComponents/PageTypes/MarkdownPage'
 import LandingPage from './CustomComponents/PageTypes/LandingPage'
-import TechnologyPage from './CustomComponents/PageTypes/TechnologyPage'
+import TileBulletPage from './CustomComponents/PageTypes/TileBulletPage'
 
 import MarkdownPost from './CustomComponents/PostTypes/MarkdownPost'
 
@@ -12,7 +12,7 @@ const CONFIGURATIONTYPES_MARKDOWN = 'arragro.com.ContentTypes.Configuration.Mark
 
 const PAGETYPES_MARKDOWN = 'arragro.com.ContentTypes.Pages.MarkdownPage'
 const PAGETYPES_LANDINGPAGE = 'arragro.com.ContentTypes.Pages.LandingPage'
-const PAGETYPES_TECHNOLOGYPAGE = 'arragro.com.ContentTypes.Pages.TechnologyPage'
+const PAGETYPES_TILEBULLETPAGE = 'arragro.com.ContentTypes.Pages.TileBulletPage'
 
 const POSTTYPES_MARKDOWN = 'arragro.com.ContentTypes.Posts.MarkdownPage'
 
@@ -26,8 +26,8 @@ export function extendContentTypeMap (): void {
         return <LandingPage ref={pageType.ref} contentData={pageType.contentData} culture={pageType.culture} onChange={pageType.onChange} />
     }
 
-    Components.componentTypeMap[PAGETYPES_TECHNOLOGYPAGE] = (pageType: Interfaces.IComponentType): JSX.Element => {
-        return <TechnologyPage ref={pageType.ref} contentData={pageType.contentData} culture={pageType.culture} onChange={pageType.onChange} />
+    Components.componentTypeMap[PAGETYPES_TILEBULLETPAGE] = (pageType: Interfaces.IComponentType): JSX.Element => {
+        return <TileBulletPage ref={pageType.ref} contentData={pageType.contentData} culture={pageType.culture} onChange={pageType.onChange} />
     }
     
     Components.componentTypeMap[POSTTYPES_MARKDOWN] = (pageType: Interfaces.IComponentType): JSX.Element => {

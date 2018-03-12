@@ -5,18 +5,18 @@ namespace www.arragro.com.Models
 {
     public class ErrorPage
     {
-        public List<Cloud> StartingClouds { get; set; }
-        public List<Cloud> InfiniteClouds { get; set; }
+        public List<Tile> StartingClouds { get; set; }
+        public List<Tile> InfiniteClouds { get; set; }
         public List<CloudBannerText> CloudBannerTexts { get; set; }
 
         private static ErrorPage BuildClouds(ErrorPage errorPage)
         {
-            var startingClouds = new List<Cloud>();
-            var infiniteClouds = new List<Cloud>();
+            var startingClouds = new List<Tile>();
+            var infiniteClouds = new List<Tile>();
             for (var i = 1; i < 5; i++)
             {
                 startingClouds.Add(
-                    new Cloud
+                    new Tile
                     {
                         Name = $"Cloud {i}"
                     });
@@ -24,7 +24,7 @@ namespace www.arragro.com.Models
             for (var i = 1; i < 8; i++)
             {
                 infiniteClouds.Add(
-                    new Cloud
+                    new Tile
                     {
                         Name = $"Cloud {i}"
                     });

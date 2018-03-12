@@ -9,11 +9,11 @@ namespace www.arragro.com.TagHelpers
 {
     public class CloudsTagHelper : TagHelper
     {
-        public List<Cloud> Clouds { get; set; }
+        public List<Tile> Clouds { get; set; }
         public string ClassName { get; set; }
         public string CloudSrc { get; set; } = "/images/svgs/cloud-shadow.svg";
 
-        private TagBuilder GetCloud(Cloud cloud, int index)
+        private TagBuilder GetCloud(Tile cloud, int index)
         {
             var className = $"cloud-wrapper-{index + 1}";
             var tagBuilder = new TagBuilder(cloud.HasLink ? "a" : "div");

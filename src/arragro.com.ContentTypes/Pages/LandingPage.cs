@@ -14,24 +14,24 @@ namespace arragro.com.ContentTypes.Pages
         [Required]
         [MaxLength(512)]
         public string Title { get; set; }
-        public List<Cloud> StartingClouds { get; set; }
-        public List<Cloud> InfiniteClouds { get; set; }
+        public List<Tile> StartingClouds { get; set; }
+        public List<Tile> InfiniteClouds { get; set; }
         public List<CloudBannerText> CloudBannerTexts { get; set; }
         public string MarkdownIntro { get; set; }
         public List<SvgIconLink> SvgIconLinksServices { get; set; }
         public List<Tile> WhatWeveDones { get; set; }
-        public List<Cloud> TechnologyClouds { get; set; }
+        public List<Tile> TechnologyClouds { get; set; }
         public string TechnologyMarkdown { get; set; }
         public string MarkdownOutro { get; set; }
 
         public LandingPage()
         {
-            StartingClouds = new List<Cloud>();
-            InfiniteClouds = new List<Cloud>();
+            StartingClouds = new List<Tile>();
+            InfiniteClouds = new List<Tile>();
             CloudBannerTexts = new List<CloudBannerText>();
             SvgIconLinksServices = new List<SvgIconLink>();
             WhatWeveDones = new List<Tile>();
-            TechnologyClouds = new List<Cloud>();
+            TechnologyClouds = new List<Tile>();
         }
 
 

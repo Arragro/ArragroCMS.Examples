@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace arragro.com.ContentTypes.Pages
 {
-    [DisplayName("Technology Page")]
-    public class TechnologyPage : RulesBase<TechnologyPage>, ICliPageType
+    [DisplayName("Tile Bullet Page")]
+    public class TileBulletPage : RulesBase<TileBulletPage>, ICliPageType
     {
         [Required]
         [MaxLength(50)]
@@ -19,11 +19,11 @@ namespace arragro.com.ContentTypes.Pages
         [MaxLength(512)]
         public string IntroMarkdown { get; set; }
 
-        public List<Cloud> TechnologySections { get; set; }
+        public List<Tile> TileBullets { get; set; }
 
-        public TechnologyPage()
+        public TileBulletPage()
         {
-            TechnologySections = new List<Cloud>();
+            TileBullets = new List<Tile>();
         }
 
 

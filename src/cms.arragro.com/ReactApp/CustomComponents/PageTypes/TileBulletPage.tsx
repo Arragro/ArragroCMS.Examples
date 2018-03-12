@@ -11,7 +11,7 @@ import MarkdownEditor from '../MarkdownEditor'
 
 const { Input, Textarea } = FRC
 
-const technologyPageHelper = {
+const tileBulletPageHelper = {
     newTile: (): ITile => {
         return {
             name: '',
@@ -32,14 +32,14 @@ const technologyPageHelper = {
 }
 
 
-export interface ITechnologyPageState {
+export interface ITileBulletPageState {
     title: string
     introMarkdown: string
-    technologySections: Array<ITile>
+    tileBullets: Array<ITile>
 }
 
 
-export default class TechnologyPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, ITechnologyPageState> {
+export default class TileBulletPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, ITileBulletPageState> {
     constructor(props) {
         super(props)
     }
@@ -48,13 +48,13 @@ export default class TechnologyPage extends Components.StateManagedComponentType
 
     public render() {
         
-        const pageData = this.props.contentData.contentJson[this.props.culture] as ITechnologyPageState
-        const technologyPage = {
+        const pageData = this.props.contentData.contentJson[this.props.culture] as ITileBulletPageState
+        const tileBulletPage = {
             title: pageData.title === undefined ? '' : pageData.title,
             introMarkdown: pageData.introMarkdown === undefined ? '' : pageData.introMarkdown,
-            technologySections: pageData.technologySections === undefined ?
-                technologyPageHelper.newTiles() :
-                pageData.technologySections
+            tileBullets: pageData.tileBullets === undefined ?
+                tileBulletPageHelper.newTiles() :
+                pageData.tileBullets
         }
 
         return (
@@ -66,7 +66,7 @@ export default class TechnologyPage extends Components.StateManagedComponentType
                         label='Title'
                         required
                         onChange={this.onChange}
-                        value={technologyPage.title}
+                        value={tileBulletPage.title}
                     />
                 </div>
                 <hr className='col-12' />
@@ -75,7 +75,7 @@ export default class TechnologyPage extends Components.StateManagedComponentType
                         contentDataUrlRouteId={this.props.contentData.urlRouteId}
                         name='introMarkdown'
                         label='Outro'
-                        value={technologyPage.introMarkdown}
+                        value={tileBulletPage.introMarkdown}
                         onChange={this.onChange}
                         showAssetPicker={true}
                     />
@@ -87,8 +87,8 @@ export default class TechnologyPage extends Components.StateManagedComponentType
                         contentUrlRouteId={this.props.contentData.urlRouteId}
                         name='technologySections'
                         label='Technology Sections  '
-                        clouds={technologyPage.technologySections}
-                        newItem={technologyPageHelper.newTile()}
+                        clouds={tileBulletPage.tileBullets}
+                        newItem={tileBulletPageHelper.newTile()}
                         onChange={this.onChange}
                         maxClouds={10}
                         linkIsMandatory={false}

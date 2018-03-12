@@ -20,7 +20,7 @@ namespace www.arragro.com.Controllers
                 
         public async Task<IActionResult> Index(Guid siteId, Guid id, Status status)
         {
-            var content = await _arragroCmsManagementClient.GetContentAsync<TechnologyPage>(siteId, id, status);
+            var content = await _arragroCmsManagementClient.GetContentAsync<TileBulletPage>(siteId, id, status);
             ViewBag.MetaData = new MetaData(content.ContentDto);
             return View(content.ParsedContent[CultureInfo.CurrentCulture.Name]);
         }

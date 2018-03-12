@@ -7,7 +7,7 @@ namespace www.arragro.com.TagHelpers
     public class CloudTagHelper : TagHelper
     {
         public int Index { get; set; }
-        public Cloud Cloud { get; set; }
+        public Tile Cloud { get; set; }
         
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
