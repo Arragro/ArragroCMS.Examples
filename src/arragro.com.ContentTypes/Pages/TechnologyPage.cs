@@ -19,11 +19,11 @@ namespace arragro.com.ContentTypes.Pages
         [MaxLength(512)]
         public string IntroMarkdown { get; set; }
 
-        public List<Tile> TechnologySections { get; set; }
+        public List<Cloud> TechnologySections { get; set; }
 
         public TechnologyPage()
         {
-            TechnologySections = new List<Tile>();
+            TechnologySections = new List<Cloud>();
         }
 
 

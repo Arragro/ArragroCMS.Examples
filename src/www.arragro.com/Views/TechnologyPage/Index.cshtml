@@ -3,5 +3,29 @@
     ViewData["Title"] = "Index";
 }
 
-<h3>@Model.Title</h3>
+@section header {
+    <standard-header title=@Model.Title />
+}
 
+<div id="technologies">
+    <div id="intro" class="container d-flex justify-content-center">
+        <div class="col-12 col-md-12 col-lg-11 col-xl-12">
+            @*<h3>@Model.Title</h3>*@
+            <markdown markdown=@Model.IntroMarkdown></markdown>
+        </div>
+    </div>
+    <div  class="container">
+    @foreach (var techSection in Model.TechnologySections)
+    {
+        <div class="technology-section row">
+            <div class='col-12 col-lg-6 col-xl-4 align-self-center'>
+                <cloud cloud=techSection index=0 />
+            </div>
+            <div class="col-12 col-lg-6 col-xl-8">
+                <h3>@techSection.Name</h3>
+                @Html.Raw(CommonMark.CommonMarkConverter.Convert(techSection.Markdown.Replace("&#xA;", "\n")))
+            </div>
+        </div>
+    }
+    </div>
+</div>

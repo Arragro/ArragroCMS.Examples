@@ -3,9 +3,9 @@
 
 @section header {
     <header id="landingPageHeader">
-        <div id="background-wrap">
+        <div class="background-wrap">
 
-            <clouds clouds=Model.StartingClouds starting=true class-name="starting-clouds" />
+            <clouds clouds=Model.StartingClouds class-name="starting-clouds" />
 
             <div class="sun">
                 <div class="ray-box">
@@ -39,7 +39,7 @@
     <div id="intro">
         <div class="container d-flex justify-content-center">
             <div class="col-lg-10">
-                <markdown markdown=Model.MarkdownIntro></markdown>
+                <markdown markdown=@Model.MarkdownIntro></markdown>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
                         </a>
                         <div class="service-markdown">
                             <h5>@service.Title</h5>
-                            <markdown markdown=service.Markdown></markdown>
+                            <markdown markdown=@service.Markdown></markdown>
                         </div>
                     </div>
                 }
@@ -90,7 +90,7 @@
                         </a>
                         <div class="what-weve-done-markdown">
                             @*<h5>@whatWeveDone.Name</h5>*@
-                            <markdown markdown=whatWeveDone.Markdown></markdown>
+                            <markdown markdown=@whatWeveDone.Markdown></markdown>
                         </div>
                     </div>
                 }

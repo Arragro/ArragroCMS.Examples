@@ -10,7 +10,6 @@ namespace www.arragro.com.TagHelpers
     public class CloudsTagHelper : TagHelper
     {
         public List<Cloud> Clouds { get; set; }
-        public bool Starting { get; set; } = false;
         public string ClassName { get; set; }
         public string CloudSrc { get; set; } = "/images/svgs/cloud-shadow.svg";
 

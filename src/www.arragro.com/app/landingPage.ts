@@ -1,19 +1,8 @@
 ﻿import * as $ from 'jquery'
-import { processStartClouds, processInfiniteClouds } from './clouds'
+import { processStartClouds } from './clouds'
 
 const initialiseLandingPage = () => {
-
-    function initClouds () {
-        processStartClouds($('header .starting-clouds div[class^="cloud-wrapper-"]'), 1)
-        processInfiniteClouds($('header .infinite-clouds div[class^="cloud-wrapper-"]'))
-    }
-
-    try {
-        initClouds ()
-    } catch (e) {
-        console.log('error-initClouds', e)
-    }
-
+    
     const $contactForm = $('form#contactForm')
     const $contactFormContainer = $('#contactFormContainer')
     const $sentMessage = $('#sentMessage')

@@ -90,7 +90,7 @@ export default class TechnologyPage extends Components.StateManagedComponentType
                         clouds={technologyPage.technologySections}
                         newItem={technologyPageHelper.newTile()}
                         onChange={this.onChange}
-                        maxClouds={4}
+                        maxClouds={10}
                         linkIsMandatory={false}
                         useMarkdown={true}
                     />

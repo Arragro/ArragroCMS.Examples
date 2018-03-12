@@ -311,26 +311,74 @@ header#errorPageHeader {
 
     #background-wrap {
         height: 110%;
-    } 
-    
-    @media (orientation: landscape) {
-        height: 71vh;
     }
 
-    @media (min-height: 800px) {
-        //height: 100%;
+    @include overrideHeaderMediaQueries(71vh);
+}
+
+header#standardHeader {
+    @include header();
+    height: 150px;
+
+    .background-wrap {
+        .starting-clouds {
+            top: -7%;
+        }
+
+        .infinite-clouds {
+            top: -8%;
+        }
+
+        .banner-text {
+            height: 100%;
+            position: relative;
+            z-index: 99;
+            text-align: center;
+            word-break: normal;
+            word-wrap: normal;
+            color: white;
+            font-size: 2vh;
+
+            h1 {
+                font-size: 1.8em;
+                margin-top: .7rem;
+                text-shadow: 2px 2px 8px darken($blue, 50%);
+                z-index: 50;
+            }
+
+            p {
+                margin-bottom: 0rem;
+            }
+        }
+
+        [class^='cloud-'] {
+            transform: scale(.59);
+        }
+
+        #background-wrap {
+            height: 100px;
+        }
     }
 
-    @media (min-width: 813px) {
-        height: 71vh;
-    }
+    @include overrideHeaderMediaQueries(150px);
+}
 
-    @media (min-width: 992px) {
-        height: 71vh;
-    }
+#technologies {
+    .technology-section {
+        padding: 1rem 0;
 
-    @media (min-width: 1440px) {
-        height: 71vh;
+        .cloud {
+            width: 100%;
+            margin: 0 auto;
+
+            @media (min-width: 768px) {
+                width: 70%;
+            }
+
+            @media (min-width: 992px) {
+                width: 100%;
+            }
+        }
     }
 }
 
