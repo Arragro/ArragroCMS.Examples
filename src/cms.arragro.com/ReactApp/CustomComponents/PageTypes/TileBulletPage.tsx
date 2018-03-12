@@ -9,7 +9,7 @@ import SortableCloudBannerTexts from '../Components/CloudBannerTexts/SortableClo
 import SortableSvgIcons from '../Components/SvgIconLinks/SortableSvgIcons'
 import MarkdownEditor from '../MarkdownEditor'
 
-const { Input, Textarea } = FRC
+const { Input, Textarea, Checkbox } = FRC
 
 const tileBulletPageHelper = {
     newTile: (): ITile => {
@@ -35,6 +35,7 @@ const tileBulletPageHelper = {
 export interface ITileBulletPageState {
     title: string
     introMarkdown: string
+    cloudTileBullets: boolean
     tileBullets: Array<ITile>
 }
 
@@ -52,6 +53,7 @@ export default class TileBulletPage extends Components.StateManagedComponentType
         const tileBulletPage = {
             title: pageData.title === undefined ? '' : pageData.title,
             introMarkdown: pageData.introMarkdown === undefined ? '' : pageData.introMarkdown,
+            cloudTileBullets: pageData.cloudTileBullets === undefined ? false : pageData.cloudTileBullets,
             tileBullets: pageData.tileBullets === undefined ?
                 tileBulletPageHelper.newTiles() :
                 pageData.tileBullets
@@ -81,12 +83,23 @@ export default class TileBulletPage extends Components.StateManagedComponentType
                     />
                 </div>
                 <hr className='col-12' />
+                <div className='col-lg-2'>
+                    <Checkbox
+                        type='checkbox'
+                        name='cloudTileBullets'
+                        label='Use Clouds for the Bullets'
+                        required
+                        onChange={this.onChange}
+                        value={tileBulletPage.cloudTileBullets}
+                    />
+                </div>
+                <hr className='col-12' />
                 <div className='col-12 no-gutters full-width-buttons'>
                     <SortableTiles
                         ref={x => this.sortableTechnologySections = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
-                        name='technologySections'
-                        label='Technology Sections  '
+                        name='tileBullets'
+                        label='Tile Bullets'
                         clouds={tileBulletPage.tileBullets}
                         newItem={tileBulletPageHelper.newTile()}
                         onChange={this.onChange}

@@ -124,3 +124,9 @@
 #    sync_retry_attempts: 5
 #    sync_retry_interval: 1000
 #    aspnet_core_force_restart: true
+  after_deploy:
+  - ps: >-
+      Invoke-WebRequest -Uri "https://cms.arragro.com" -UseBasicParsing > $null -TimeoutSec 120
+
+      Invoke-WebRequest -Uri "https://arragro.com" -UseBasicParsing > $null -TimeoutSec 120
+    
