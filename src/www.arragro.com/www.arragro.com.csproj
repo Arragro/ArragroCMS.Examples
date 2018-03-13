@@ -6,23 +6,7 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <UserSecretsId>91b0f212-0dc0-4cec-ac6e-cb3f5ea0e26a</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="app\clouds.ts" />
-    <None Remove="app\fa-custom.js" />
-    <None Remove="app\fontawesome.js" />
-    <None Remove="app\landingPage.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="app\fa-custom.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="app\fontawesome.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-170" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
@@ -51,11 +35,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\arragro.com.ContentTypes\arragro.com.ContentTypes.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="app\clouds.ts" />
-    <TypeScriptCompile Include="app\landingPage.ts" />
   </ItemGroup>
 
 </Project>

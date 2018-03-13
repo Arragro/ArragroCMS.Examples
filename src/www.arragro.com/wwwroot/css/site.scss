@@ -365,7 +365,7 @@ header#standardHeader {
 
 #technologies {
     .technology-section {
-        padding: 1rem 0;
+        padding: 1rem 0 2rem 0;
 
         .cloud {
             width: 100%;
@@ -381,7 +381,10 @@ header#standardHeader {
         }
 
         .technology-image img {
+            object-position: 0 0;
+            max-height: 300px;
             width: 100%;
+            object-fit: cover;
         }
     }
 }
