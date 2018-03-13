@@ -1,10 +1,13 @@
 ﻿@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 @import "mixin.scss";
+$headerFontFamily: Muli;
+
 
 body {
-    color: darken($gray, 10%);
+    color: darken($gray, 15%);
     padding-top: 4.8rem;
+    font-family: Muli;
     font-size: 16px;
 }
 
@@ -17,6 +20,7 @@ svg#ArragroLogo {
     padding: 0;
     background-color: lighten($gray, 50%);
     border-bottom: 1px solid lighten($gray, 30%);
+    font-family: $headerFontFamily;
 
     > .container {
         padding: .6rem 0;
@@ -24,7 +28,7 @@ svg#ArragroLogo {
 
     .navbar-brand {
         font-size: 1.8rem;
-        font-weight: 400;
+        font-weight: 600;
         color: $gray;
 
         img {
@@ -45,8 +49,13 @@ svg#ArragroLogo {
 
         &:focus, &:hover, &.active {
             color: $blue;
+            font-weight: 600;
         }
     }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $headerFontFamily;
 }
 
 /*@media (min-width: 1024px) {
