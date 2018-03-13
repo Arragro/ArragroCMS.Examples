@@ -18,12 +18,16 @@ namespace arragro.com.ContentTypes.Pages
         [Required]
         [MaxLength(512)]
         public string IntroMarkdown { get; set; }
-        public bool CloudTileBullets { get; set; }        
+        public bool CloudTileBullets { get; set; }
         public List<Tile> TileBullets { get; set; }
+        public int LeftColumns { get; set; } = 4;
+        public int RightColumns { get; set; } = 8;
 
         public TileBulletPage()
         {
             TileBullets = new List<Tile>();
+            LeftColumns = 4;
+            RightColumns = 8;
         }
 
 

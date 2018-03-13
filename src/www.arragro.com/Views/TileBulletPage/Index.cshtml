@@ -18,10 +18,19 @@
     @foreach (var tileBullet in Model.TileBullets)
     {
         <div class="technology-section row">
-            <div class='col-12 col-lg-6 col-xl-4 align-self-center'>
-                <cloud cloud=tileBullet index=0 />
+            <div class='col-12 col-lg-6 col-xl-@Model.LeftColumns align-self-center'>
+                @if (Model.CloudTileBullets)
+                {
+                    <cloud cloud=tileBullet index=0 />
+                }
+                else
+                {
+                    <div class="technology-image">
+                        <img src="@tileBullet.ImageUrl" alt="@tileBullet.ImageUrlAlt" />
+                    </div>
+                }
             </div>
-            <div class="col-12 col-lg-6 col-xl-8">
+            <div class="col-12 col-lg-6 col-xl-@Model.RightColumns">
                 <h3>@tileBullet.Name</h3>
                 @Html.Raw(CommonMark.CommonMarkConverter.Convert(tileBullet.Markdown.Replace("&#xA;", "\n")))
             </div>

@@ -5,6 +5,8 @@
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <UserSecretsId>d731134e-f4f4-40ed-af50-3322d25e585d</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/b14fc132-f785-4cd4-bb68-dc54a289e92f/resourcegroups/arragro-web/providers/microsoft.insights/components/arragro-cms</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/b14fc132-f785-4cd4-bb68-dc54a289e92f/resourcegroups/arragro-web/providers/microsoft.insights/components/arragro-cms</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,10 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\arragro.com.ContentTypes\arragro.com.ContentTypes.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\dist\dll\" />
   </ItemGroup>
 
 </Project>

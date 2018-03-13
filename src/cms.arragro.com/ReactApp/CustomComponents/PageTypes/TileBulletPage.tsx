@@ -1,4 +1,5 @@
 ﻿import * as React from 'react'
+import * as Formsy from 'formsy-react'
 import * as FRC from 'formsy-react-components'
 import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
 
@@ -31,12 +32,24 @@ const tileBulletPageHelper = {
     }
 }
 
+Formsy.addValidationRule('isCol', (values, value) => {
+    value = parseInt(value);
+    console.log(value)
+    console.log(values)
+    if (typeof value !== 'number') {
+        return false;
+    }
+    return value <= 12;
+});
+
 
 export interface ITileBulletPageState {
     title: string
     introMarkdown: string
     cloudTileBullets: boolean
     tileBullets: Array<ITile>
+    leftColumns: number
+    rightColumns: number
 }
 
 
@@ -56,7 +69,9 @@ export default class TileBulletPage extends Components.StateManagedComponentType
             cloudTileBullets: pageData.cloudTileBullets === undefined ? false : pageData.cloudTileBullets,
             tileBullets: pageData.tileBullets === undefined ?
                 tileBulletPageHelper.newTiles() :
-                pageData.tileBullets
+                pageData.tileBullets,
+            leftColumns: pageData.leftColumns === undefined ? '4' : pageData.leftColumns,
+            rightColumns: pageData.rightColumns === undefined ? '8' : pageData.rightColumns,
         }
 
         return (
@@ -76,7 +91,7 @@ export default class TileBulletPage extends Components.StateManagedComponentType
                     <MarkdownEditor
                         contentDataUrlRouteId={this.props.contentData.urlRouteId}
                         name='introMarkdown'
-                        label='Outro'
+                        label='Intro'
                         value={tileBulletPage.introMarkdown}
                         onChange={this.onChange}
                         showAssetPicker={true}
@@ -107,6 +122,41 @@ export default class TileBulletPage extends Components.StateManagedComponentType
                         useMarkdown={true}
                     />
                 </div>
+                <div className='col-lg-6'>
+                    <Input
+                        type='number'
+                        name='leftColumns'
+                        label='Left Columns'
+                        required
+                        validations={{
+                            isCol: 0
+                        }}
+                        validationErrors={{
+                            isCol: 'Please supply a number <= 12'
+                        }}
+                        onChange={this.onChange}
+                        value={tileBulletPage.leftColumns}
+                    />
+                </div>
+                <hr className='col-12' />
+                <div className='col-lg-6'>
+                    <Input
+                        type='number'
+                        name='rightColumns'
+                        label='Right Columns'
+                        required
+                        validations={{
+                            isCol: 0
+                        }}
+                        validationErrors={{
+                            isCol: 'Please supply a number <= 12'
+                        }}
+                        onChange={this.onChange}
+                        value={tileBulletPage.rightColumns}
+
+                    />
+                </div>
+                <hr className='col-12' />
             </div>
         )
     }
