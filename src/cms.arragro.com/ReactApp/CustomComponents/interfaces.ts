@@ -19,6 +19,14 @@ export interface ITile extends IItemType {
     cssClass: string
 }
 
+export interface IContact extends IItemType {
+    title: string
+    name: string
+    phoneNumber: string
+    gravitar: string
+    bio: string
+}
+
 export interface IRandomCarousel {
     carousels: Array<ICarousel>
 }
