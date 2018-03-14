@@ -215,10 +215,10 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                         onChange={this.onChange}
                         value={contactPage.latitude}
                         validations={{
-                            maxLength: 10
+                            maxLength: 15
                         }}
                         validationErrors={{
-                            maxLength: 'There is a 10 character limit to this field'
+                            maxLength: 'There is a 15 character limit to this field'
                         }}
                     />
                 </div>
@@ -230,10 +230,10 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                         onChange={this.onChange}
                         value={contactPage.longitude}
                         validations={{
-                            maxLength: 10
+                            maxLength: 15
                         }}
                         validationErrors={{
-                            maxLength: 'There is a 10 character limit to this field'
+                            maxLength: 'There is a 15 character limit to this field'
                         }}
                     />
                 </div>

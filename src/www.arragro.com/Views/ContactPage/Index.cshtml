@@ -1,0 +1,74 @@
+﻿@model arragro.com.ContentTypes.Pages.ContactPage
+@{
+    Layout = ViewBag.Layout;
+}
+
+@section header {
+    <standard-header title='Contact' />
+}
+
+<div id="contact">
+    <div id="intro" class="container d-flex justify-content-center">
+        <div class="col-12 col-md-12 col-lg-11 col-xl-12">
+            @*<h3>@Model.Title</h3>*@
+            <markdown markdown=@Model.MarkdownIntro></markdown>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div>@Model.AddressLine1</div>
+                <div>@Model.AddressLine2</div>
+                <div>@Model.City</div>
+                <div>@Model.District</div>
+                <div>@Model.Country</div>
+                <div>@Model.PostCode</div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div id="map" style="height:100%;width:100%;"></div>
+                <div>@Model.Latitude @Model.Longitude</div>
+                <div>@Model.GoogleMapStyleJson</div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="contact-section row align-center">
+            @foreach (var contact in Model.Contacts)
+            {
+                <div class='col-12 col-md-4'>
+                    @if (!string.IsNullOrEmpty(contact.Gravitar))
+                    {
+                        <div class="technology-image">
+                            <img src="@contact.Gravitar" alt="@contact.Title" />
+                        </div>
+                    }
+                    <h3>@contact.Name</h3>
+                    <div>@contact.PhoneNumber</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        function initMap() {
+            var uluru = { lat: @Model.Latitude, lng: @Model.Longitude };
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 14,
+                center: uluru,
+                styles: @Html.Raw(Model.GoogleMapStyleJson)
+            });
+
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
+        }
+    </script>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHp7Y96FhOI_v5pxoorJZ3VuIrQ6vVP_c&callback=initMap">
+    </script>
+}
