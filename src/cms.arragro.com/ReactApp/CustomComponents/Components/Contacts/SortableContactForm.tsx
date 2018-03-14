@@ -73,6 +73,23 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
                 maxLength: 'There is a 20 character limit to this field.'
             }}
         />
+        
+        <Input
+            type='text'
+            name='email'
+            label='Email'
+            onChange={this.onChange}
+            value={props.item.email}
+            validations={{
+                isEmail: 1,
+                maxLength: 100,
+
+            }}
+            validationErrors={{
+                isEmail: 'Please supply a valid Email Address',
+                maxLength: 'There is a 100 character limit to this field'
+            }}
+        />
 
         <Components.AssetPicker
             name='gravitar'

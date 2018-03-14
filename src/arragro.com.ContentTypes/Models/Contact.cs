@@ -13,6 +13,10 @@ namespace arragro.com.ContentTypes.Models
         [MaxLength(20)]
         [Phone]
         public string PhoneNumber { get; set; }
+        [Required]
+        [MaxLength(100)]
+        [EmailAddress]
+        public string Email { get; set; }
         [MaxLength(2000)]
         public string Gravitar { get; set; }
 

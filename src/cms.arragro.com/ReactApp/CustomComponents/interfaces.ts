@@ -23,6 +23,7 @@ export interface IContact extends IItemType {
     title: string
     name: string
     phoneNumber: string
+    email: string
     gravitar: string
     bio: string
 }
