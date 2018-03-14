@@ -101,7 +101,10 @@
 
 @Html.Partial("TechnologyClouds", Model)
 
-@Html.Partial("ContactForm", new ContactForm())
+@if (Model.HasContactForm)
+{
+    @Html.Partial("ContactForm", new ContactForm())
+}
 
 @section scripts {
     <google-recaptcha-client></google-recaptcha-client>

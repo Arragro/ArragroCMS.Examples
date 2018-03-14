@@ -9,7 +9,7 @@ import SortableCloudBannerTexts from '../Components/CloudBannerTexts/SortableClo
 import SortableSvgIcons from '../Components/SvgIconLinks/SortableSvgIcons'
 import MarkdownEditor from '../MarkdownEditor'
 
-const { Input, Textarea } = FRC
+const { Input, Checkbox } = FRC
 
 const landingPageHelper = {
     newTile: (): ITile => {
@@ -62,6 +62,7 @@ export interface ILandingPageState {
     technologyClouds: Array<ITile>
     technologyMarkdown: string
     markdownOutro: string
+    hasContactForm: boolean
 }
 
 
@@ -108,7 +109,10 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 pageData.technologyMarkdown,
             markdownOutro: pageData.markdownOutro === undefined ?
                 '' :
-                pageData.markdownOutro
+                pageData.markdownOutro,
+            hasContactForm: pageData.hasContactForm === undefined ?
+                false :
+                pageData.hasContactForm
         }
 
         return (
@@ -235,6 +239,15 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                         value={landingPage.markdownOutro}
                         onChange={this.onChange}
                         showAssetPicker={true}
+                    />
+                </div>
+                <hr className='col-12' />
+                <div className='col-12 no-gutters'>
+                    <Checkbox
+                        name='hasContactForm'
+                        label='Has Contact Form'
+                        onChange={this.onChange}
+                        value={landingPage.hasContactForm}
                     />
                 </div>
             </div>

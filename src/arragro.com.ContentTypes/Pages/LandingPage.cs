@@ -23,6 +23,7 @@ namespace arragro.com.ContentTypes.Pages
         public List<Tile> TechnologyClouds { get; set; }
         public string TechnologyMarkdown { get; set; }
         public string MarkdownOutro { get; set; }
+        public bool HasContactForm { get; set; }
 
         public LandingPage()
         {
