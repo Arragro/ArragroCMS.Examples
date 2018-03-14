@@ -29,6 +29,10 @@ namespace arragro.com.ContentTypes.Pages
         [MaxLength(20)]
         [Phone]
         public string OfficeTelephone { get; set; }
+        [Required]
+        [MaxLength(100)]
+        [EmailAddress]
+        public string OfficeEmail { get; set; }
 
         public List<Contact> Contacts { get; set; }
 

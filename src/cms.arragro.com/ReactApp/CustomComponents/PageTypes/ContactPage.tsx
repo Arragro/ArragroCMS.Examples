@@ -44,6 +44,7 @@ export interface IContactPageState {
     country: string
     postCode: string
     officeTelephone: string
+    officeEmail: string
     contacts: Array<IContact>
     latitude: number
     longitude: number
@@ -72,6 +73,7 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
             country: helpers.makeNullEmptyString(pageData.country),
             postCode: helpers.makeNullEmptyString(pageData.postCode),
             officeTelephone: helpers.makeNullEmptyString(pageData.officeTelephone),
+            officeEmail: helpers.makeNullEmptyString(pageData.officeEmail),
             contacts: pageData.contacts === undefined ? [] : pageData.contacts,
             latitude: pageData.latitude === undefined ? '0.00' :
                 pageData.latitude.toString().split('.').length === 1 ? `${pageData.latitude}.00` : pageData.latitude,
@@ -180,7 +182,7 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                 </div>
                 <div className='col-lg-6'>
                     <Input
-                        type='number'
+                        type='text'
                         name='officeTelephone'
                         label='Office Telephone'
                         onChange={this.onChange}
@@ -190,6 +192,24 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                         }}
                         validationErrors={{
                             maxLength: 'There is a 20 character limit to this field'
+                        }}
+                    />
+                </div>
+                <div className='col-lg-6'>
+                    <Input
+                        type='text'
+                        name='officeEmail'
+                        label='Office Email'
+                        onChange={this.onChange}
+                        value={contactPage.officeEmail}
+                        validations={{
+                            isEmail: 1,
+                            maxLength: 100,
+
+                        }}
+                        validationErrors={{
+                            isEmail: 'Please supply a valid Email Address',
+                            maxLength: 'There is a 100 character limit to this field'
                         }}
                     />
                 </div>
