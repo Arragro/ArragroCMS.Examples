@@ -25,6 +25,7 @@ const contactPageHelper = {
             title: '',
             name: '',
             phoneNumber: '',
+            email: '',
             gravitar: '',
             bio: ''
         }
