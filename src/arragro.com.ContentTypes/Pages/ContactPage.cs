@@ -42,6 +42,8 @@ namespace arragro.com.ContentTypes.Pages
         [MaxLength(2000)]
         public string MarkdownOutro { get; set; }
 
+        public bool HasContactForm { get; set; }
+
         public ContactPage()
         {
             Contacts = new List<Contact>();
