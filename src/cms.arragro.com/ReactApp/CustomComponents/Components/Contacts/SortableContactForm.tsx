@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as Formsy from 'formsy-react'
 import * as FRC from 'formsy-react-components'
 import * as ReactSortableHOC from 'react-sortable-hoc'
-import { Components } from 'arragrocms-management'
+import { Components, helpers } from 'arragrocms-management'
 
 import MarkdownEditor from '../../MarkdownEditor'
 import { IContact } from '../../interfaces'
@@ -34,7 +34,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             name='title'
             label='Title'
             onChange={props.onChange}
-            value={props.item.title}
+            value={helpers.makeNullEmptyString(props.item.title)}
             required
             validations={{
                 maxLength: 100
@@ -49,7 +49,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             name='name'
             label='Name'
             onChange={props.onChange}
-            value={props.item.name}
+            value={helpers.makeNullEmptyString(props.item.name)}
             required
             validations={{
                 maxLength: 100
@@ -64,7 +64,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             name='phoneNumber'
             label='Phone Number'
             onChange={props.onChange}
-            value={props.item.phoneNumber}
+            value={helpers.makeNullEmptyString(props.item.phoneNumber)}
             required
             validations={{
                 maxLength: 20
@@ -78,8 +78,8 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             type='text'
             name='email'
             label='Email'
-            onChange={this.onChange}
-            value={props.item.email}
+            onChange={props.onChange}
+            value={helpers.makeNullEmptyString(props.item.email)}
             validations={{
                 isEmail: 1,
                 maxLength: 100,
@@ -108,8 +108,8 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             contentDataUrlRouteId={props.contentUrlRouteId}
             name='bio'
             label='Bio'
-            value={props.item.bio}
-            onChange={this.onChange}
+            value={helpers.makeNullEmptyString(props.item.bio)}
+            onChange={props.onChange}
             showAssetPicker={true}
         />
 

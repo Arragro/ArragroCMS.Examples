@@ -234,7 +234,7 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                         name='latitude'
                         label='Latitude'
                         onChange={this.onChange}
-                        value={contactPage.latitude}
+                        value={contactPage.latitude.toString()}
                         validations={{
                             maxLength: 15
                         }}
@@ -249,7 +249,7 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                         name='longitude'
                         label='Longitude'
                         onChange={this.onChange}
-                        value={contactPage.longitude}
+                        value={contactPage.longitude.toString()}
                         validations={{
                             maxLength: 15
                         }}
