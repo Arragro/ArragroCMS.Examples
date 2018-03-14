@@ -13,7 +13,7 @@ import MarkdownEditor from '../MarkdownEditor'
 const { Input} = FRC
 
 export interface IRedirectPageState {
-    redirect: string
+    redirectUrl: string
 }
 
 validationRules.LoadCustomValidationRules()
@@ -29,7 +29,7 @@ export default class RedirectPage extends Components.StateManagedComponentTypeBa
         
         const pageData = this.props.contentData.contentJson[this.props.culture] as IRedirectPageState
         const tileBulletPage = {
-            redirect: pageData.redirect === undefined ? '' : pageData.redirect
+            redirectUrl: pageData.redirectUrl === undefined ? '' : pageData.redirectUrl
         }
 
         return (
@@ -47,7 +47,7 @@ export default class RedirectPage extends Components.StateManagedComponentTypeBa
                         }}
                         required
                         onChange={this.onChange}
-                        value={tileBulletPage.redirect}
+                        value={tileBulletPage.redirectUrl}
                     />
                 </div>
             </div>
