@@ -37,8 +37,8 @@ export default class RedirectPage extends Components.StateManagedComponentTypeBa
                 <div className='col-lg-6'>
                     <Input
                         type='text'
-                        name='redirect'
-                        label='Redirect'
+                        name='redirectUrl'
+                        label='Redirect Url'
                         validations={{
                             isValidUrl: 0
                         }}
