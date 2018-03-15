@@ -455,8 +455,16 @@ header#standardHeader {
             height: 50vh;
         }
 
+        @media (orientation: landscape) and (min-height: 800px) and (min-width: 768px) {
+            height: 40vh;
+        }
+
         @media (orientation: portrait) and (min-width:375px) {
             height: 135vh;
+        }
+
+        @media (orientation: portrait) and (min-width:412px) {
+            height: 125vh;
         }
 
         @media (orientation: portrait) and (min-width:375px) and (min-height: 812px) {
@@ -467,12 +475,20 @@ header#standardHeader {
             height: 125vh;
         }
 
+        @media (orientation: portrait) and (min-width:700px) and (min-height: 1200px) {
+            height: 65vh;
+        }
+
         @media (orientation: portrait) and (min-width:768px) and (min-height: 1024px) {
             height: 50vh;
         }
 
-        @media (orientation: landscape) and (min-height:768px) and (min-width: 1024px) {
-            height: 40vh;
+        @media (orientation: portrait) and (min-width:768px) and (min-height: 1280px) {
+            height: 30vh;
+        }
+
+        @media (orientation: portrait) and (min-width: 1024px) {
+            height: 25vh;
         }
 
         h3, h4, h5 {
@@ -492,13 +508,7 @@ header#standardHeader {
             }
         }
 
-        @media (orientation: portrait) and (min-width: 1024px) {
-            height: 25vh;
-        }
-
-        @media (orientation: landscape) and (min-height: 800px) and (min-width: 768px) {
-            height: 40vh;
-
+        @media (min-height: 800px) and (min-width: 768px) {
             .location {
                 h5:first-child {
                     margin-top: 1rem;
@@ -539,7 +549,7 @@ header#standardHeader {
                 height: 100%;
 
                 .pt-5 {
-                    padding-top: 3rem !important;
+                    padding-top: 2rem !important;
                 }
             }
 
