@@ -12,6 +12,9 @@ import './fa-custom'
 
 $(document).ready(function () {
 
+    $(window).scroll(function () {
+        $("body, .navbar").toggleClass("navbar-shrink", $(this).scrollTop() > 50)
+    })
 
     function initClouds() {
         processStartClouds($('header .starting-clouds div[class^="cloud-wrapper-"]'), 1)
