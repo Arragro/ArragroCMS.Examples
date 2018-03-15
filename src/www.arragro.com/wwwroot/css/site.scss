@@ -463,10 +463,6 @@ header#standardHeader {
             height: 115vh;
         }
 
-        @media (orientation: portrait) and (min-width:414px) and (min-height: 400px) {
-            height: 65vh;
-        }
-
         @media (orientation: portrait) and (min-width:414px) and (min-height: 736px) {
             height: 125vh;
         }
