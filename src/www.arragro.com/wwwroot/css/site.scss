@@ -327,7 +327,17 @@ header#errorPageHeader {
 
 header#standardHeader {
     @include header();
-    height: 150px;
+    height: 100px;
+
+    @include overrideHeaderMediaQueries(150px);
+
+    @media (orientation: landscape) and (max-width: 812px) {
+        height: 100px;
+    }
+
+    @media (orientation: portrait) and (min-width: 736px) {
+        height: 150px;
+    }
 
     .background-wrap {
         .starting-clouds {
@@ -349,7 +359,7 @@ header#standardHeader {
             font-size: 2vh;
 
             h1 {
-                font-size: 2.3em;
+                font-size: 2.3rem;
                 margin-top: 0rem;
                 text-shadow: 2px 2px 8px darken($blue, 50%);
                 z-index: 50;
@@ -368,8 +378,6 @@ header#standardHeader {
             height: 100px;
         }
     }
-
-    @include overrideHeaderMediaQueries(150px);
 }
 
 #technologies {
@@ -394,6 +402,137 @@ header#standardHeader {
             max-height: 300px;
             width: 100%;
             object-fit: cover;
+        }
+    }
+}
+
+#contact {
+    .contact-container {
+        position: relative;
+        height: 140vh;
+        font-size: 1rem;
+
+        @media (orientation: landscape) and (min-width:412px) {
+            height: 245vh;
+        }
+
+        @media (orientation: landscape) and (min-width:650px) {
+            height: 235vh;
+        }
+
+        @media (orientation: landscape) and (min-width:700px) {
+            height: 218vh;
+        }
+
+        @media (orientation: landscape) and (min-width:800px) and (min-height:375px) {
+            height: 120vh;
+        }
+
+        @media (orientation: landscape) and (min-width:800px) and (min-height:500px) {
+            height: 50vh;
+        }
+
+        @media (orientation: portrait) and (min-width:375px) {
+            height: 115vh;
+        }
+
+        @media (orientation: portrait) and (min-width:414px) and (min-height: 400px) {
+            height: 65vh;
+        }
+
+        @media (orientation: portrait) and (min-width:768px) and (min-height: 1024px) {
+            height: 50vh;
+        }
+
+        @media (orientation: landscape) and (min-height:768px) and (min-width: 1024px) {
+            height: 40vh;
+        }
+
+        h3, h4, h5 {
+            color: darken($blue, 8%);
+            margin-top: 1rem;
+        }
+
+        .location {
+            h5:first-child {
+                margin-top: 0;
+            }
+        }
+
+        .contact-section {
+            h5 {
+                margin-top: 1rem;
+            }
+        }
+
+        @media (orientation: portrait) and (min-width: 1024px) {
+            height: 25vh;
+        }
+
+        @media (orientation: landscape) and (min-height: 800px) and (min-width: 768px) {
+            height: 40vh;
+
+            .location {
+                h5:first-child {
+                    margin-top: 1rem;
+                }
+            }
+        }
+
+        .map-container, contact-container {
+            width: 100%;
+            top: 0;
+        }
+
+        .map-container {
+            height: 50%;
+
+            .row, [class^='col-']:last-child {
+                height: 100%;
+            }
+
+            @media (min-width: 768px) {
+                height: 100%;
+                position: absolute;
+            }
+        }
+
+        .contact-details {
+            height: 50%;
+
+            .location, .contact-details {
+                width: 100%;
+            }
+
+            .pt-5 {
+                padding-top: 1rem !important;
+            }
+
+            @media (min-width: 768px) {
+                height: 100%;
+
+                .pt-5 {
+                    padding-top: 3rem !important;
+                }
+            }
+
+            @media (orientation: landscape) and (min-width: 768px) and (min-height: 1180px) {
+                .contact-section {
+                    padding-top: 1rem;
+                }
+            }
+
+            @media (orientation: landscape) and (max-width: 812px) {
+                .pt-5 {
+                    padding-top: 1rem !important;
+                }
+            }
+
+            @media (orientation: landscape) and (max-width: 768px) {
+                .pt-5 {
+                    padding-top: 1rem !important;
+                }
+            }
         }
     }
 }
