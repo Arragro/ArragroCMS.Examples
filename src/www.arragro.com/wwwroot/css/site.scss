@@ -433,11 +433,19 @@ header#standardHeader {
         }
 
         @media (orientation: portrait) and (min-width:375px) {
+            height: 135vh;
+        }
+
+        @media (orientation: portrait) and (min-width:375px) and (min-height: 812px) {
             height: 115vh;
         }
 
         @media (orientation: portrait) and (min-width:414px) and (min-height: 400px) {
             height: 65vh;
+        }
+
+        @media (orientation: portrait) and (min-width:414px) and (min-height: 736px) {
+            height: 125vh;
         }
 
         @media (orientation: portrait) and (min-width:768px) and (min-height: 1024px) {
