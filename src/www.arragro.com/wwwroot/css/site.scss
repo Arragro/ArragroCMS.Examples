@@ -435,44 +435,62 @@ header#standardHeader {
         height: 140vh;
         font-size: 1rem;
 
-        @media (orientation: landscape) and (min-width:412px) {
+        @media (orientation: landscape) and (min-device-width:412px) {
             height: 245vh;
         }
 
-        @media (orientation: landscape) and (min-width:650px) {
+        @media (orientation: landscape) and (min-device-width:650px) {
             height: 235vh;
         }
 
-        @media (orientation: landscape) and (min-width:700px) {
+        @media (orientation: landscape) and (min-device-width:700px) {
             height: 218vh;
         }
 
-        @media (orientation: landscape) and (min-width:800px) and (min-height:375px) {
+        @media (orientation: landscape) and (min-device-width:800px) and (min-height:375px) {
             height: 120vh;
         }
 
-        @media (orientation: landscape) and (min-width:800px) and (min-height:500px) {
+        @media (orientation: landscape) and (min-device-width:800px) and (min-height:500px) {
             height: 50vh;
         }
 
-        @media (orientation: portrait) and (min-width:375px) {
+        @media (orientation: landscape) and (min-device-height: 800px) and (min-width: 768px) {
+            height: 40vh;
+        }
+
+        @media (orientation: portrait) and (min-device-height:641px) {
             height: 135vh;
         }
 
-        @media (orientation: portrait) and (min-width:375px) and (min-height: 812px) {
-            height: 115vh;
-        }
-
-        @media (orientation: portrait) and (min-width:414px) and (min-height: 736px) {
+        @media (orientation: portrait) and (min-device-height:700px) {
             height: 125vh;
         }
 
-        @media (orientation: portrait) and (min-width:768px) and (min-height: 1024px) {
+        @media (orientation: portrait) and (min-device-height: 736px) {
+            height: 125vh;
+        }
+
+        @media (orientation: portrait) and (min-device-height: 812px) {
+            height: 115vh;
+            max-height: 520px
+        }
+
+        @media (orientation: portrait) and (min-device-height: 1020px) {
             height: 50vh;
         }
 
-        @media (orientation: landscape) and (min-height:768px) and (min-width: 1024px) {
-            height: 40vh;
+        @media (orientation: portrait) and (min-device-height: 1200px) {
+            height: 65vh;
+        }
+
+        @media (orientation: portrait) and (min-device-height: 1280px) {
+            height: 25vh;
+        }
+
+        @media (orientation: portrait) and (min-device-height: 1380px) {
+            height: 65vh;
+            max-height: 520px
         }
 
         h3, h4, h5 {
@@ -492,13 +510,7 @@ header#standardHeader {
             }
         }
 
-        @media (orientation: portrait) and (min-width: 1024px) {
-            height: 25vh;
-        }
-
-        @media (orientation: landscape) and (min-height: 800px) and (min-width: 768px) {
-            height: 40vh;
-
+        @media (min-height: 800px) and (min-width: 768px) {
             .location {
                 h5:first-child {
                     margin-top: 1rem;
@@ -539,7 +551,7 @@ header#standardHeader {
                 height: 100%;
 
                 .pt-5 {
-                    padding-top: 3rem !important;
+                    padding-top: 2rem !important;
                 }
             }
 
