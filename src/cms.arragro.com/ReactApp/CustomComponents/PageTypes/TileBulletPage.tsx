@@ -75,7 +75,7 @@ export default class TileBulletPage extends Components.StateManagedComponentType
         }
 
         return (
-            <div className='row no-gutters col-12'>
+            <div className='row col-12'>
                 <div className='col-lg-6'>
                     <Input
                         type='text'
@@ -108,7 +108,7 @@ export default class TileBulletPage extends Components.StateManagedComponentType
                     />
                 </div>
                 <hr className='col-12' />
-                <div className='col-12 no-gutters full-width-buttons'>
+                <div className='col-12 col-lg-6 no-gutters full-width-buttons'>
                     <SortableTiles
                         ref={x => this.sortableTechnologySections = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
@@ -122,7 +122,8 @@ export default class TileBulletPage extends Components.StateManagedComponentType
                         useMarkdown={true}
                     />
                 </div>
-                <div className='col-lg-6'>
+                <hr className='col-12' />
+                <div className='col-6 col-lg-3'>
                     <Input
                         type='number'
                         name='leftColumns'
@@ -138,8 +139,7 @@ export default class TileBulletPage extends Components.StateManagedComponentType
                         value={tileBulletPage.leftColumns}
                     />
                 </div>
-                <hr className='col-12' />
-                <div className='col-lg-6'>
+                <div className='col-6 col-lg-3'>
                     <Input
                         type='number'
                         name='rightColumns'
@@ -156,7 +156,6 @@ export default class TileBulletPage extends Components.StateManagedComponentType
 
                     />
                 </div>
-                <hr className='col-12' />
             </div>
         )
     }
