@@ -25,10 +25,6 @@ export default class SortableClouds extends React.Component<SortableCloudsProps>
     sortableItems: Components.SortableItems<ICloudBannerText>
 
     getItemHeader = (item: ICloudBannerText) => {
-        return null
-    }
-
-    getItemDetails = (item: ICloudBannerText) => {        
         return <ReactMarkdown source={item.markdown} escapeHtml={false} />
     }
     
@@ -51,7 +47,6 @@ export default class SortableClouds extends React.Component<SortableCloudsProps>
                     newItem={this.props.newItem}
                     getName={(item: ICloudBannerText) => ''}
                     getItemHeader={this.getItemHeader}
-                    getItemDetails={this.getItemDetails}
                     getForm={this.getForm}
                     onChange={this.props.onChange}
                 />;

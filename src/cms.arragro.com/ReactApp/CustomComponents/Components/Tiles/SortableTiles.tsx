@@ -35,10 +35,6 @@ export default class SortableTiles extends React.Component<SortableTilesProps> {
         }
         return null
     }
-
-    getItemDetails = (item: ITile) => {
-        return <img src={item.imageUrl} alt={item.imageAlt} />
-    }
     
     getForm = (index: number, item: ITile, onChange: (name, value) => void) => {
         return <SortableTileForm        
@@ -61,7 +57,6 @@ export default class SortableTiles extends React.Component<SortableTilesProps> {
             newItem={this.props.newItem}
             getName={(item: ITile) => item.name}
             getItemHeader={this.getItemHeader}
-            getItemDetails={this.getItemDetails}
             getForm={this.getForm}
             onChange={this.props.onChange}
             maxNumberOfItems={this.props.maxClouds}

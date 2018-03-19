@@ -49,7 +49,6 @@ export default class SortableCarousel extends React.Component<SortableListProps<
                     newItem={this.props.newItem}
                     getName={(item: ISvgIconLink) => item.title}
                     getItemHeader={this.getItemHeader}
-                    getItemDetails={() => null}
                     getForm={this.getForm}
                     onChange={this.props.onChange}
                 />;

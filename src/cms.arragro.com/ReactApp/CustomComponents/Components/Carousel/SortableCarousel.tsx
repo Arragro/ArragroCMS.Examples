@@ -39,15 +39,6 @@ export default class SortableCarousel extends React.Component<SortableListProps,
         }
         return null
     }
-
-    getItemDetails = (item: ICarousel) => {
-        if (item.imageUrl &&
-            item.imageUrl !== null &&
-            item.imageUrl.length > 0) {
-            return <img src={item.imageUrl} alt={item.imageAlt} />
-        }
-        return null
-    }
     
     getForm = (index: number, item: ICarousel, onChange: (name, value) => void) => {
         return <SortableCarouselForm        
@@ -69,7 +60,6 @@ export default class SortableCarousel extends React.Component<SortableListProps,
                     newItem={this.props.newItem}
                     getName={(item: ICarousel) => item.name}
                     getItemHeader={this.getItemHeader}
-                    getItemDetails={this.getItemDetails}
                     getForm={this.getForm}
                     onChange={this.props.onChange}
                 />;

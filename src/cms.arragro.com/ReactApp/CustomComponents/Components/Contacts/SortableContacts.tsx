@@ -33,13 +33,6 @@ export default class SortableContacts extends React.Component<SortableContactsPr
         }
         return null
     }
-
-    getItemDetails = (item: IContact) => {
-        if (item.gravitar !== null && item.gravitar.length > 0) {
-            return <img src={item.gravitar} alt={item.name} />
-        }
-        return null
-    }
     
     getForm = (index: number, item: IContact, onChange: (name, value) => void) => {
         return <SortableContactForm        
@@ -60,7 +53,6 @@ export default class SortableContacts extends React.Component<SortableContactsPr
             newItem={this.props.newItem}
             getName={(item: IContact) => item.name}
             getItemHeader={this.getItemHeader}
-            getItemDetails={this.getItemDetails}
             getForm={this.getForm}
             onChange={this.props.onChange}
             maxNumberOfItems={this.props.maxContacts}

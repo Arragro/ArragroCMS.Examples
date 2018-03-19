@@ -128,7 +128,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                     />
                 </div>
                 <hr className='col-12' />
-                <div className='col-12 no-gutters full-width-buttons'>
+                <div className='col-12 col-lg-6 no-gutters'>
                     <SortableTiles
                         ref={x => this.sortableStartingClouds = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
@@ -143,7 +143,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                     />
                 </div>
                 <hr className='col-12' />
-                <div className='col-12 no-gutters full-width-buttons'>
+                <div className='col-12 col-lg-6 no-gutters'>
                     <SortableTiles
                         ref={x => this.sortableInfiniteClouds = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
@@ -157,7 +157,8 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                         useMarkdown={false}
                     />
                 </div>
-                <div className='col-12 no-gutters full-width-buttons'>
+                <hr className='col-12' />
+                <div className='col-12 col-lg-6 no-gutters'>
                     <SortableCloudBannerTexts
                         ref={x => this.sortableCloudBannerTexts = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
@@ -179,7 +180,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                     />
                 </div>
                 <hr className='col-12' />
-                <div className='col-12 no-gutters full-width-buttons'>
+                <div className='col-12 col-lg-6 no-gutters'>
                     <SortableSvgIcons
                         ref={x => this.sortableSvgIcons = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
@@ -190,7 +191,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                     />
                 </div>
                 <hr className='col-12' />
-                <div className='col-12 no-gutters full-width-buttons'>
+                <div className='col-12 col-lg-6 no-gutters'>
                     <SortableTiles
                         ref={x => this.sortableWhatWeveDones = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
@@ -205,7 +206,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                     />
                 </div>
                 <hr className='col-12' />
-                <div className='col-12 no-gutters full-width-buttons'>
+                <div className='col-12 col-lg-6 no-gutters'>
                     <SortableTiles
                         ref={x => this.sortableTechnologyClouds = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}

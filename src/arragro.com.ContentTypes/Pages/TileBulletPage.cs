@@ -16,7 +16,7 @@ namespace arragro.com.ContentTypes.Pages
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(512)]
+        [MaxLength(4000)]
         public string IntroMarkdown { get; set; }
         public bool CloudTileBullets { get; set; }
         public List<Tile> TileBullets { get; set; }
