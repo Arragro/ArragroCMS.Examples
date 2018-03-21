@@ -31,7 +31,7 @@ div#intro {
     padding: 2.5rem 0;
     // border-bottom: 1px solid $lightGray;
 
-    h3 {
+    h1,h2,h3 {
         text-align: center;
     }
 
@@ -42,31 +42,28 @@ div#services {
     padding-top: 3rem;
     // background-color: $lighterGray;
     // border-bottom: 1px solid $lightGray;
-    a {
-        color: $gray;
 
-        .service-svg {
-            font-size: 3em;
+    .service-svg {
+        font-size: 3em;
 
-            svg {
-                @include transform-nav();
+        svg {
+            @include transform-nav();
 
-                &.fa-circle {
-                    color: $blue;
-                }
-            }
-        }
-
-        &:focus, &:hover {
-            //color: $blue;
-            fill: $blue;
-            text-decoration: none;
-
-            svg {
-                @include transform-nav-grow(1.2);
+            &.fa-circle {
+                color: $blue;
             }
         }
     }
+
+    /*&:focus, &:hover {
+        //color: $blue;
+        fill: $blue;
+        text-decoration: none;
+
+        svg {
+            @include transform-nav-grow(1.2);
+        }
+    }*/
 
     div[class^='col'] {
         //max-height: 500px;
@@ -127,7 +124,7 @@ div#whatWeveDone {
 
     .what-weve-done-markdown {
         padding-top: 1rem;
-        text-align: justify;
+        text-align: center;
     }
 }
 

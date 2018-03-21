@@ -5,8 +5,6 @@
     <header id="landingPageHeader">
         <div class="background-wrap">
 
-            <clouds clouds=Model.StartingClouds class-name="starting-clouds" />
-
             <div class="sun">
                 <div class="ray-box">
                     <div class="ray ray1"></div>
@@ -22,9 +20,10 @@
                 </div>
             </div>
 
-            <clouds clouds=Model.InfiniteClouds class-name="infinite-clouds" />
 
             <cloud-banner-text cloud-banner-texts=Model.CloudBannerTexts class-name="banner-text" interval=6000 />
+
+            <clouds starting-clouds=Model.StartingClouds infinite-clouds=Model.InfiniteClouds class-name="infinite-clouds" />
 
             <div class="look-down">
                 <div class="fa-2x"><i class="fal fa-chevron-circle-down"></i></div>
@@ -53,14 +52,12 @@
                 @foreach (var service in Model.SvgIconLinksServices)
                 {
                     <div class="col-xl-3 col-sm-6 col-12">
-                        <a href="@service.Href">
-                            <div class="service-svg">
-                                <span class="fa-layers fa-fw">
-                                    <i class="fas fa-circle" data-fa-transform="grow-20"></i>
-                                    <i class="@service.Svg fa-inverse" data-fa-transform="grow-4"></i>
-                                </span>
-                            </div>
-                        </a>
+                        <div class="service-svg">
+                            <span class="fa-layers fa-fw">
+                                <i class="fas fa-circle" data-fa-transform="grow-20"></i>
+                                <i class="@service.Svg fa-inverse" data-fa-transform="grow-4"></i>
+                            </span>
+                        </div>
                         <div class="service-markdown">
                             <h5>@service.Title</h5>
                             <markdown markdown=@service.Markdown></markdown>

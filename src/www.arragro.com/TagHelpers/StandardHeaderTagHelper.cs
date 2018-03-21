@@ -9,10 +9,9 @@ namespace www.arragro.com.TagHelpers
         public string Title { get; set; }
         public string CloudSrc { get; set; } = "/images/svgs/cloud-shadow.svg";
 
-        private TagBuilder GetClouds(string className, int count)
+        private TagBuilder GetClouds(int count, bool starting = false)
         {
-            var startingClouds = new TagBuilder("div");
-            startingClouds.AddCssClass(className);
+            var clouds = new TagBuilder("div");
 
             for (var i = 0; i < count; i++)
             {
@@ -21,6 +20,8 @@ namespace www.arragro.com.TagHelpers
                     var cloudClassName = $"cloud-wrapper-{i + 1}";
                     var tagBuilder = new TagBuilder("div");
                     tagBuilder.Attributes.Add("class", cloudClassName);
+                    if (starting)
+                        tagBuilder.AddCssClass("start");
 
                     tagBuilder.InnerHtml.AppendHtml($@"
 <div class='cloud-{i + 1}'>
@@ -30,11 +31,11 @@ namespace www.arragro.com.TagHelpers
 </div>");
                     tagBuilder.TagRenderMode = TagRenderMode.Normal;
 
-                    startingClouds.InnerHtml.AppendHtml(tagBuilder);
+                    clouds.InnerHtml.AppendHtml(tagBuilder);
                 }
             }
 
-            return startingClouds;
+            return clouds;
         }
 
         public TagBuilder GetTitle()
@@ -56,8 +57,12 @@ namespace www.arragro.com.TagHelpers
             var tagBuilder = new TagBuilder("div");
             tagBuilder.AddCssClass("background-wrap");
 
-            tagBuilder.InnerHtml.AppendHtml(GetClouds("starting-clouds", 4));
-            tagBuilder.InnerHtml.AppendHtml(GetClouds("infinite-clouds", 6));
+            var infiniteClouds = new TagBuilder("div");
+            infiniteClouds.AddCssClass("infinite-clouds");
+
+            infiniteClouds.InnerHtml.AppendHtml(GetClouds(4, true));
+            infiniteClouds.InnerHtml.AppendHtml(GetClouds(6));
+            tagBuilder.InnerHtml.AppendHtml(infiniteClouds);
             tagBuilder.InnerHtml.AppendHtml(GetTitle());
 
             tagBuilder.TagRenderMode = TagRenderMode.Normal;

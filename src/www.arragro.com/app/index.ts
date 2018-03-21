@@ -17,8 +17,8 @@ $(document).ready(function () {
     })
 
     function initClouds() {
-        processStartClouds($('header .starting-clouds div[class^="cloud-wrapper-"]'), 1)
-        processInfiniteClouds($('header .infinite-clouds div[class^="cloud-wrapper-"]'))
+        processStartClouds($('header .infinite-clouds .start'), 1)
+        processInfiniteClouds($('header .infinite-clouds [class^="cloud-wrapper-"]'))
     }
 
     initClouds()

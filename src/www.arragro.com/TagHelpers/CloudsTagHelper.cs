@@ -9,37 +9,43 @@ namespace www.arragro.com.TagHelpers
 {
     public class CloudsTagHelper : TagHelper
     {
-        public List<Tile> Clouds { get; set; }
+        public List<Tile> StartingClouds { get; set; }
+        public List<Tile> InfiniteClouds { get; set; }
         public string ClassName { get; set; }
         public string CloudSrc { get; set; } = "/images/svgs/cloud-shadow.svg";
 
-        private TagBuilder GetCloud(Tile cloud, int index)
+        private TagBuilder GetCloud(Tile cloud, int index, bool starter = false)
         {
-            var className = $"cloud-wrapper-{index + 1}";
-            var tagBuilder = new TagBuilder(cloud.HasLink ? "a" : "div");
-            tagBuilder.Attributes.Add("class", className);
+            var cloudWrapper = new TagBuilder("div");
+            cloudWrapper.AddCssClass($"cloud-wrapper-{index + 1}");
+            if (starter)
+                cloudWrapper.AddCssClass("start");
+
+            var cloudContainer = new TagBuilder(cloud.HasLink ? "a" : "div");
+
+            if (!string.IsNullOrWhiteSpace(cloud.CssClass))
+                cloudContainer.AddCssClass(cloud.CssClass);
 
             if (cloud.HasLink)
             {
-                tagBuilder.Attributes.Add("href", cloud.Href);
-                tagBuilder.Attributes.Add("target", "_blank");
+                cloudContainer.Attributes.Add("href", cloud.Href);
+                cloudContainer.Attributes.Add("target", "_self");
                 if (!string.IsNullOrEmpty(cloud.LinkText))
                 {
-                    tagBuilder.Attributes.Add("alt", cloud.LinkText);
+                    cloudContainer.Attributes.Add("alt", cloud.LinkText);
                 }
             }
 
-            tagBuilder.InnerHtml.AppendHtml($@"
-<div class='cloud-{index + 1}'>
-    <div class='cloud'>
-        <img src='{CloudSrc}' alt='Cloud' />
-        {(cloud.ImageUrl != null && cloud.ImageUrl.Length > 0 ? $"<div class='cloud-image'><img src='{cloud.ImageUrl}' alt='{cloud.ImageUrlAlt}' /></div>" : "")}
-    </div>
+            cloudContainer.InnerHtml.AppendHtml($@"
+<div class='cloud'>
+    <img src='{CloudSrc}' alt='Cloud' />
+    {(cloud.ImageUrl != null && cloud.ImageUrl.Length > 0 ? $"<div class='cloud-image'><img src='{cloud.ImageUrl}' alt='{cloud.ImageUrlAlt}' /></div>" : "")}
 </div>");
 
-            tagBuilder.TagRenderMode = TagRenderMode.Normal;
+            cloudWrapper.InnerHtml.AppendHtml(cloudContainer);
+            cloudWrapper.TagRenderMode = TagRenderMode.Normal;
 
-            return tagBuilder;
+            return cloudWrapper;
         }
         
         public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -48,11 +54,19 @@ namespace www.arragro.com.TagHelpers
             output.Attributes.Add(new TagHelperAttribute("class", ClassName));
 
             var html = string.Empty;
-            for (var i = 0; i < Clouds.Count; i++)
+            for (var i = 0; i < InfiniteClouds.Count; i++)
             {
                 using (var writer = new StringWriter())
                 {
-                    GetCloud(Clouds[i], i).WriteTo(writer, HtmlEncoder.Default);
+                    GetCloud(InfiniteClouds[i], i).WriteTo(writer, HtmlEncoder.Default);
+                    html += writer.ToString();
+                }
+            }
+            for (var i = 0; i < StartingClouds.Count; i++)
+            {
+                using (var writer = new StringWriter())
+                {
+                    GetCloud(StartingClouds[i], i, true).WriteTo(writer, HtmlEncoder.Default);
                     html += writer.ToString();
                 }
             }

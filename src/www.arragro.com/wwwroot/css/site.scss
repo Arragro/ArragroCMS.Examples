@@ -96,7 +96,7 @@ h1, h2, h3, h4, h5, h6 {
 footer {
     border-top: 1px solid $lightGray;
     background-color: $lighterGray;
-    padding: 3rem 0;
+    padding: 2rem 0;
 
     a {
         color: $gray;
@@ -211,6 +211,10 @@ footer {
     perspective: 1000px;
     position: relative;
 
+    #contactFormTitle {
+        text-align: center;
+    }
+
     .flipper {
         width: 100%;
         max-height: 100%;
@@ -266,17 +270,17 @@ footer {
         .front {
             display: none;
         }
-        
+
         @media (min-width: 768px) {
             max-height: 100%;
             transition: all .6s ease-in-out;
             transform: rotateX(180deg);
-    
+
             & .back {
                 max-height: 100%;
                 transition: none;
             }
-    
+
             .front {
                 display: block;
             }
@@ -290,13 +294,16 @@ footer {
         h2 {
             font-size: 1.5rem;
         }
+
         [class^='cloud'] {
             transform: scale(.9);
         }
+
         @media (min-width: 768px) {
             h2 {
                 font-size: 2rem;
             }
+
             [class^='cloud'] {
                 transform: initial;
             }
@@ -311,6 +318,7 @@ footer {
         visibility: hidden;
         opacity: 0;
         max-height: 100%;
+
         @media (min-width: 768px) {
             transform: rotateX(180deg);
             transition: none;
@@ -318,7 +326,7 @@ footer {
             opacity: 1;
         }
     }
-    
+
     .back.hide {
         transform: none;
     }
@@ -368,7 +376,17 @@ header#standardHeader {
         }
 
         .infinite-clouds {
-            top: -8%;
+            > div {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                top: -14%;
+            }
+
+
+            > div:first-child {
+                top: -16%;
+            }
         }
 
         .banner-text {
@@ -393,7 +411,7 @@ header#standardHeader {
             }
         }
 
-        [class^='cloud-'] {
+        [class^='cloud-'], .start {
             transform: scale(.59);
         }
 
@@ -492,7 +510,7 @@ header#standardHeader {
             height: 65vh;
             max-height: 520px
         }
-
+        
         h3, h4, h5 {
             color: darken($blue, 8%);
             margin-top: 1rem;
