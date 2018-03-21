@@ -125,6 +125,11 @@ div#whatWeveDone {
     .what-weve-done-markdown {
         padding-top: 1rem;
         text-align: center;
+
+        a {
+            color: $blue;
+            text-decoration: underline;
+        }
     }
 }
 
