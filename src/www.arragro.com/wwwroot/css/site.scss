@@ -360,14 +360,14 @@ header#standardHeader {
     @include header();
     height: 100px;
 
-    @include overrideHeaderMediaQueries(150px);
+    @include overrideHeaderMediaQueries(120px);
 
     @media (orientation: landscape) and (max-width: 812px) {
         height: 100px;
     }
 
     @media (orientation: portrait) and (min-width: 736px) {
-        height: 150px;
+        height: 120px;
     }
 
     .background-wrap {
@@ -412,7 +412,19 @@ header#standardHeader {
         }
 
         [class^='cloud-'], .start {
-            transform: scale(.59);
+            transform: scale(.5);
+
+            @media (orientation: landscape) {
+                transform: scale(.7);
+            }
+
+            @media (orientation: landscape) and (min-width: 968px) {
+                transform: scale(.5);
+            }
+
+            @media (orientation: landscape) and (min-width: 1440px) {
+                transform: scale(.55);
+            }
         }
 
         #background-wrap {
@@ -421,8 +433,8 @@ header#standardHeader {
     }
 }
 
-#technologies {
-    .technology-section {
+#tileBulletPage {
+    .section {
         padding: 1rem 0 2rem 0;
 
         .cloud {
@@ -438,11 +450,18 @@ header#standardHeader {
             }
         }
 
-        .technology-image img {
+        .image img {
             object-position: 0 0;
             max-height: 300px;
             width: 100%;
             object-fit: cover;
+        }
+    }
+
+    .case-study-bayleys-web {
+
+        .image img {
+            max-height: 370px;
         }
     }
 }

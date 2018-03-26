@@ -7,7 +7,7 @@
     <standard-header title=@Model.Title />
 }
 
-<div id="technologies">
+<div id="tileBulletPage">
     <div id="intro" class="container d-flex justify-content-center">
         <div class="col-12 col-md-12 col-lg-11 col-xl-12">
             @*<h3>@Model.Title</h3>*@
@@ -17,21 +17,25 @@
     <div  class="container">
     @foreach (var tileBullet in Model.TileBullets)
     {
-        <div class="technology-section row">
-            <div class='col-12 col-lg-6 col-xl-@Model.LeftColumns align-self-center'>
+        var customClass = !string.IsNullOrWhiteSpace(tileBullet.CssClass) ? tileBullet.CssClass : "";
+
+        
+        <h3 class="d-block d-lg-none">@tileBullet.Name</h3>
+        <div class="section row @customClass">
+            <div class='col-12 col-lg-6 col-xl-@Model.LeftColumns'>
                 @if (Model.CloudTileBullets)
                 {
                     <cloud cloud=tileBullet index=0 />
                 }
                 else
                 {
-                    <div class="technology-image">
+                    <div class="image pb-4 pb-lg-0">
                         <img src="@tileBullet.ImageUrl" alt="@tileBullet.ImageUrlAlt" />
                     </div>
                 }
             </div>
             <div class="col-12 col-lg-6 col-xl-@Model.RightColumns">
-                <h3>@tileBullet.Name</h3>
+                <h3 class="d-none d-lg-block">@tileBullet.Name</h3>
                 @Html.Raw(CommonMark.CommonMarkConverter.Convert(tileBullet.Markdown.Replace("&#xA;", "\n")))
             </div>
         </div>
