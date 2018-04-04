@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as Formsy from 'formsy-react'
 import * as FRC from 'formsy-react-components'
 import * as ReactSortableHOC from 'react-sortable-hoc'
-import { Components, helpers } from 'arragrocms-management'
+import { Components, helpers, validationRules } from 'arragrocms-management'
 
 import MarkdownEditor from '../../MarkdownEditor'
 import { IContact } from '../../interfaces'
@@ -25,6 +25,8 @@ Formsy.addValidationRule('isPhoneNumber', (values, value) => {
     }
     return true
 });
+
+validationRules.LoadCustomValidationRules();
 
 const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = (props) => {
     
@@ -88,6 +90,23 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             validationErrors={{
                 isEmail: 'Please supply a valid Email Address',
                 maxLength: 'There is a 100 character limit to this field'
+            }}
+        />
+
+        <Input
+            type='text'
+            name='linkedIn'
+            label='LinkedIn'
+            onChange={props.onChange}
+            value={helpers.makeNullEmptyString(props.item.linkedIn)}
+            required
+            validations={{
+                isValidUrl: 1,
+                maxLength: 255
+            }}
+            validationErrors={{
+                isValidUrl: 'Please supply a valid Url',
+                maxLength: 'There is a 255 character limit to this field.'
             }}
         />
 

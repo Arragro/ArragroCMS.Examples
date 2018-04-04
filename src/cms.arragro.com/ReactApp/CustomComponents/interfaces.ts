@@ -24,6 +24,7 @@ export interface IContact extends IItemType {
     name: string
     phoneNumber: string
     email: string
+    linkedIn: string
     gravitar: string
     bio: string
 }

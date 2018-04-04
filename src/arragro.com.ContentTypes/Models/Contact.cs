@@ -17,6 +17,9 @@ namespace arragro.com.ContentTypes.Models
         [MaxLength(100)]
         [EmailAddress]
         public string Email { get; set; }
+        [MaxLength(255)]
+        [Url]
+        public string LinkedIn { get; set; }
         [MaxLength(2000)]
         public string Gravitar { get; set; }
 

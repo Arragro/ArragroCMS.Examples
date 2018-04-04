@@ -469,52 +469,83 @@ header#standardHeader {
 #contact {
     .contact-container {
         position: relative;
-        height: 140vh;
+        height: 155vh;
         font-size: 1rem;
 
         @media (orientation: landscape) and (min-device-width:412px) {
-            height: 245vh;
+            height: 275vh;
+        }
+
+        @media (orientation: landscape) and (min-device-width:533px) {
+            height: 310vh;
+        }
+
+        @media (orientation: landscape) and (min-device-width:568px) {
+            height: 310vh;
+        }
+
+        @media (orientation: landscape) and (min-device-width:640px) {
+            height: 270vh;
         }
 
         @media (orientation: landscape) and (min-device-width:650px) {
-            height: 235vh;
+            height: 265vh;
         }
 
         @media (orientation: landscape) and (min-device-width:700px) {
-            height: 218vh;
+            height: 240vh;
         }
 
-        @media (orientation: landscape) and (min-device-width:800px) and (min-height:375px) {
-            height: 120vh;
-        }
-
-        @media (orientation: landscape) and (min-device-width:800px) and (min-height:500px) {
-            height: 50vh;
-        }
-
-        @media (orientation: landscape) and (min-device-height: 800px) and (min-width: 768px) {
+        @media (orientation: landscape) and (min-device-width: 768px) and (min-device-height: 800px) {
             height: 40vh;
         }
 
-        @media (orientation: portrait) and (min-device-height:641px) {
+        @media (orientation: landscape) and (min-device-width:800px) and (min-device-height:375px) {
             height: 135vh;
         }
 
+        @media (orientation: landscape) and (min-device-width:800px) and (min-device-height:500px) {
+            height: 50vh;
+        }
+
+        @media (orientation: landscape) and (min-device-width:960px) and (min-device-height:600px) {
+            height: 90vh;
+        }
+
+        @media (orientation: landscape) and (min-device-width:1024px) and (min-device-height:768px) {
+            height: 40vh;
+        }
+
+        @media (orientation: portrait) and (min-device-height:533px) {
+            height: 190vh;
+        }
+
+        @media (orientation: portrait) and (min-device-height:568px) {
+            height: 155vh;
+        }
+
+        @media (orientation: portrait) and (min-device-height:641px) {
+            height: 150vh;
+        }
+
         @media (orientation: portrait) and (min-device-height:700px) {
-            height: 125vh;
+            height: 135vh;
         }
 
         @media (orientation: portrait) and (min-device-height: 736px) {
-            height: 125vh;
+            height: 135vh;
         }
 
         @media (orientation: portrait) and (min-device-height: 812px) {
-            height: 115vh;
-            max-height: 520px
+            height: 120vh;
+        }
+
+        @media (orientation: portrait) and (min-device-height: 823px) {
+            height: 120vh;
         }
 
         @media (orientation: portrait) and (min-device-height: 1020px) {
-            height: 50vh;
+            height: 53vh;
         }
 
         @media (orientation: portrait) and (min-device-height: 1200px) {
@@ -525,11 +556,19 @@ header#standardHeader {
             height: 25vh;
         }
 
+        @media (orientation: portrait) and (min-device-height: 1280px) and (min-device-width: 800px) {
+            height: 45vh;
+        }
+
+        @media (orientation: portrait) and (min-device-height: 1366px) and (min-device-width: 1024px) {
+            height: 25vh;
+        }
+
         @media (orientation: portrait) and (min-device-height: 1380px) {
             height: 65vh;
             max-height: 520px
         }
-        
+
         h3, h4, h5 {
             color: darken($blue, 8%);
             margin-top: 1rem;
