@@ -22,7 +22,7 @@
   environment:
     # Don't report back to the mothership
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
-    nodejs_version: "7.2.0"
+    nodejs_version: "9.11.1"
   init:
   - nuget sources update -Name nuget.org -Source https://api.nuget.org/v3/index.json
   install:
