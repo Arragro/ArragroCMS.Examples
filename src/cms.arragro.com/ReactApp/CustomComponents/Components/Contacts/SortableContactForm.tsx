@@ -1,22 +1,21 @@
 import * as React from 'react'
 import * as Formsy from 'formsy-react'
 import * as FRC from 'formsy-react-components'
-import * as ReactSortableHOC from 'react-sortable-hoc'
-import { Components, helpers, validationRules } from 'arragrocms-management'
+import { Components, utils } from 'arragrocms-management'
 
 import MarkdownEditor from '../../MarkdownEditor'
 import { IContact } from '../../interfaces'
 
-const { Input, Checkbox, Textarea } = FRC
+const { Input } = FRC
 
 interface SortableContactFormProps {
     contentUrlRouteId: string
     index: number
     item: IContact
-    onChange (name: string, value: string)    
+    onChange (name: string, value: string): void
 }
 
-Formsy.addValidationRule('isPhoneNumber', (values, value) => {
+Formsy.addValidationRule('isPhoneNumber', (values: any, value: string) => {
     if (value !== null) {
         if (value.length === 0) {
             return true
@@ -26,7 +25,7 @@ Formsy.addValidationRule('isPhoneNumber', (values, value) => {
     return true
 });
 
-validationRules.LoadCustomValidationRules();
+utils.LoadCustomValidationRules();
 
 const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = (props) => {
     
@@ -36,7 +35,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             name='title'
             label='Title'
             onChange={props.onChange}
-            value={helpers.makeNullEmptyString(props.item.title)}
+            value={utils.Helpers.makeEmptyString(props.item.title)}
             required
             validations={{
                 maxLength: 100
@@ -51,7 +50,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             name='name'
             label='Name'
             onChange={props.onChange}
-            value={helpers.makeNullEmptyString(props.item.name)}
+            value={utils.Helpers.makeEmptyString(props.item.name)}
             required
             validations={{
                 maxLength: 100
@@ -66,7 +65,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             name='phoneNumber'
             label='Phone Number'
             onChange={props.onChange}
-            value={helpers.makeNullEmptyString(props.item.phoneNumber)}
+            value={utils.Helpers.makeEmptyString(props.item.phoneNumber)}
             required
             validations={{
                 maxLength: 20
@@ -81,7 +80,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             name='email'
             label='Email'
             onChange={props.onChange}
-            value={helpers.makeNullEmptyString(props.item.email)}
+            value={utils.Helpers.makeEmptyString(props.item.email)}
             validations={{
                 isEmail: 1,
                 maxLength: 100,
@@ -98,7 +97,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             name='linkedIn'
             label='LinkedIn'
             onChange={props.onChange}
-            value={helpers.makeNullEmptyString(props.item.linkedIn)}
+            value={utils.Helpers.makeEmptyString(props.item.linkedIn)}
             required
             validations={{
                 isValidUrl: 1,
@@ -127,7 +126,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             contentDataUrlRouteId={props.contentUrlRouteId}
             name='bio'
             label='Bio'
-            value={helpers.makeNullEmptyString(props.item.bio)}
+            value={utils.Helpers.makeEmptyString(props.item.bio)}
             onChange={props.onChange}
             showAssetPicker={true}
         />

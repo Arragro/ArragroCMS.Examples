@@ -1,12 +1,11 @@
 import * as React from 'react'
 import * as FRC from 'formsy-react-components'
-import * as ReactSortableHOC from 'react-sortable-hoc'
 import { Components } from 'arragrocms-management'
 
 import MarkdownEditor from '../../MarkdownEditor'
 import { ITile } from '../../interfaces'
 
-const { Input, Checkbox, Textarea } = FRC
+const { Input, Checkbox } = FRC
 
 interface SortableTileFormProps {
     contentUrlRouteId: string
@@ -14,7 +13,7 @@ interface SortableTileFormProps {
     item: ITile
     linkIsMandatory: boolean
     useMarkdown: boolean
-    onChange (name: string, value: string)    
+    onChange (name: string, value: string): void   
 }
 
 const SortableTileForm: React.StatelessComponent<SortableTileFormProps> = (props) => {
@@ -64,6 +63,7 @@ const SortableTileForm: React.StatelessComponent<SortableTileFormProps> = (props
                 showAssetPicker={true}
             />
         }
+        return null
     }
 
     const getHasLinkInputs = (hasLink: boolean) => {

@@ -1,7 +1,7 @@
 ﻿import * as React from 'react'
 import * as Formsy from 'formsy-react'
 import * as FRC from 'formsy-react-components'
-import { Interfaces, Components, htmlHelper, helpers } from 'arragrocms-management'
+import { Interfaces, Components, utils } from 'arragrocms-management'
 
 import { IContact } from '../interfaces'
 import SortableContacts from '../Components/Contacts/SortableContacts'
@@ -9,7 +9,7 @@ import MarkdownEditor from '../MarkdownEditor'
 
 const { Input, Checkbox, Textarea } = FRC
 
-Formsy.addValidationRule('isPhoneNumber', (values, value) => {
+Formsy.addValidationRule('isPhoneNumber', (values: any, value: string) => {
     if (value !== null) {
         if (value.length === 0) {
             return true
@@ -58,32 +58,34 @@ export interface IContactPageState {
 
 
 export default class ContactPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, IContactPageState> {
-    constructor(props) {
+    sortableContacts: SortableContacts | null = null
+
+    constructor(props: Interfaces.IComponentTypeBaseProps) {
         super(props)
     }
 
-    sortableContacts: SortableContacts
-
     public render() {
-
-        const pageData = this.props.contentData.contentJson[this.props.culture] as IContactPageState
+        if (this.props.culture === null) {
+            return null
+        }
+        const pageData = (this.props.contentData.contentJson as any)[this.props.culture] as IContactPageState
         const contactPage = {
-            addressLine1: helpers.makeNullEmptyString(pageData.addressLine1),
-            addressLine2: helpers.makeNullEmptyString(pageData.addressLine2),
-            city: helpers.makeNullEmptyString(pageData.city),
-            district: helpers.makeNullEmptyString(pageData.district),
-            country: helpers.makeNullEmptyString(pageData.country),
-            postCode: helpers.makeNullEmptyString(pageData.postCode),
-            officeTelephone: helpers.makeNullEmptyString(pageData.officeTelephone),
-            officeEmail: helpers.makeNullEmptyString(pageData.officeEmail),
+            addressLine1: utils.Helpers.makeEmptyString(pageData.addressLine1),
+            addressLine2: utils.Helpers.makeEmptyString(pageData.addressLine2),
+            city: utils.Helpers.makeEmptyString(pageData.city),
+            district: utils.Helpers.makeEmptyString(pageData.district),
+            country: utils.Helpers.makeEmptyString(pageData.country),
+            postCode: utils.Helpers.makeEmptyString(pageData.postCode),
+            officeTelephone: utils.Helpers.makeEmptyString(pageData.officeTelephone),
+            officeEmail: utils.Helpers.makeEmptyString(pageData.officeEmail),
             contacts: pageData.contacts === undefined ? [] : pageData.contacts,
             latitude: pageData.latitude === undefined ? '0.00' :
                 pageData.latitude.toString().split('.').length === 1 ? `${pageData.latitude}.00` : pageData.latitude,
             longitude: pageData.longitude === undefined ? '0.00' :
                 pageData.longitude.toString().split('.').length === 1 ? `${pageData.longitude}.00` : pageData.longitude,
-            googleMapStyleJson: helpers.makeNullEmptyString(pageData.googleMapStyleJson),
-            markdownIntro: helpers.makeNullEmptyString(pageData.markdownIntro),
-            markdownOutro: helpers.makeNullEmptyString(pageData.markdownOutro),
+            googleMapStyleJson: utils.Helpers.makeEmptyString(pageData.googleMapStyleJson),
+            markdownIntro: utils.Helpers.makeEmptyString(pageData.markdownIntro),
+            markdownOutro: utils.Helpers.makeEmptyString(pageData.markdownOutro),
             hasContactForm: pageData.hasContactForm === undefined ? false : pageData.hasContactForm
         }
 
@@ -218,7 +220,7 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                 <hr className='col-12' />
                 <div className='col-12 no-gutters full-width-buttons'>
                     <SortableContacts
-                        ref={x => this.sortableContacts = x}
+                        ref={(x: SortableContacts | null) => this.sortableContacts = x}
                         contentUrlRouteId={this.props.contentData.urlRouteId}
                         name='contacts'
                         label="Contacts"

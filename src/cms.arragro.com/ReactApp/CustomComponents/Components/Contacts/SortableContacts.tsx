@@ -1,5 +1,4 @@
 ﻿import * as React from 'react'
-import * as ReactSortableHOC from 'react-sortable-hoc'
 import { Components } from 'arragrocms-management'
 
 import { IContact } from '../../interfaces'
@@ -12,10 +11,11 @@ interface SortableContactsProps {
     contentUrlRouteId: string
     newItem: IContact
     maxContacts: number
-    onChange(name: string, carousels: Array<IContact>)
+    onChange(name: string, carousels: Array<IContact>): void
 }
 
 export default class SortableContacts extends React.Component<SortableContactsProps> {
+    sortableClouds: Components.SortableItems<IContact> | null = null
 
     public constructor(props: SortableContactsProps) {
         super(props);
@@ -23,18 +23,16 @@ export default class SortableContacts extends React.Component<SortableContactsPr
         this.getForm = this.getForm.bind(this)
     }
 
-    sortableClouds: Components.SortableItems<IContact>
-
     getItemHeader = (item: IContact) => {
         if (item.name &&
             item.name !== null &&
             item.name.length > 0) {
             return <span>{item.name}</span>
         }
-        return null
+        return <span></span>
     }
     
-    getForm = (index: number, item: IContact, onChange: (name, value) => void) => {
+    getForm = (index: number, item: IContact, onChange: (name: string, value: any) => void) => {
         return <SortableContactForm        
             contentUrlRouteId={this.props.contentUrlRouteId}
             index={index}
@@ -45,7 +43,7 @@ export default class SortableContacts extends React.Component<SortableContactsPr
 
     public render() {
         return <Components.SortableItems
-            ref={x => this.sortableClouds = x as Components.SortableItems<IContact>}
+            ref={(x: Components.SortableItems<IContact> | null) => this.sortableClouds = x}
             name={this.props.name}
             typeName={this.props.label}
             contentUrlRouteId={this.props.contentUrlRouteId}

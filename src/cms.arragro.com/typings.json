@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "formsy-react": "file:typings/custom/formsy-react.d.ts",
-    "formsy-react-components": "file:typings/custom/formsy-react-components.d.ts"
-  }
-}

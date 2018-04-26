@@ -1,5 +1,4 @@
 ﻿import * as React from 'react'
-import * as ReactSortableHOC from 'react-sortable-hoc'
 import { Components } from 'arragrocms-management'
 
 import { ITile } from '../../interfaces'
@@ -12,12 +11,13 @@ interface SortableTilesProps {
     contentUrlRouteId: string
     newItem: ITile
     maxClouds: number
-    onChange(name: string, carousels: Array<ITile>)
+    onChange(name: string, carousels: Array<ITile>): void
     linkIsMandatory: boolean
     useMarkdown: boolean
 }
 
 export default class SortableTiles extends React.Component<SortableTilesProps> {
+    sortableClouds: Components.SortableItems<ITile> | null = null
 
     public constructor(props: SortableTilesProps) {
         super(props);
@@ -25,18 +25,16 @@ export default class SortableTiles extends React.Component<SortableTilesProps> {
         this.getForm = this.getForm.bind(this)
     }
 
-    sortableClouds: Components.SortableItems<ITile>
-
     getItemHeader = (item: ITile) => {
         if (item.name &&
             item.name !== null &&
             item.name.length > 0) {
             return <span>{item.name}</span>
         }
-        return null
+        return <span></span>
     }
     
-    getForm = (index: number, item: ITile, onChange: (name, value) => void) => {
+    getForm = (index: number, item: ITile, onChange: (name: string, value: any) => void) => {
         return <SortableTileForm        
             contentUrlRouteId={this.props.contentUrlRouteId}
             index={index}
@@ -49,7 +47,7 @@ export default class SortableTiles extends React.Component<SortableTilesProps> {
 
     public render() {
         return <Components.SortableItems
-            ref={x => this.sortableClouds = x as Components.SortableItems<ITile>}
+            ref={(x: Components.SortableItems<ITile> | null) => this.sortableClouds = x}
             name={this.props.name}
             typeName={this.props.label}
             contentUrlRouteId={this.props.contentUrlRouteId}

@@ -1,16 +1,14 @@
 ﻿import * as React from 'react'
 import * as Formsy from 'formsy-react'
 import * as FRC from 'formsy-react-components'
-import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
+import { Interfaces, Components } from 'arragrocms-management'
 
-import { ITile, ICloudBannerText, ISvgIconLink } from '../interfaces'
+import { ITile } from '../interfaces'
 
 import SortableTiles from '../Components/Tiles/SortableTiles'
-import SortableCloudBannerTexts from '../Components/CloudBannerTexts/SortableCloudBannerTexts'
-import SortableSvgIcons from '../Components/SvgIconLinks/SortableSvgIcons'
 import MarkdownEditor from '../MarkdownEditor'
 
-const { Input, Textarea, Checkbox } = FRC
+const { Input, Checkbox } = FRC
 
 const tileBulletPageHelper = {
     newTile: (): ITile => {
@@ -32,14 +30,14 @@ const tileBulletPageHelper = {
     }
 }
 
-Formsy.addValidationRule('isCol', (values, value) => {
-    value = parseInt(value);
-    console.log(value)
+Formsy.addValidationRule('isCol', (values: any, value: string) => {
+    const int = parseInt(value);
+    console.log(int)
     console.log(values)
-    if (typeof value !== 'number') {
+    if (typeof int !== 'number') {
         return false;
     }
-    return value <= 12;
+    return int <= 12;
 });
 
 
@@ -54,15 +52,15 @@ export interface ITileBulletPageState {
 
 
 export default class TileBulletPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, ITileBulletPageState> {
-    constructor(props) {
+    sortableTechnologySections: SortableTiles | null = null
+
+    constructor(props: Interfaces.IComponentTypeBaseProps) {
         super(props)
     }
 
-    sortableTechnologySections: SortableTiles
-
     public render() {
         
-        const pageData = this.props.contentData.contentJson[this.props.culture] as ITileBulletPageState
+        const pageData = (this.props.contentData.contentJson as any)[this.props.culture] as ITileBulletPageState
         const tileBulletPage = {
             title: pageData.title === undefined ? '' : pageData.title,
             introMarkdown: pageData.introMarkdown === undefined ? '' : pageData.introMarkdown,

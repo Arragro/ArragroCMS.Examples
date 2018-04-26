@@ -4,23 +4,45 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { IntlProvider } from 'react-intl'
-import { browserHistory, Router } from 'react-router'
+import { ConnectedRouter } from 'react-router-redux'
+import { createBrowserHistory } from 'history'
+import { AppContainer } from 'react-hot-loader'
 
-import { extendContentTypeMap, extendConfigurationTypeMap } from './componentExtentionTypes'
+import { Redux } from 'arragrocms-management'
+import * as ComponentExtentionTypes from './componentExtentionTypes'
+import App from './app'
 
-import { Redux, Routes } from 'arragrocms-management'
+// prepare store
+const initialState = (window as any).initialReduxState as Redux.ReduxModel.StoreState
+const history = createBrowserHistory()
+const store = Redux.configureStore(history, true, initialState)
+const rootEl = document.getElementById('react-app')
+ComponentExtentionTypes.extendContentTypeMap()
+ComponentExtentionTypes.extendConfigurationTypeMap()
 
-let store = Redux.configureStore(browserHistory, true)
-let routes = new Routes()
+const render = (Component: any) => {
+    ReactDOM.render(
+        <AppContainer>
+            <Provider store={store}>
+                <IntlProvider>
+                    <ConnectedRouter history={history}>
+                        <Component />
+                    </ConnectedRouter>
+                </IntlProvider>
+            </Provider>
+        </AppContainer>,
+        rootEl
+    )
+}
 
-extendContentTypeMap()
-extendConfigurationTypeMap()
+render(App)
 
-ReactDOM.render(
-    <Provider store={store}>
-        <IntlProvider locale={navigator.language}>
-            <Router history={browserHistory} children={routes.buildRoutes()} />
-        </IntlProvider>
-    </Provider>,
-    document.getElementById('react-app')
-)
+// Hot Module Replacement API
+declare let module: { hot: any }
+
+if (module.hot) {
+    module.hot.accept('./app', () => {
+        render(App)
+    })
+}
+

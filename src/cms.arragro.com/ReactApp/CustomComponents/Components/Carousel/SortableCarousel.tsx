@@ -1,5 +1,4 @@
 ﻿import * as React from 'react'
-import * as ReactSortableHOC from 'react-sortable-hoc'
 import { Components } from 'arragrocms-management'
 
 import { ICarousel } from '../../interfaces'
@@ -10,7 +9,7 @@ interface SortableListProps {
     carousels: Array<ICarousel>
     contentUrlRouteId: string
     newItem: ICarousel
-    onChange (name: string, carousels: Array<ICarousel>)
+    onChange (name: string, carousels: Array<ICarousel>): void
 }
 
 interface SortableListState {
@@ -18,6 +17,7 @@ interface SortableListState {
 }
 
 export default class SortableCarousel extends React.Component<SortableListProps, SortableListState> {
+    sortableCarousel: Components.SortableItems<ICarousel> | null = null
 
     public constructor(props: SortableListProps) {
         super(props);
@@ -29,18 +29,16 @@ export default class SortableCarousel extends React.Component<SortableListProps,
         this.getForm = this.getForm.bind(this)
     }
 
-    sortableCarousel: Components.SortableItems<ICarousel>
-
     getItemHeader = (item: ICarousel) => {
         if (item.name &&
             item.name !== null &&
             item.name.length > 0) {
             return <span>{item.name}</span>
         }
-        return null
+        return <span></span>
     }
     
-    getForm = (index: number, item: ICarousel, onChange: (name, value) => void) => {
+    getForm = (index: number, item: ICarousel, onChange: (name: string, value: any) => void) => {
         return <SortableCarouselForm        
             contentUrlRouteId={this.props.contentUrlRouteId}
             assetPickerClass={this.state.assetPickerClass}
@@ -52,7 +50,7 @@ export default class SortableCarousel extends React.Component<SortableListProps,
 
     public render() {
         return <Components.SortableItems
-                    ref={x => this.sortableCarousel = x as Components.SortableItems<ICarousel>}
+                    // ref={x => this.sortableCarousel = x as Components.SortableItems<ICarousel>}
                     name={this.props.name}
                     typeName='Carousel'
                     contentUrlRouteId={this.props.contentUrlRouteId} 

@@ -1,8 +1,8 @@
 ﻿import * as React from 'react'
 import { Controlled as CodeMirror } from 'react-codemirror2'
-import ReactMarkdown from 'react-markdown'
+import * as ReactMarkdown from 'react-markdown'
 import * as Formsy from 'formsy-react'
-import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
+import { Interfaces, Components, utils } from 'arragrocms-management'
 
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/eclipse.css'
@@ -10,13 +10,13 @@ import 'codemirror/mode/markdown/markdown'
 import 'codemirror/addon/display/autorefresh'
 
 export interface IMarkdownEditorProps {
-    contentDataUrlRouteId: string
+    contentData?: Interfaces.IContentData
     name: string
     label: string
     value: string
     showAssetPicker: boolean
     options?: any
-    onChange(name, value)
+    onChange(name: string, value: string): void
 }
 
 export interface IMarkdownEditorState {
@@ -24,7 +24,10 @@ export interface IMarkdownEditorState {
 }
 
 class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdownEditorState> {
-    constructor(props) {
+    assetModal: Components.AssetModal | null = null
+    codeMirror: any = null
+
+    constructor(props: IMarkdownEditorProps & any) {
         super(props)
 
         this.state = {
@@ -33,9 +36,6 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
 
         this.onChange = this.onChange.bind(this)
     }
-
-    assetModal: Components.AssetModal
-    codeMirror: any
 
     closeClick = () => {
         this.setState({
@@ -58,8 +58,8 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
             const mimeTypeFilter = 'image/jpeg,image/png,image/pjpeg'
             const dropzoneAccept = 'image/jpeg,image/png,image/pjpeg'
             return <Components.AssetModal
-                ref={(x) => this.assetModal = x}
-                contentUrlRouteId={this.props.contentDataUrlRouteId}                
+                ref={(x: Components.AssetModal | null) => this.assetModal = x}
+                contentData={this.props.contenData}                
                 mimeTypeFilter={mimeTypeFilter}
                 selectClick={this.selectClick}
                 closeClick={this.closeClick}
@@ -77,11 +77,13 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
             ...this.state,
             showImageAssetModal: true
         }, () => {
-            this.assetModal.toggle()
+            if (this.assetModal !== null) {
+                this.assetModal.toggle()
+            }
         })
     }
 
-    onChange(editor, metadata, value) {
+    onChange(editor: any, metadata: any, value: any) {
         this.props.onChange(this.props.name, value)
         this.props.setValue(value)
     }
@@ -113,7 +115,7 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
                 </div>
                 <div className='col-6 full-width-buttons' style={style}>
                     {this.getImageAssetModal(this.state.showImageAssetModal)}
-                    {htmlHelper.renderButton('btn-primary', this.showImageAssetModal.bind(this), '', 'Select Image', this.props.showAssetPicker, false)}
+                    {utils.HtmlHelper.renderButton('btn-primary', this.showImageAssetModal.bind(this), '', 'Select Image', this.props.showAssetPicker, false)}
                     <CodeMirror 
                         ref={(x) => this.codeMirror = x} 
                         value={this.props.value} 
@@ -129,6 +131,6 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
     }
 }
 
-var markdownEditor = Formsy.HOC(MarkdownEditor)
+var markdownEditor = Formsy.withFormsy(MarkdownEditor)
 
 export default markdownEditor

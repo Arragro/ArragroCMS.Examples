@@ -1,17 +1,16 @@
 import * as React from 'react'
 import * as FRC from 'formsy-react-components'
-import * as ReactSortableHOC from 'react-sortable-hoc'
 import MarkdownEditor from '../../MarkdownEditor'
 
 import { ISvgIconLink } from '../../interfaces'
 
-const { Input, Textarea, Select } = FRC
+const { Input, Select } = FRC
 
 interface SortableItemProps<ItemType> {
     contentUrlRouteId: string
     index: number
     item: ItemType
-    onChange (name: string, value: string)    
+    onChange (name: string, value: string): void
 }
 
 const selectOptions = [

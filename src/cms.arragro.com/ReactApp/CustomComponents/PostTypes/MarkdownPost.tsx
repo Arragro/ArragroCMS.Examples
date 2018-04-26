@@ -3,7 +3,7 @@ import * as FRC from 'formsy-react-components'
 import { Interfaces, Components } from 'arragrocms-management'
 import MarkdownEditor from '../MarkdownEditor'
 
-const { Input, Textarea} = FRC
+const { Input } = FRC
 
 export interface IMarkdownPostState {
     title: string
@@ -13,16 +13,17 @@ export interface IMarkdownPostState {
 
 
 export default class MarkdownPost extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, IMarkdownPostState> {
-    constructor (props) {
+    constructor (props: Interfaces.IComponentTypeBaseProps) {
         super(props)
         
         if (this.props.contentData) {
+            const data = (this.props.contentData.contentJson as any)[this.props.culture]
             if (this.props.contentData.contentJson &&
-                this.props.contentData.contentJson[this.props.culture] !== undefined) {
+                data) {
                 this.state = {
-                    title: this.props.contentData.contentJson[this.props.culture].title,
-                    markdown: this.props.contentData.contentJson[this.props.culture].markdown,
-                    version: this.props.contentData.contentJson[this.props.culture].version
+                    title: data.title,
+                    markdown: data.markdown,
+                    version: data.version
                 }
             } else {
                 this.state = this.defaultStandardPage
@@ -32,7 +33,7 @@ export default class MarkdownPost extends Components.StateManagedComponentTypeBa
 
     componentWillReceiveProps(nextProps: Interfaces.IComponentTypeBaseProps) {
         if (this.props.culture !== nextProps.culture) {
-            const pageData = this.props.contentData.contentJson[nextProps.culture] as IMarkdownPostState
+            const pageData = (this.props.contentData.contentJson as any)[nextProps.culture] as IMarkdownPostState
             this.setState({
                 ...this.state,
                 markdown: pageData.markdown === undefined ? '' : pageData.markdown
@@ -49,7 +50,7 @@ export default class MarkdownPost extends Components.StateManagedComponentTypeBa
         version: -1,
     }
 
-    onMarkdownEditorChange = (markdown) => {
+    onMarkdownEditorChange = (markdown: string) => {
         this.setState({
             ...this.state,
             markdown
@@ -57,9 +58,6 @@ export default class MarkdownPost extends Components.StateManagedComponentTypeBa
     }
 
     public render () {
-        let source = '# This is a header\n\nAnd this is a paragraph'
-        let options = {
-        }
         return (
             <div className='row no-gutters col-12'>
                 <div className='col-lg-6'>

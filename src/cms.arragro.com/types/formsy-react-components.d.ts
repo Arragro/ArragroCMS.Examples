@@ -1,21 +1,6 @@
-﻿import * as React from 'react';
+﻿declare module 'formsy-react-components' {
 
-declare module "formsy-react-components" {
-    //declare const FRC: {
-    //    Checkbox: any,
-    //    CheckboxGroup: any,
-    //    Input: any,
-    //    File: any,
-    //    RadioGroup: any,
-    //    Select: any,
-    //    Textarea: any,
-    //    Form: any,
-    //    Icon: any,
-    //    OptionsProvider: any,
-    //    Row: any
-    //};
-
-    //export default FRC;
+    import * as React from 'react'
 
     export class Form extends React.Component<any, any> { }
     export class Input extends React.Component<any, any> { }
@@ -29,20 +14,3 @@ declare module "formsy-react-components" {
     export class OptionsProvider extends React.Component<any, any> { }
     export class Row extends React.Component<any, any> { }
 }
-
-
-//declare const FRC: {
-//    Checkbox: any,
-//    CheckboxGroup: any,
-//    Input: any,
-//    File: any,
-//    RadioGroup: any,
-//    Select: any,
-//    Textarea: any,
-//    Form: any,
-//    Icon: any,
-//    OptionsProvider: any,
-//    Row: any
-//};
-
-//export default FRC;

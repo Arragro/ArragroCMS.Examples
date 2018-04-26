@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack');
+const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin
 const sharedConfig = require('./webpack.shared.config');
 
 module.exports = (env) => {
@@ -15,18 +16,25 @@ module.exports = (env) => {
                 react: path.resolve(__dirname, './node_modules/react'),
                 React: path.resolve(__dirname, './node_modules/react')
             },
-            extensions: ['.js', '.jsx', '.ts', '.tsx']
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
+            plugins: [
+                new TsConfigPathsPlugin(/* { tsconfig, compiler } */)
+            ]
         },
         module: {
             loaders: [
                 {
                     test: /\.ts(x?)$/,
                     include: /ReactApp/,
-                    exclude: /node_modules/,
-                    use: [
-                        { loader: 'babel-loader' },
-                        { loader: 'ts-loader?silent=true' }
-                    ]
+                    exclude: [
+                        /node_modules/,
+                        /obj/
+                    ],
+                    loader: 'awesome-typescript-loader',
+                    query: {
+                        useBabel: true,
+                        useCache: true
+                    }
                 },
                 {
                     test: /\.(less|css)$/,

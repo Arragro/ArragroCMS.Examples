@@ -1,5 +1,4 @@
 ﻿import * as React from 'react'
-import * as ReactSortableHOC from 'react-sortable-hoc'
 import { Components } from 'arragrocms-management'
 
 import { ISvgIconLink } from '../../interfaces'
@@ -10,10 +9,11 @@ interface SortableListProps<ItemType> {
     svgIconLinksServices: Array<ISvgIconLink>
     contentUrlRouteId: string
     newItem: ISvgIconLink
-    onChange(name: string, svgIconLinksServices: Array<ISvgIconLink>)
+    onChange(name: string, svgIconLinksServices: Array<ISvgIconLink>): void
 }
 
 export default class SortableCarousel extends React.Component<SortableListProps<ISvgIconLink>> {
+    sortableItems: Components.SortableItems<ISvgIconLink> | null = null
 
     public constructor(props: SortableListProps<ISvgIconLink>) {
         super(props);
@@ -21,16 +21,14 @@ export default class SortableCarousel extends React.Component<SortableListProps<
         this.getForm = this.getForm.bind(this)
     }
 
-    sortableItems: Components.SortableItems<ISvgIconLink>
-
     getItemHeader = (item: ISvgIconLink) => {
         if (item.title.length > 0) {
             return <span>{item.title}</span>
         }
-        return null
+        return <span></span>
     }
     
-    getForm = (index: number, item: ISvgIconLink, onChange: (name, value) => void) => {
+    getForm = (index: number, item: ISvgIconLink, onChange: (name: string, value: any) => void) => {
         return <SortableSvgIconForm        
             contentUrlRouteId={this.props.contentUrlRouteId}
             index={index}
@@ -41,7 +39,7 @@ export default class SortableCarousel extends React.Component<SortableListProps<
 
     public render() {
         return <Components.SortableItems
-                    ref={x => this.sortableItems = x as Components.SortableItems<ISvgIconLink>}
+                    ref={(x: Components.SortableItems<ISvgIconLink> | null) => this.sortableItems = x}
                     name={this.props.name}
                     typeName='Svg Icon Links'
                     contentUrlRouteId={this.props.contentUrlRouteId} 

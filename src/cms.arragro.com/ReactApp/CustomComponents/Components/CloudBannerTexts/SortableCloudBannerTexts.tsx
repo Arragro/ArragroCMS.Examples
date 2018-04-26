@@ -1,7 +1,6 @@
 ﻿import * as React from 'react'
-import * as ReactSortableHOC from 'react-sortable-hoc'
 import { Components } from 'arragrocms-management'
-import ReactMarkdown from 'react-markdown'
+import * as ReactMarkdown from 'react-markdown'
 
 import { ICloudBannerText } from '../../interfaces'
 import SortableCloudBannerTextForm from './SortableCloudBannerTextForm'
@@ -11,10 +10,11 @@ interface SortableCloudsProps {
     cloudBannerTexts: Array<ICloudBannerText>
     contentUrlRouteId: string
     newItem: ICloudBannerText
-    onChange(name: string, items: Array<ICloudBannerText>)
+    onChange(name: string, items: Array<ICloudBannerText>): void
 }
 
 export default class SortableClouds extends React.Component<SortableCloudsProps> {
+    sortableItems: Components.SortableItems<ICloudBannerText> | null = null
 
     public constructor(props: SortableCloudsProps) {
         super(props);
@@ -22,13 +22,12 @@ export default class SortableClouds extends React.Component<SortableCloudsProps>
         this.getForm = this.getForm.bind(this)
     }
 
-    sortableItems: Components.SortableItems<ICloudBannerText>
 
     getItemHeader = (item: ICloudBannerText) => {
         return <ReactMarkdown source={item.markdown} escapeHtml={false} />
     }
     
-    getForm = (index: number, item: ICloudBannerText, onChange: (name, value) => void) => {
+    getForm = (index: number, item: ICloudBannerText, onChange: (name: string, value: any) => void) => {
         return <SortableCloudBannerTextForm        
             contentUrlRouteId={this.props.contentUrlRouteId}
             index={index}
@@ -39,7 +38,7 @@ export default class SortableClouds extends React.Component<SortableCloudsProps>
 
     public render() {
         return <Components.SortableItems
-            ref={x => this.sortableItems = x as Components.SortableItems<ICloudBannerText>}
+                    ref={(x: Components.SortableItems<ICloudBannerText> | null)  => this.sortableItems = x}
                     name={this.props.name}
                     typeName='Cloud Banner Text'
                     contentUrlRouteId={this.props.contentUrlRouteId} 

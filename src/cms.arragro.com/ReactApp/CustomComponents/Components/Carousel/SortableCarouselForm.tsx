@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as FRC from 'formsy-react-components'
-import * as ReactSortableHOC from 'react-sortable-hoc'
 import { Components } from 'arragrocms-management'
 
 import { ICarousel } from '../../interfaces'
@@ -8,20 +7,12 @@ import MarkdownEditor from '../../MarkdownEditor'
 
 const { Input, Checkbox } = FRC
 
-interface SortableItemProps {
-    itemIndex: number
-    contentUrlRouteId: string
-    carousel: ICarousel
-    onChange (index: number, carousel: ICarousel)
-    onDelete (index: number)
-}
-
 interface SortableListProps {
     contentUrlRouteId: string
     index: number
     item: ICarousel
     assetPickerClass: string
-    onChange (name: string, value: string)    
+    onChange (name: string, value: string): void
 }
 
 const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) => {

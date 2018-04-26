@@ -1,6 +1,6 @@
 ﻿import * as React from 'react'
 import * as FRC from 'formsy-react-components'
-import { Interfaces, Components, htmlHelper } from 'arragrocms-management'
+import { Interfaces, Components } from 'arragrocms-management'
 
 import { ITile, ICloudBannerText, ISvgIconLink } from '../interfaces'
 
@@ -67,20 +67,20 @@ export interface ILandingPageState {
 
 
 export default class LandingPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, ILandingPageState> {
-    constructor(props) {
+    sortableStartingClouds: SortableTiles | null = null
+    sortableInfiniteClouds: SortableTiles | null = null
+    sortableCloudBannerTexts: SortableCloudBannerTexts | null = null
+    sortableSvgIcons: SortableSvgIcons | null = null
+    sortableTechnologyClouds: SortableTiles | null = null
+    sortableWhatWeveDones: SortableTiles | null = null
+
+    constructor(props: Interfaces.IComponentTypeBaseProps) {
         super(props)
     }
 
-    sortableStartingClouds: SortableTiles
-    sortableInfiniteClouds: SortableTiles
-    sortableCloudBannerTexts: SortableCloudBannerTexts
-    sortableSvgIcons: SortableSvgIcons
-    sortableTechnologyClouds: SortableTiles
-    sortableWhatWeveDones: SortableTiles
-
     public render() {
         
-        const pageData = this.props.contentData.contentJson[this.props.culture] as ILandingPageState
+        const pageData = (this.props.contentData.contentJson as any)[this.props.culture] as ILandingPageState
         const landingPage = {
             title: pageData.title === undefined ? '' : pageData.title,
             startingClouds: pageData.startingClouds === undefined ?

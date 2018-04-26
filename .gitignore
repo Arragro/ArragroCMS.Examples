@@ -287,3 +287,4 @@ __pycache__/
 **/App_Data
 **/wwwroot/dist
 **/functions/*/local.settings.json
+.awcache

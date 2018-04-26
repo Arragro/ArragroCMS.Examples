@@ -12,16 +12,17 @@ export interface IStandardPageState {
 
 
 export default class StandardPage extends Components.ComponentTypeBase<Interfaces.IComponentTypeBaseProps, IStandardPageState> {
-    constructor (props) {
+    constructor (props: Interfaces.IComponentTypeBaseProps) {
         super(props)
         
         if (this.props.contentData) {
+            const data = (this.props.contentData.contentJson as any)[this.props.culture]
             if (this.props.contentData.contentJson &&
-                this.props.contentData.contentJson[this.props.culture] !== undefined) {
+                data) {
                 this.state = {
-                    title: this.props.contentData.contentJson[this.props.culture].title,
-                    body: this.props.contentData.contentJson[this.props.culture].body,
-                    version: this.props.contentData.contentJson[this.props.culture].version
+                    title: data.title,
+                    body: data.body,
+                    version: data.version
                 }
             } else {
                 this.state = this.defaultStandardPage
@@ -46,9 +47,6 @@ export default class StandardPage extends Components.ComponentTypeBase<Interface
     }
 
     public render () {
-        let source = '# This is a header\n\nAnd this is a paragraph'
-        let options = {
-        }
         return (
             <div className='col-md-6'>
                 <Input
