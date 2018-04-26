@@ -221,7 +221,7 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                 <div className='col-12 no-gutters full-width-buttons'>
                     <SortableContacts
                         ref={(x: SortableContacts | null) => this.sortableContacts = x}
-                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='contacts'
                         label="Contacts"
                         contacts={contactPage.contacts}

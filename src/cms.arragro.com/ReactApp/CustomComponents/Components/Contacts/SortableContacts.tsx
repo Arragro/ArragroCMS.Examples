@@ -1,14 +1,14 @@
 ﻿import * as React from 'react'
-import { Components } from 'arragrocms-management'
+import { Components, Interfaces } from 'arragrocms-management'
 
 import { IContact } from '../../interfaces'
 import SortableContactForm from './SortableContactForm'
 
 interface SortableContactsProps {
+    contentData: Interfaces.IContentData
     name: string
     label: string
     contacts: Array<IContact>
-    contentUrlRouteId: string
     newItem: IContact
     maxContacts: number
     onChange(name: string, carousels: Array<IContact>): void
@@ -34,7 +34,7 @@ export default class SortableContacts extends React.Component<SortableContactsPr
     
     getForm = (index: number, item: IContact, onChange: (name: string, value: any) => void) => {
         return <SortableContactForm        
-            contentUrlRouteId={this.props.contentUrlRouteId}
+            contentData={this.props.contentData}
             index={index}
             item={item}
             onChange={onChange}
@@ -46,7 +46,6 @@ export default class SortableContacts extends React.Component<SortableContactsPr
             ref={(x: Components.SortableItems<IContact> | null) => this.sortableClouds = x}
             name={this.props.name}
             typeName={this.props.label}
-            contentUrlRouteId={this.props.contentUrlRouteId}
             items={this.props.contacts}
             newItem={this.props.newItem}
             getName={(item: IContact) => item.name}

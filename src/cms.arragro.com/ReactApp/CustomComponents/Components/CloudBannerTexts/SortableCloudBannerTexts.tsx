@@ -1,5 +1,5 @@
 ﻿import * as React from 'react'
-import { Components } from 'arragrocms-management'
+import { Components, Interfaces } from 'arragrocms-management'
 import * as ReactMarkdown from 'react-markdown'
 
 import { ICloudBannerText } from '../../interfaces'
@@ -8,7 +8,7 @@ import SortableCloudBannerTextForm from './SortableCloudBannerTextForm'
 interface SortableCloudsProps {
     name: string
     cloudBannerTexts: Array<ICloudBannerText>
-    contentUrlRouteId: string
+    contentData: Interfaces.IContentData
     newItem: ICloudBannerText
     onChange(name: string, items: Array<ICloudBannerText>): void
 }
@@ -29,7 +29,7 @@ export default class SortableClouds extends React.Component<SortableCloudsProps>
     
     getForm = (index: number, item: ICloudBannerText, onChange: (name: string, value: any) => void) => {
         return <SortableCloudBannerTextForm        
-            contentUrlRouteId={this.props.contentUrlRouteId}
+            contentData={this.props.contentData}
             index={index}
             item={item}
             onChange={onChange}
@@ -41,7 +41,6 @@ export default class SortableClouds extends React.Component<SortableCloudsProps>
                     ref={(x: Components.SortableItems<ICloudBannerText> | null)  => this.sortableItems = x}
                     name={this.props.name}
                     typeName='Cloud Banner Text'
-                    contentUrlRouteId={this.props.contentUrlRouteId} 
                     items={this.props.cloudBannerTexts} 
                     newItem={this.props.newItem}
                     getName={(item: ICloudBannerText) => ''}

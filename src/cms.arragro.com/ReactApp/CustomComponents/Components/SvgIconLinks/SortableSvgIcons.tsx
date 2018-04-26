@@ -1,5 +1,5 @@
 ﻿import * as React from 'react'
-import { Components } from 'arragrocms-management'
+import { Components, Interfaces } from 'arragrocms-management'
 
 import { ISvgIconLink } from '../../interfaces'
 import SortableSvgIconForm from './SortableSvgIconForm'
@@ -7,7 +7,7 @@ import SortableSvgIconForm from './SortableSvgIconForm'
 interface SortableListProps<ItemType> {
     name: string
     svgIconLinksServices: Array<ISvgIconLink>
-    contentUrlRouteId: string
+    contentData: Interfaces.IContentData
     newItem: ISvgIconLink
     onChange(name: string, svgIconLinksServices: Array<ISvgIconLink>): void
 }
@@ -30,7 +30,7 @@ export default class SortableCarousel extends React.Component<SortableListProps<
     
     getForm = (index: number, item: ISvgIconLink, onChange: (name: string, value: any) => void) => {
         return <SortableSvgIconForm        
-            contentUrlRouteId={this.props.contentUrlRouteId}
+            contentData={this.props.contentData}
             index={index}
             item={item}
             onChange={onChange}
@@ -42,7 +42,6 @@ export default class SortableCarousel extends React.Component<SortableListProps<
                     ref={(x: Components.SortableItems<ISvgIconLink> | null) => this.sortableItems = x}
                     name={this.props.name}
                     typeName='Svg Icon Links'
-                    contentUrlRouteId={this.props.contentUrlRouteId} 
                     items={this.props.svgIconLinksServices} 
                     newItem={this.props.newItem}
                     getName={(item: ISvgIconLink) => item.title}

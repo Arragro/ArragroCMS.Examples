@@ -109,7 +109,7 @@ export default class TileBulletPage extends Components.StateManagedComponentType
                 <div className='col-12 col-lg-6 no-gutters full-width-buttons'>
                     <SortableTiles
                         ref={x => this.sortableTechnologySections = x}
-                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='tileBullets'
                         label='Tile Bullets'
                         clouds={tileBulletPage.tileBullets}

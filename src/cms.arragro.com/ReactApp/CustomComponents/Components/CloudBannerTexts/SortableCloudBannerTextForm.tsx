@@ -1,10 +1,11 @@
 import * as React from 'react'
+import { Interfaces } from 'arragrocms-management'
 
 import { ICloudBannerText } from '../../interfaces'
 import MarkdownEditor from '../../MarkdownEditor'
 
 interface SortableCloudBannerTextFormProps {
-    contentUrlRouteId: string
+    contentData: Interfaces.IContentData
     index: number
     item: ICloudBannerText
     onChange (name: string, value: string): void
@@ -15,7 +16,7 @@ const SortableCloudBannerTextForm: React.StatelessComponent<SortableCloudBannerT
     return <div>
 
         <MarkdownEditor
-            contentDataUrlRouteId={props.contentUrlRouteId}
+            contentData={props.contentData}
             name='markdown'
             label='Markdown'
             value={props.item.markdown}

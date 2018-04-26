@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as Formsy from 'formsy-react'
 import * as FRC from 'formsy-react-components'
-import { Components, utils } from 'arragrocms-management'
+import { Components, utils, Interfaces } from 'arragrocms-management'
 
 import MarkdownEditor from '../../MarkdownEditor'
 import { IContact } from '../../interfaces'
@@ -9,7 +9,7 @@ import { IContact } from '../../interfaces'
 const { Input } = FRC
 
 interface SortableContactFormProps {
-    contentUrlRouteId: string
+    contentData: Interfaces.IContentData
     index: number
     item: IContact
     onChange (name: string, value: string): void
@@ -113,7 +113,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             name='gravitar'
             label='Gravitar'
             selectedAsset={props.item.gravitar}
-            contentUrlRouteId={props.contentUrlRouteId}
+            contentData={props.contentData}
             dropzoneAccept='image/jpeg,image/pjpeg,image/png,image/gif'
             mimeTypeFilter='image/jpeg,image/pjpeg,image/png,image/gif'
             maxSize={10485760}
@@ -123,7 +123,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
         />
 
         <MarkdownEditor
-            contentDataUrlRouteId={props.contentUrlRouteId}
+            contentData={props.contentData}
             name='bio'
             label='Bio'
             value={utils.Helpers.makeEmptyString(props.item.bio)}

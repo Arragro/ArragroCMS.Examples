@@ -3,11 +3,12 @@ import * as FRC from 'formsy-react-components'
 import MarkdownEditor from '../../MarkdownEditor'
 
 import { ISvgIconLink } from '../../interfaces'
+import { Interfaces } from 'arragrocms-management';
 
 const { Input, Select } = FRC
 
 interface SortableItemProps<ItemType> {
-    contentUrlRouteId: string
+    contentData: Interfaces.IContentData
     index: number
     item: ItemType
     onChange (name: string, value: string): void
@@ -68,7 +69,7 @@ const SortableSvgIcon: React.StatelessComponent<SortableItemProps<ISvgIconLink>>
             />
 
             <MarkdownEditor
-                contentDataUrlRouteId={props.contentUrlRouteId}
+                contentData={props.contentData}
                 name='markdown'
                 label='Markdown'
                 value={props.item.markdown}

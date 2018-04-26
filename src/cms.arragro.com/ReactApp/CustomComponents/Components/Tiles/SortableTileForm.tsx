@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as FRC from 'formsy-react-components'
-import { Components } from 'arragrocms-management'
+import { Components, Interfaces } from 'arragrocms-management'
 
 import MarkdownEditor from '../../MarkdownEditor'
 import { ITile } from '../../interfaces'
@@ -8,7 +8,7 @@ import { ITile } from '../../interfaces'
 const { Input, Checkbox } = FRC
 
 interface SortableTileFormProps {
-    contentUrlRouteId: string
+    contentData: Interfaces.IContentData
     index: number
     item: ITile
     linkIsMandatory: boolean
@@ -25,7 +25,7 @@ const SortableTileForm: React.StatelessComponent<SortableTileFormProps> = (props
                     name='imageUrl'
                     label='SVG'
                     selectedAsset={props.item.imageUrl}
-                    contentUrlRouteId={props.contentUrlRouteId}
+                    contentData={props.contentData}
                     dropzoneAccept='image/svg+xml'
                     mimeTypeFilter='image/svg+xml'
                     maxSize={10485760}
@@ -40,7 +40,7 @@ const SortableTileForm: React.StatelessComponent<SortableTileFormProps> = (props
                     name='imageUrl'
                     label='Image'
                     selectedAsset={props.item.imageUrl}
-                    contentUrlRouteId={props.contentUrlRouteId}
+                    contentData={props.contentData}
                     dropzoneAccept='image/jpeg,image/pjpeg,image/png,image/gif'
                     mimeTypeFilter='image/jpeg,image/pjpeg,image/png,image/gif'
                     maxSize={10485760}
@@ -55,7 +55,7 @@ const SortableTileForm: React.StatelessComponent<SortableTileFormProps> = (props
     const getMarkdown = () => {
         if (props.useMarkdown) {
             return <MarkdownEditor
-                contentDataUrlRouteId={props.contentUrlRouteId}
+                contentData={props.contentData}
                 name='markdown'
                 label='Markdown'
                 value={props.item.markdown}

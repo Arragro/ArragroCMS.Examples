@@ -53,7 +53,6 @@ export default class SortableCarousel extends React.Component<SortableListProps,
                     // ref={x => this.sortableCarousel = x as Components.SortableItems<ICarousel>}
                     name={this.props.name}
                     typeName='Carousel'
-                    contentUrlRouteId={this.props.contentUrlRouteId} 
                     items={this.props.carousels} 
                     newItem={this.props.newItem}
                     getName={(item: ICarousel) => item.name}

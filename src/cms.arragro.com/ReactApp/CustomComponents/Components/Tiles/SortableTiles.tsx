@@ -1,5 +1,5 @@
 ﻿import * as React from 'react'
-import { Components } from 'arragrocms-management'
+import { Components, Interfaces } from 'arragrocms-management'
 
 import { ITile } from '../../interfaces'
 import SortableTileForm from './SortableTileForm'
@@ -8,7 +8,7 @@ interface SortableTilesProps {
     name: string
     label: string
     clouds: Array<ITile>
-    contentUrlRouteId: string
+    contentData: Interfaces.IContentData
     newItem: ITile
     maxClouds: number
     onChange(name: string, carousels: Array<ITile>): void
@@ -36,7 +36,7 @@ export default class SortableTiles extends React.Component<SortableTilesProps> {
     
     getForm = (index: number, item: ITile, onChange: (name: string, value: any) => void) => {
         return <SortableTileForm        
-            contentUrlRouteId={this.props.contentUrlRouteId}
+            contentData={this.props.contentData}
             index={index}
             item={item}
             onChange={onChange}
@@ -50,7 +50,6 @@ export default class SortableTiles extends React.Component<SortableTilesProps> {
             ref={(x: Components.SortableItems<ITile> | null) => this.sortableClouds = x}
             name={this.props.name}
             typeName={this.props.label}
-            contentUrlRouteId={this.props.contentUrlRouteId}
             items={this.props.clouds}
             newItem={this.props.newItem}
             getName={(item: ITile) => item.name}

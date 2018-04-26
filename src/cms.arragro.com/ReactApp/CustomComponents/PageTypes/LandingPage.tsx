@@ -131,7 +131,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 <div className='col-12 col-lg-6 no-gutters'>
                     <SortableTiles
                         ref={x => this.sortableStartingClouds = x}
-                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='startingClouds'
                         label='Starting Clouds'
                         clouds={landingPage.startingClouds}
@@ -146,7 +146,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 <div className='col-12 col-lg-6 no-gutters'>
                     <SortableTiles
                         ref={x => this.sortableInfiniteClouds = x}
-                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='infiniteClouds'
                         label='Infinite Clouds'
                         clouds={landingPage.infiniteClouds}
@@ -161,7 +161,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 <div className='col-12 col-lg-6 no-gutters'>
                     <SortableCloudBannerTexts
                         ref={x => this.sortableCloudBannerTexts = x}
-                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='cloudBannerTexts'
                         cloudBannerTexts={landingPage.cloudBannerTexts}
                         newItem={landingPageHelper.newCloudBannerText()}
@@ -183,7 +183,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 <div className='col-12 col-lg-6 no-gutters'>
                     <SortableSvgIcons
                         ref={x => this.sortableSvgIcons = x}
-                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='svgIconLinksServices'
                         svgIconLinksServices={landingPage.svgIconLinksServices}
                         newItem={landingPageHelper.newSvgIconLink()}
@@ -194,7 +194,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 <div className='col-12 col-lg-6 no-gutters'>
                     <SortableTiles
                         ref={x => this.sortableWhatWeveDones = x}
-                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='whatWeveDones'
                         label="What We've Done Tiles"
                         clouds={landingPage.whatWeveDones}
@@ -209,7 +209,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 <div className='col-12 col-lg-6 no-gutters'>
                     <SortableTiles
                         ref={x => this.sortableTechnologyClouds = x}
-                        contentUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='technologyClouds'
                         label='Technology Clouds'
                         clouds={landingPage.technologyClouds}
