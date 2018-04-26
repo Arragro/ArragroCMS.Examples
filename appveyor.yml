@@ -50,8 +50,6 @@
       appveyor-retry dotnet restore -v Minimal;
   - cmd: >-
       cd src\cms.arragro.com
-   
-      typings install
 
       npm run build-prod
 

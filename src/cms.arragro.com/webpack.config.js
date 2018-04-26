@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack');
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const sharedConfig = require('./webpack.shared.config');
 
 module.exports = (env) => {
@@ -63,16 +64,9 @@ module.exports = (env) => {
                 new ExtractTextPlugin('main.css'),
                 new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
             ] : [
-                new webpack.optimize.UglifyJsPlugin({
-                    beautify: false,
-                    mangle: {
-                        screw_ie8: true,
-                        keep_fnames: true
-                    },
-                    compress: {
-                        screw_ie8: true
-                    },
-                    comments: false
+                new UglifyJSPlugin({
+                    parallel: true,
+                    sourceMap: true
                 }),
                 new webpack.LoaderOptionsPlugin({
                     minimize: true,
