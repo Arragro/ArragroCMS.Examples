@@ -26,7 +26,7 @@
   "homepage": "https://github.com/Arragro/ArragroCMS.Examples#readme",
   "sideEffects": false,
   "dependencies": {
-    "arragrocms-management": "0.0.155-alpha",
+    "arragrocms-management": "0.0.156-alpha",
     "bootstrap": "^4.1.0",
     "codemirror": "^5.37.0",
     "formsy-react": "^1.1.4",
