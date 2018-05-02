@@ -456,11 +456,11 @@ header#standardHeader {
             width: 100%;
             object-fit: cover;
         }
+    }
 
-        .digital-signage {
-            .image img {
-                object-position: 0px -83px;
-            }
+    .section.digital-signage {
+        .image img {
+            object-position: 0px -83px;
         }
     }
 
