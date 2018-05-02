@@ -64,6 +64,14 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
         super(props)
     }
 
+    onOfficeTelephoneChange (name: string, value: string) {
+        if (value.length === 0) {
+            this.onChange(name, null)
+        } else {
+            this.onChange(name, value)
+        }
+    }
+
     public render() {
         if (this.props.culture === null) {
             return null
@@ -189,8 +197,8 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                         type='text'
                         name='officeTelephone'
                         label='Office Telephone'
-                        onChange={this.onChange}
-                        value={contactPage.officeTelephone}
+                        onChange={this.onOfficeTelephoneChange}
+                        value={utils.Helpers.makeEmptyString(contactPage.officeTelephone)}
                         validations={{
                             maxLength: 20
                         }}
