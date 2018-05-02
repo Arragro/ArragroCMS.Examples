@@ -105,7 +105,7 @@ namespace www.arragro.com
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=MarkdownPage}/{action=Home}/{siteId?}/{id?}/{status?}");
+                    template: "{controller=LandingPage}/{action=Home}/{siteId?}/{id?}/{status?}");
             });
         }
     }

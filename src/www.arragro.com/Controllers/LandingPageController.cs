@@ -23,7 +23,7 @@ namespace www.arragro.com.Controllers
         {
             var content = await _arragroCmsManagementClient.GetContentAsync<LandingPage>(Request.Host.Host, Request.Host.Port, "home", Status.Published);
             ViewBag.MetaData = new MetaData(content.ContentDto);
-            return View(content.ParsedContent[CultureInfo.CurrentCulture.Name]);
+            return View("Index", content.ParsedContent[CultureInfo.CurrentCulture.Name]);
         }
         
         public async Task<IActionResult> Index(Guid siteId, Guid id, Status status)
