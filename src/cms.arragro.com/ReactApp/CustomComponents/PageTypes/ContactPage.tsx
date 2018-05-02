@@ -62,9 +62,11 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
 
     constructor(props: Interfaces.IComponentTypeBaseProps) {
         super(props)
+
+        this.onOfficeTelephoneChange = this.onOfficeTelephoneChange.bind(this)
     }
 
-    onOfficeTelephoneChange (name: string, value: string) {
+    onOfficeTelephoneChange(name: string, value: string) {
         if (value.length === 0) {
             this.onChange(name, null)
         } else {
