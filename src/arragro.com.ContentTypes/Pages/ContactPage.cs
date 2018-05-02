@@ -25,7 +25,6 @@ namespace arragro.com.ContentTypes.Pages
         public string Country { get; set; }
         [MaxLength(10)]
         public string PostCode { get; set; }
-        [Required]
         [MaxLength(20)]
         [Phone]
         public string OfficeTelephone { get; set; }
