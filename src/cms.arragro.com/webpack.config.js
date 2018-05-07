@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack');
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
 const sharedConfig = require('./webpack.shared.config');
 
 module.exports = (env) => {
@@ -64,10 +65,6 @@ module.exports = (env) => {
                 new ExtractTextPlugin('main.css'),
                 new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
             ] : [
-                new UglifyJSPlugin({
-                    parallel: true,
-                    sourceMap: true
-                }),
                 new webpack.LoaderOptionsPlugin({
                     minimize: true,
                     debug: false
@@ -76,7 +73,20 @@ module.exports = (env) => {
                 new webpack.DefinePlugin({
                     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
                 }),
-                new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
+                new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }),
+                new UglifyJSPlugin({
+                    parallel: true,
+                    sourceMap: true
+                }),
+                new webpack.optimize.AggressiveMergingPlugin(),
+                new CompressionPlugin({
+                    asset: "[path].gz[query]",
+                    //include: /\/wwwroot/,
+                    algorithm: "gzip",
+                    test: /\.js$|\.css$|\.svg$/,
+                    threshold: 10240,
+                    minRatio: 0.8
+                }),
             ])
     }
     
