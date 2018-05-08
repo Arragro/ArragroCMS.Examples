@@ -87,8 +87,8 @@
     do_not_use_checksum: true
     app_offline: true
     aspnet_core: true
-    sync_retry_attempts: 5
-    sync_retry_interval: 1000
+    sync_retry_attempts: 10
+    sync_retry_interval: 2000
     aspnet_core_force_restart: true
     skip_dirs: \\App_Data
   - provider: WebDeploy
@@ -103,8 +103,8 @@
     do_not_use_checksum: true
     app_offline: true
     aspnet_core: true
-    sync_retry_attempts: 5
-    sync_retry_interval: 1000
+    sync_retry_attempts: 10
+    sync_retry_interval: 2000
     aspnet_core_force_restart: true
     skip_dirs: \\App_Data
 #  - provider: WebDeploy
