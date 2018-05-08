@@ -5,7 +5,7 @@
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <UserSecretsId>91b0f212-0dc0-4cec-ac6e-cb3f5ea0e26a</UserSecretsId>
-    <NoWarn>$(NoWarn);NU1605</NoWarn>
+    <!--<NoWarn>$(NoWarn);NU1605</NoWarn>-->
   </PropertyGroup>
   
   <ItemGroup>
