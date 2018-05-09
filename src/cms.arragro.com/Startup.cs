@@ -67,7 +67,7 @@ namespace cms.arragro.com
                 var logger = _loggerFactory.CreateLogger<Startup>();
                 logger.LogInformation("Starting the configuration of the ArragroCmsServices");
 
-                services.AddCustomArragroCmsServices(ConfigurationSettings, new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, new TimeSpan(1, 0, 0), "arragro.com.ContentTypes");
+                services.AddDefaultArragroCmsServices(ConfigurationSettings, new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, new TimeSpan(1, 0, 0), "arragro.com.ContentTypes");
 
                 logger.LogInformation("Finished configuring of the ArragroCmsServices");
 
@@ -90,18 +90,7 @@ namespace cms.arragro.com
                     config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     config.Filters.Add(new ValidateModelAttribute());
                 });
-
-                var sb = services.BuildServiceProvider();
-                var protector = sb.GetDataProtector("ArragroCMS");
-
-                // protect the payload
-                var protectedPayload = protector.Protect("Hello World!");
-                Console.WriteLine($"Protect returned: {protectedPayload}");
-
-                // unprotect the payload
-                var unprotectedPayload = protector.Unprotect(protectedPayload);
-                Console.WriteLine($"Unprotect returned: {unprotectedPayload}");
-
+                
                 return services.BuildServiceProvider();
             }
             catch (Exception ex)

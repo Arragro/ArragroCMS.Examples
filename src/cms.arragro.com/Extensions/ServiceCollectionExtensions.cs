@@ -121,6 +121,13 @@ namespace cms.arragro.com.Extentions
                     if (externalAuthenticationProviders.AzureAdAccountAuthenticationSettings.Enabled)
                         policy.AuthenticationSchemes.Add(CookieAuthenticationDefaults.AuthenticationScheme);
                 });
+                options.AddPolicy("TagAuthors", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, Lookups.Roles.Administrator, Lookups.Roles.TagAuthor);
+                    policy.AuthenticationSchemes.Add(IdentityConstants.ApplicationScheme);
+                    if (externalAuthenticationProviders.AzureAdAccountAuthenticationSettings.Enabled)
+                        policy.AuthenticationSchemes.Add(CookieAuthenticationDefaults.AuthenticationScheme);
+                });
             });
         }
 
