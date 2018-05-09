@@ -38,7 +38,10 @@
                         </div>
                         <div class="contact-details col-12 col-lg-6">
                             <h5>Contact Details</h5>
-                            <div><a href="tel:@Model.OfficeTelephone">@Model.OfficeTelephone</a></div>
+                            @if (!string.IsNullOrEmpty(@Model.OfficeTelephone))
+                            {
+                                <div><a href="tel:@Model.OfficeTelephone">@Model.OfficeTelephone</a></div>
+                            }
                             <div><a href="mailto:@Model.OfficeEmail">@Model.OfficeEmail</a></div>
                         </div>
                     </div>

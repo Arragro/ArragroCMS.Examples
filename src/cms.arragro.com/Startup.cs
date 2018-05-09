@@ -136,6 +136,7 @@ namespace cms.arragro.com
             }
 
             app.UseDefaultFiles();
+            app.UseCompressedStaticFiles();
             app.UseStaticFiles();
 
             app.UseAuthentication();

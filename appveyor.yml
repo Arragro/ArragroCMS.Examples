@@ -6,7 +6,7 @@
   version: 1.0.{build}
   configuration: Release
   platform: Any CPU
-  image: Visual Studio 2017
+  image: Visual Studio 2017 Preview
   cache:
     - packages -> **\packages.config
     - projectA\libs
@@ -63,9 +63,9 @@
   - dotnet build "src\www.arragro.com" -c %CONFIGURATION%
   - dotnet build "functions\arragro.com.functions" -c %CONFIGURATION%
   after_build:
-  - dotnet publish .\src\cms.arragro.com --output %appveyor_build_folder%\publish\cms.aragro.com --configuration %CONFIGURATION%
-  - dotnet publish .\src\www.arragro.com --output %appveyor_build_folder%\publish\www.arragro.com --configuration %CONFIGURATION%
-  - dotnet publish .\functions\arragro.com.functions --output %appveyor_build_folder%\publish\arragro.com.functions --configuration %CONFIGURATION%
+  - dotnet publish .\src\cms.arragro.com --output %appveyor_build_folder%\publish\cms.aragro.com --configuration %CONFIGURATION% --self-contained -r win-x64
+  - dotnet publish .\src\www.arragro.com --output %appveyor_build_folder%\publish\www.arragro.com --configuration %CONFIGURATION% --self-contained -r win-x64
+  - dotnet publish .\functions\arragro.com.functions --output %appveyor_build_folder%\publish\arragro.com.functions --configuration %CONFIGURATION% --self-contained -r win-x64
   test: off
   artifacts:
   - path: publish\cms.aragro.com
@@ -87,8 +87,8 @@
     do_not_use_checksum: true
     app_offline: true
     aspnet_core: true
-    sync_retry_attempts: 5
-    sync_retry_interval: 1000
+    sync_retry_attempts: 10
+    sync_retry_interval: 2000
     aspnet_core_force_restart: true
     skip_dirs: \\App_Data
   - provider: WebDeploy
@@ -103,8 +103,8 @@
     do_not_use_checksum: true
     app_offline: true
     aspnet_core: true
-    sync_retry_attempts: 5
-    sync_retry_interval: 1000
+    sync_retry_attempts: 10
+    sync_retry_interval: 2000
     aspnet_core_force_restart: true
     skip_dirs: \\App_Data
 #  - provider: WebDeploy
