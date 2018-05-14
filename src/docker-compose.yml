@@ -3,9 +3,17 @@ version: '2'
 services:
   cms.arragro.com:
     image: docker.arragro.com/cms.arragro.com:v0.0.3-alpha-2.1
+    depends_on:
+      - image_service
     ports:
       - 50001:5000
     restart: always
     environment:
       - ConnectionStrings:CmsDatabaseConnection=Server=tcp:arragro-sql.database.windows.net,1433;Initial Catalog=arragro-cms;Persist Security Info=False;User ID=ArragroCMS;Password=WkKoC<NEphhbj_0m7SdNCZtwCxc2Z5mm;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
       - ConnectionStrings:StorageConnection=DefaultEndpointsProtocol=https;AccountName=arragro;AccountKey=as2Tvcij8rWfZ5tc5bI1PD5hLAFhPyHP1Jz62HLpM97XBXXXunLJvB55PtQSzaC01aO8upafyEshTjsgGKRe/w==;BlobEndpoint=https://arragro.blob.core.windows.net/;QueueEndpoint=https://arragro.queue.core.windows.net/;TableEndpoint=https://arragro.table.core.windows.net/;FileEndpoint=https://arragro.file.core.windows.net/;
+      - ApplicationSettings:ImageServiceUrl="http://image_service:3000"
+
+  image_service:
+    image: docker.arragro.com/imageservice:v0.0.4-alpha
+    ports:
+      - 3000:3000

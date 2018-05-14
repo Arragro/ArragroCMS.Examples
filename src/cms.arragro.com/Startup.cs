@@ -1,4 +1,5 @@
-﻿using ArragroCMS.Core.Models;
+﻿using Arragro.Core.Common.Interfaces.Providers;
+using ArragroCMS.Core.Models;
 using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
 using ArragroCMS.Web.Management.Middleware;
@@ -18,6 +19,7 @@ using Serilog;
 using System;
 using System.Globalization;
 using System.IO.Compression;
+using System.Linq;
 
 namespace cms.arragro.com
 {
@@ -68,6 +70,10 @@ namespace cms.arragro.com
                 logger.LogInformation("Starting the configuration of the ArragroCmsServices");
 
                 services.AddDefaultArragroCmsServices(ConfigurationSettings, new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, new TimeSpan(1, 0, 0), "arragro.com.ContentTypes");
+
+                // Replace Image Provider with ImageServiceProvider
+                services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
+                services.AddSingleton<IImageProvider>(s => new Arragro.Providers.ImageServiceProvider.ImageProvider(Configuration["ApplicationSettings:ImageServiceUrl"]));
 
                 logger.LogInformation("Finished configuring of the ArragroCmsServices");
 

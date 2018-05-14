@@ -91,6 +91,7 @@ namespace www.arragro.com
             }
 
             app.UseDefaultFiles();
+            app.UseCompressedStaticFiles();
             app.UseStaticFiles();
 
 

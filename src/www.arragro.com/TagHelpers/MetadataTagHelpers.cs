@@ -9,7 +9,7 @@ namespace www.arragro.com.TagHelpers
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
-			var title = string.IsNullOrEmpty(MetaData.Title) ? "Arragro Software Developement for the Cloud" : $"{MetaData.Title} - Arragro";
+			var title = string.IsNullOrEmpty(MetaData.Title) ? "Arragro Software Developement for the Cloud" : MetaData.Title;
 			var description = string.IsNullOrEmpty(MetaData.Description) ? "Azure Architecture Deployment .Net ASP.Net MVC" : MetaData.Description;
 			var keywords = string.IsNullOrEmpty(MetaData.Keywords) ? "Azure Architecture Deployment .Net ASP.Net MVC" : MetaData.Keywords;
 
