@@ -9,7 +9,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-199" />
+    <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-201" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.0-rc1-final" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.0-rc1-final" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0-rc1-final" />

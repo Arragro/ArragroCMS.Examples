@@ -1,19 +1,77 @@
-version: '2'
-
+version: '2.4'
 services:
+  haproxy_image_service:
+    image: eeacms/haproxy
+    depends_on:
+    - image_service
+    networks:
+      - image-service-net
+    ports:
+    - "3000:5000"
+    - "1936:1936"
+    environment:
+      BACKENDS: "image_service:3000"
+      DNS_ENABLED: "true"
+      LOG_LEVEL: "info"
+
+  haproxy_cms:
+    image: eeacms/haproxy
+    depends_on:
+    - cms.arragro.com
+    ports:
+    - "50001:5000"
+    - "1937:1936"
+    networks:
+      - redis-net
+    environment:
+      BACKENDS: "cms.arragro.com:5000"
+      DNS_ENABLED: "true"
+      LOG_LEVEL: "info"
+
   cms.arragro.com:
-    image: docker.arragro.com/cms.arragro.com:v0.0.3-alpha-2.1
+    image: docker.arragro.com/cms.arragro.com:v0.0.1-alpha-2.1-data-protection
     depends_on:
       - image_service
-    ports:
-      - 50001:5000
+      - redis
+      - azurite
     restart: always
+    networks:
+      - redis-net
+      - image-service-net
     environment:
-      - ConnectionStrings:CmsDatabaseConnection=Server=tcp:arragro-sql.database.windows.net,1433;Initial Catalog=arragro-cms;Persist Security Info=False;User ID=ArragroCMS;Password=WkKoC<NEphhbj_0m7SdNCZtwCxc2Z5mm;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
-      - ConnectionStrings:StorageConnection=DefaultEndpointsProtocol=https;AccountName=arragro;AccountKey=as2Tvcij8rWfZ5tc5bI1PD5hLAFhPyHP1Jz62HLpM97XBXXXunLJvB55PtQSzaC01aO8upafyEshTjsgGKRe/w==;BlobEndpoint=https://arragro.blob.core.windows.net/;QueueEndpoint=https://arragro.queue.core.windows.net/;TableEndpoint=https://arragro.table.core.windows.net/;FileEndpoint=https://arragro.file.core.windows.net/;
-      - ApplicationSettings:ImageServiceUrl="http://image_service:3000"
+      - ConnectionStrings:CmsDatabaseConnection=Server=tcp:192.168.69.160,1433;Initial Catalog=arragro-cms;Persist Security Info=False;User ID=ArragroCMS;Password=Password;MultipleActiveResultSets=False;Connection Timeout=30;
+      - ConnectionStrings:StorageConnection=BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
+      - ConnectionStrings:RedisConnection=redis:6379
+      - ApplicationSettings:ImageServiceUrl=http://image_service:3000
+    scale: 2
 
   image_service:
     image: docker.arragro.com/imageservice:v0.0.4-alpha
-    ports:
-      - 3000:3000
+    networks:
+      - image-service-net
+    scale: 3
+
+  redis:
+    image: redis:4.0.9-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    mem_limit: 128m
+    networks:
+      - redis-net
+    volumes:
+      - redis-data:/data
+
+  azurite:
+    image: arafato/azurite
+    networks:
+      - redis-net
+    volumes:
+      - azurite-data:/data
+
+networks:
+  redis-net:
+  image-service-net:
+
+volumes:
+  redis-data:
+  azurite-data:

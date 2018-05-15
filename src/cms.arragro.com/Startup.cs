@@ -69,7 +69,7 @@ namespace cms.arragro.com
                 var logger = _loggerFactory.CreateLogger<Startup>();
                 logger.LogInformation("Starting the configuration of the ArragroCmsServices");
 
-                services.AddDefaultArragroCmsServices(ConfigurationSettings, new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, new TimeSpan(1, 0, 0), "arragro.com.ContentTypes");
+                services.AddCustomArragroCmsServices(ConfigurationSettings, Configuration.GetConnectionString("RedisConnection"), new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, new TimeSpan(1, 0, 0), "arragro.com.ContentTypes");
 
                 // Replace Image Provider with ImageServiceProvider
                 services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));

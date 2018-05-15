@@ -4,7 +4,6 @@ using ArragroCMS.BusinessLayer.Data.EFCore;
 using ArragroCMS.BusinessLayer.Data.EFCore.Identity;
 using ArragroCMS.BusinessLayer.Data.EFCore.Identity.Models;
 using ArragroCMS.BusinessLayer.Data.Lookups;
-using ArragroCMS.Core.Interfaces.Domains;
 using ArragroCMS.Core.Interfaces.Providers;
 using ArragroCMS.Core.Models;
 using ArragroCMS.Web.Management.Extensions;
@@ -22,12 +21,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -142,13 +143,13 @@ namespace cms.arragro.com.Extentions
 
         private static void SetCookieAuthenticationOptions(this CookieAuthenticationOptions cookieAuthenticationOptions, TimeSpan cookieExpiration, IDataProtectionProvider dataProtection)
         {
-            cookieAuthenticationOptions.DataProtectionProvider = dataProtection;
-            cookieAuthenticationOptions.TicketDataFormat =
-                new TicketDataFormat(
-                    dataProtection.CreateProtector(
-                        "Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationMiddleware",
-                        "Cookies",
-                        "v2"));
+            //cookieAuthenticationOptions.DataProtectionProvider = dataProtection;
+            //cookieAuthenticationOptions.TicketDataFormat =
+            //    new TicketDataFormat(
+            //        dataProtection.CreateProtector(
+            //            "Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationMiddleware",
+            //            "Cookies",
+            //            "v2"));
             cookieAuthenticationOptions.SlidingExpiration = true;
             cookieAuthenticationOptions.ExpireTimeSpan = cookieExpiration;
             cookieAuthenticationOptions.Cookie.Name = "cms-arragro";
@@ -167,9 +168,24 @@ namespace cms.arragro.com.Extentions
             };
         }
 
+        private static byte[] ReadStreamAsBytes(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
+
         public static IServiceCollection AddCustomArragroCmsServices(
             this IServiceCollection services,
             ConfigurationSettings configurationSettings,
+            string redisConnection,
             CultureInfo defaultCulture,
             CultureInfo[] supportedCultures,
             TimeSpan cookieExpiration,
@@ -211,14 +227,16 @@ namespace cms.arragro.com.Extentions
              * Add the cert to the certmgr local machine - you can get it at: C:\Users\{UserName}\AppData\Local\lxss\root
              * 
              */
-            var store = new X509Store(StoreLocation.LocalMachine);
-            store.Open(OpenFlags.ReadOnly);
-            X509Certificate2Collection x509Certificate2Collection = store.Certificates.Find(X509FindType.FindByThumbprint, "d0961c247d0b2e240a5c510eb616569b4d6c244b", false);
-            X509Certificate2 x509Cert = x509Certificate2Collection.Count > 0 ? x509Certificate2Collection[0] : null;
-            store.Close();
+
+
+            var assembly = typeof(ServiceCollectionExtensions).GetTypeInfo().Assembly;
+            var bytes = ReadStreamAsBytes(assembly.GetManifestResourceStream("cms.arragro.com.Resources.test-cert.pfx"));
+            X509Certificate2 x509Cert = new X509Certificate2(bytes, "password");
+
+            var redis = ConnectionMultiplexer.Connect(redisConnection);
 
             services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo(@"d:\temp-keys"))
+                .PersistKeysToRedis(redis, "DataProtection-Keys")
                 .ProtectKeysWithCertificate(x509Cert);
 
             services.AddIdentity<User, Role>(config =>
@@ -242,7 +260,6 @@ namespace cms.arragro.com.Extentions
             var jwtSettings = settings.GetJwtSettings();
 
             var dataProtection = services.BuildServiceProvider().GetDataProtectionProvider();
-
 
             var authBuilder = services.AddAuthentication(opt =>
             {
