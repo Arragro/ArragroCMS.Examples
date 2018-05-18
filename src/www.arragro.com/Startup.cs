@@ -1,7 +1,9 @@
-﻿using ArragroCMS.Management.Extensions;
+﻿using Arragro.Core.Common.Models;
+using ArragroCMS.Management.Extensions;
 using ArragroCMS.Web.Data;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -11,9 +13,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using StackExchange.Redis;
 using System;
 using System.Globalization;
+using System.IO;
 using System.IO.Compression;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 
 namespace www.arragro.com
 {
@@ -39,9 +45,25 @@ namespace www.arragro.com
             }
 
             Configuration = builder.Build();
+            ConfigurationSettings = Configuration.Get<BaseSettings>();
         }
 
         public IConfigurationRoot Configuration { get; }
+        public BaseSettings ConfigurationSettings { get; }
+
+        private byte[] ReadStreamAsBytes(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -55,7 +77,19 @@ namespace www.arragro.com
                     options.HeaderName = "X-CSRF-TOKEN";
                     options.Cookie.SameSite = SameSiteMode.Strict;
                     options.Cookie.Name = "arragro-antiforgery";
-                });
+                })
+                .AddSingleton(ConfigurationSettings);
+
+            
+            var assembly = typeof(Startup).GetTypeInfo().Assembly;
+            var bytes = ReadStreamAsBytes(assembly.GetManifestResourceStream("www.arragro.com.Resources.test-cert.pfx"));
+            X509Certificate2 x509Cert = new X509Certificate2(bytes, "password");
+
+            var redis = ConnectionMultiplexer.Connect(Configuration.GetConnectionString("RedisConnection"));
+
+            services.AddDataProtection()
+                .PersistKeysToRedis(redis, "DataProtection-Keys")
+                .ProtectKeysWithCertificate(x509Cert);
 
             services.Configure<GzipCompressionProviderOptions>
                 (options => options.Level = CompressionLevel.Fastest);
@@ -104,6 +138,10 @@ namespace www.arragro.com
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "web-info/{secret}",
+                    template: "{controller=WebInfo}/{action=Index}/{secret?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=LandingPage}/{action=Home}/{siteId?}/{id?}/{status?}");

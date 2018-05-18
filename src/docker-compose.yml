@@ -17,19 +17,41 @@ services:
   haproxy_cms:
     image: eeacms/haproxy
     depends_on:
-    - cms.arragro.com
+    - cms_arragro_com
     ports:
     - "50001:5000"
     - "1937:1936"
     networks:
-      - redis-net
+      - cms-net
     environment:
-      BACKENDS: "cms.arragro.com:5000"
+      BACKENDS: "cms_arragro_com:5000"
       DNS_ENABLED: "true"
       LOG_LEVEL: "info"
+      COOKIES_ENABLED: "true"
+      BALANCE: "rdp-cookie"
+      HTTPCHK: GET /web-info/799c809f-9ca4-47ca-a9b1-3bce5c5215cf
 
-  cms.arragro.com:
+  haproxy_www:
+    image: eeacms/haproxy
+    depends_on:
+    - www_arragro_com
+    networks:
+      - cms-net
+    ports:
+    - "50002:5000"
+    - "1938:1936"
+    environment:
+      BACKENDS: "www_arragro_com:5001"
+      DNS_ENABLED: "true"
+      LOG_LEVEL: "info"
+      HTTPCHK: GET /web-info/60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
+
+  cms_arragro_com:
     image: docker.arragro.com/cms.arragro.com:v0.0.1-alpha-2.1-data-protection
+    # logging:
+    #   driver: none
+    # ports:
+    # - 5000:5000
     depends_on:
       - image_service
       - redis
@@ -38,11 +60,38 @@ services:
     networks:
       - redis-net
       - image-service-net
+      - azurite-net
+      - cms-net
     environment:
-      - ConnectionStrings:CmsDatabaseConnection=Server=tcp:192.168.69.160,1433;Initial Catalog=arragro-cms;Persist Security Info=False;User ID=ArragroCMS;Password=Password;MultipleActiveResultSets=False;Connection Timeout=30;
+      - ConnectionStrings:CmsDatabaseConnection=Server=tcp:192.168.69.160,1433;Initial Catalog=ARRAGRO_CMS_DOCKER;Persist Security Info=False;User ID=ArragroCMS;Password=Password;MultipleActiveResultSets=False;Connection Timeout=30;
       - ConnectionStrings:StorageConnection=BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
       - ConnectionStrings:RedisConnection=redis:6379
       - ApplicationSettings:ImageServiceUrl=http://image_service:3000
+      - ApplicationSettings:OverrideAssetUrl=http://localhost:10000/devstoreaccount1
+      - DemoSettings:IsDemo=true
+      - DemoSettings:ApiKey=password
+      - WebInfoSettings:IsWebInfoEnabled=true
+      - WebInfoSettings:Secret=799c809f-9ca4-47ca-a9b1-3bce5c5215cf
+    scale: 2
+
+  www_arragro_com:
+    image: docker.arragro.com/www.arragro.com:v0.0.1-alpha-2.1-data-protection
+    depends_on:
+      - cms_arragro_com
+    # logging:
+    #   driver: none
+    # ports:
+    # - 5001:5001
+    restart: always
+    networks:
+      - cms-net
+      - redis-net
+    environment:
+      - ConnectionStrings:RedisConnection=redis:6379
+      - ArragroCmsOptions:ApiUrl=http://cms_arragro_com:5000/
+      - ArragroCmsOptions:ApiKey=password
+      - WebInfoSettings:IsWebInfoEnabled=true
+      - WebInfoSettings:Secret=60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
     scale: 2
 
   image_service:
@@ -54,7 +103,6 @@ services:
   redis:
     image: redis:4.0.9-alpine
     command: ["redis-server", "--appendonly", "yes"]
-    hostname: redis
     mem_limit: 128m
     networks:
       - redis-net
@@ -63,14 +111,18 @@ services:
 
   azurite:
     image: arafato/azurite
+    ports:
+      - 10000:10000
     networks:
-      - redis-net
+      - azurite-net
     volumes:
-      - azurite-data:/data
+      - azurite-data:/opt/azurite/folder
 
 networks:
   redis-net:
   image-service-net:
+  azurite-net:
+  cms-net:
 
 volumes:
   redis-data:

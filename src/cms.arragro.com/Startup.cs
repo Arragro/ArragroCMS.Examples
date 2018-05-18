@@ -1,4 +1,5 @@
 ﻿using Arragro.Core.Common.Interfaces.Providers;
+using Arragro.Core.Common.Models;
 using ArragroCMS.Core.Models;
 using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
@@ -20,6 +21,7 @@ using System;
 using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading;
 
 namespace cms.arragro.com
 {
@@ -74,6 +76,7 @@ namespace cms.arragro.com
                 // Replace Image Provider with ImageServiceProvider
                 services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
                 services.AddSingleton<IImageProvider>(s => new Arragro.Providers.ImageServiceProvider.ImageProvider(Configuration["ApplicationSettings:ImageServiceUrl"]));
+                services.AddSingleton<BaseSettings>(ConfigurationSettings);
 
                 logger.LogInformation("Finished configuring of the ArragroCmsServices");
 
@@ -144,6 +147,10 @@ namespace cms.arragro.com
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "web-info/{secret}",
+                    template: "{controller=WebInfo}/{action=Index}/{secret?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=ArragroCms}/{action=Index}/{id?}/{status?}");
