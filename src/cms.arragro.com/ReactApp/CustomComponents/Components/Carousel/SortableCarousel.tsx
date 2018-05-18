@@ -1,5 +1,5 @@
 ﻿import * as React from 'react'
-import { Components } from 'arragrocms-management'
+import { Components, Interfaces } from 'arragrocms-management'
 
 import { ICarousel } from '../../interfaces'
 import SortableCarouselForm from './SortableCarouselForm'
@@ -7,7 +7,7 @@ import SortableCarouselForm from './SortableCarouselForm'
 interface SortableListProps {
     name: string
     carousels: Array<ICarousel>
-    contentUrlRouteId: string
+    contentData: Interfaces.IContentData
     newItem: ICarousel
     onChange (name: string, carousels: Array<ICarousel>): void
 }
@@ -40,7 +40,7 @@ export default class SortableCarousel extends React.Component<SortableListProps,
     
     getForm = (index: number, item: ICarousel, onChange: (name: string, value: any) => void) => {
         return <SortableCarouselForm        
-            contentUrlRouteId={this.props.contentUrlRouteId}
+            contentData={this.props.contentData}
             assetPickerClass={this.state.assetPickerClass}
             index={index}
             item={item}

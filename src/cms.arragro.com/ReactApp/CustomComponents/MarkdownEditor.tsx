@@ -10,7 +10,7 @@ import 'codemirror/mode/markdown/markdown'
 import 'codemirror/addon/display/autorefresh'
 
 export interface IMarkdownEditorProps {
-    contentData?: Interfaces.IContentData
+    contentData: Interfaces.IContentData
     name: string
     label: string
     value: string
@@ -19,11 +19,7 @@ export interface IMarkdownEditorProps {
     onChange(name: string, value: string): void
 }
 
-export interface IMarkdownEditorState {
-    showImageAssetModal: boolean
-}
-
-class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdownEditorState> {
+class MarkdownEditor extends React.Component<IMarkdownEditorProps & any> {
     assetModal: Components.AssetModal | null = null
     codeMirror: any = null
 
@@ -38,10 +34,9 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
     }
 
     closeClick = () => {
-        this.setState({
-            ...this.state,
-            showImageAssetModal: false
-        })
+        if (this.assetModal !== null) {
+            this.assetModal.toggle()
+        }
     }
 
     selectClick = (asset: Interfaces.IAsset) => {
@@ -53,34 +48,10 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
         })
     }
 
-    getImageAssetModal = (show: boolean) => {
-        if (show) {
-            const mimeTypeFilter = 'image/jpeg,image/png,image/pjpeg'
-            const dropzoneAccept = 'image/jpeg,image/png,image/pjpeg'
-            return <Components.AssetModal
-                ref={(x: Components.AssetModal | null) => this.assetModal = x}
-                contentData={this.props.contenData}                
-                mimeTypeFilter={mimeTypeFilter}
-                selectClick={this.selectClick}
-                closeClick={this.closeClick}
-                dropzoneAccept={dropzoneAccept}
-                maxSize={10485760}
-                showResize={true}
-            />
-        } else {
-            return null
-        }
-    }
-
     showImageAssetModal = () => {
-        this.setState({
-            ...this.state,
-            showImageAssetModal: true
-        }, () => {
-            if (this.assetModal !== null) {
-                this.assetModal.toggle()
-            }
-        })
+        if (this.assetModal !== null) {
+            this.assetModal.toggle()
+        }
     }
 
     onChange(editor: any, metadata: any, value: any) {
@@ -104,9 +75,14 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
             autoRefresh: true
         }
 
+        const { contentData } = this.props
         const markdownClass = this.props.showAssetPicker ? 'col-6 pt-4 mt-3' : 'col-6'
         const styleIssue = { border: '1px solid red' }
         const style = (this.props.showRequired() && this.props.isFormSubmitted() ? styleIssue : this.props.showError() ? styleIssue : {})
+        const mimeTypeFilter = 'image/jpeg,image/png,image/pjpeg'
+        const dropzoneAccept = 'image/jpeg,image/png,image/pjpeg'
+
+        console.log(contentData)
 
         return (
             <div className='row no-gutters'>
@@ -114,7 +90,16 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any, IMarkdo
                     <label className="control-label">{this.props.label}</label>
                 </div>
                 <div className='col-6 full-width-buttons' style={style}>
-                    {this.getImageAssetModal(this.state.showImageAssetModal)}
+                    <Components.AssetModal
+                        ref={(x: Components.AssetModal | null) => this.assetModal = x}
+                        contentData={contentData}              
+                        mimeTypeFilter={mimeTypeFilter}
+                        selectClick={this.selectClick}
+                        closeClick={this.closeClick}
+                        dropzoneAccept={dropzoneAccept}
+                        maxSize={10485760}
+                        showResize={true}
+                    />
                     {utils.HtmlHelper.renderButton('btn-primary', this.showImageAssetModal.bind(this), '', 'Select Image', this.props.showAssetPicker, false)}
                     <CodeMirror 
                         ref={(x) => this.codeMirror = x} 

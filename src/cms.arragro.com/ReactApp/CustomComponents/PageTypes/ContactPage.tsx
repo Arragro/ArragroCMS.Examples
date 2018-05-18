@@ -283,7 +283,7 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                 <hr className='col-12' />
                 <div className='col-lg-12'>
                     <MarkdownEditor
-                        contentDataUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='markdownIntro'
                         label='Markdown Intro'
                         value={contactPage.markdownIntro}
@@ -294,7 +294,7 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
                 <hr className='col-12' />
                 <div className='col-lg-12'>
                     <MarkdownEditor
-                        contentDataUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='markdownOutro'
                         label='Markdown Outro'
                         value={contactPage.markdownOutro}

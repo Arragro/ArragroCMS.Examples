@@ -87,7 +87,7 @@ export default class TileBulletPage extends Components.StateManagedComponentType
                 <hr className='col-12' />
                 <div className='col-12 no-gutters'>
                     <MarkdownEditor
-                        contentDataUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='introMarkdown'
                         label='Intro'
                         value={tileBulletPage.introMarkdown}

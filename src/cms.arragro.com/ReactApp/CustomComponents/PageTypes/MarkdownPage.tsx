@@ -56,7 +56,7 @@ export default class MarkdownPage extends Components.StateManagedComponentTypeBa
                 </div>
                 <div className='col-12 no-gutters'>
                     <MarkdownEditor 
-                        contentDataUrlRouteId={this.props.contentData.urlRouteId} 
+                        contentData={this.props.contentData} 
                         name='markdown'
                         label='Content'
                         value={this.state.markdown} 

@@ -171,7 +171,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 <hr className='col-12' />
                 <div className='col-12 no-gutters'>
                     <MarkdownEditor
-                        contentDataUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='markdownIntro'
                         label='Introduction'
                         value={landingPage.markdownIntro}
@@ -223,7 +223,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 <hr className='col-12' />
                 <div className='col-12 no-gutters'>
                     <MarkdownEditor
-                        contentDataUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='technologyMarkdown'
                         label='Technology Markdown'
                         value={landingPage.technologyMarkdown}
@@ -234,7 +234,7 @@ export default class LandingPage extends Components.StateManagedComponentTypeBas
                 <hr className='col-12' />
                 <div className='col-12 no-gutters'>
                     <MarkdownEditor
-                        contentDataUrlRouteId={this.props.contentData.urlRouteId}
+                        contentData={this.props.contentData}
                         name='markdownOutro'
                         label='Outro'
                         value={landingPage.markdownOutro}

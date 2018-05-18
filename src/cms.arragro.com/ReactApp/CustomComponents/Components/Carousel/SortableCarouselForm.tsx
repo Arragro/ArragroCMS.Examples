@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as FRC from 'formsy-react-components'
-import { Components } from 'arragrocms-management'
+import { Components, Interfaces } from 'arragrocms-management'
 
 import { ICarousel } from '../../interfaces'
 import MarkdownEditor from '../../MarkdownEditor'
@@ -8,7 +8,7 @@ import MarkdownEditor from '../../MarkdownEditor'
 const { Input, Checkbox } = FRC
 
 interface SortableListProps {
-    contentUrlRouteId: string
+    contentData: Interfaces.IContentData
     index: number
     item: ICarousel
     assetPickerClass: string
@@ -22,7 +22,7 @@ const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) =>
             return <div>
             
                 <MarkdownEditor 
-                    contentDataUrlRouteId={props.contentUrlRouteId} 
+                    contentData={props.contentData} 
                     name='linkText'
                     label='Link Text'
                     value={props.item.linkText}
@@ -72,7 +72,7 @@ const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) =>
             required
             selectedAsset={props.item.imageUrl}
             className={props.assetPickerClass} 
-            contentUrlRouteId={props.contentUrlRouteId} 
+            contentData={props.contentData} 
             dropzoneAccept='image/*' 
             mimeTypeFilter='image/*' 
             maxSize={10485760} 
