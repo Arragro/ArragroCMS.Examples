@@ -4,7 +4,6 @@ using ArragroCMS.Core.Models;
 using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
 using ArragroCMS.Web.Management.Middleware;
-using cms.arragro.com.Extentions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -71,7 +70,7 @@ namespace cms.arragro.com
                 var logger = _loggerFactory.CreateLogger<Startup>();
                 logger.LogInformation("Starting the configuration of the ArragroCmsServices");
 
-                services.AddCustomArragroCmsServices(ConfigurationSettings, Configuration.GetConnectionString("RedisConnection"), new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, new TimeSpan(1, 0, 0), "arragro.com.ContentTypes");
+                services.AddDefaultArragroCmsServices(ConfigurationSettings, new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, new TimeSpan(1, 0, 0), "arragro.com.ContentTypes");
 
                 // Replace Image Provider with ImageServiceProvider
                 services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
