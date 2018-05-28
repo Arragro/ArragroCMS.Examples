@@ -11,13 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "arragro.com.ContentTypes", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{02645822-CCA2-43C5-8171-81D47D3676A2}"
 	ProjectSection(SolutionItems) = preProject
+		src\.dockerignore = src\.dockerignore
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
 		src\CMS.DockerFile = src\CMS.DockerFile
 		src\docker-compose.yml = src\docker-compose.yml
 		LICENSE = LICENSE
-		src\Postgres.DockerFile = src\Postgres.DockerFile
 		README.md = README.md
+		src\WWW.DockerFile = src\WWW.DockerFile
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{27F18BBE-3282-4926-AF0C-EE2DBC9B2FD5}"

@@ -2,7 +2,6 @@
 using arragro.com.ContentTypes.Post;
 using ArragroCMS.BusinessLayer.Data.EFCore.Identity.Models;
 using ArragroCMS.BusinessLayer.Data.Entities;
-using ArragroCMS.BusinessLayer.Data.Lookups;
 using ArragroCMS.BusinessLayer.Domains;
 using ArragroCMS.Core.Web.DataTransformationObjects;
 using ArragroCMS.Core.Web.Enums;
@@ -19,13 +18,13 @@ namespace cms.arragro.com
         private static readonly CultureInfo _culture_en_nz = new CultureInfo("en-nz");
 
         private static void CreatePage(
-            Site site, User adminUser, UrlRoutes urlRoutes, UrlRouteTypeLookups urlRouteTypeLookups, Contents contents, IMapper mapper,
+            Site site, User adminUser, UrlRoutes urlRoutes, ArragroCMS.BusinessLayer.Domains.UrlRouteTypes urlRouteTypeLookups, Contents contents, IMapper mapper,
             string url, string title, MarkdownPage en, MarkdownPage en_nz)
         {
             var testUrlRoute = urlRoutes.FindUrlRoute(url, Status.Published);
             if (testUrlRoute == null)
             {
-                var parentUrlRoute = new UrlRoute(site.SiteId, url, urlRouteTypeLookups.Get(UrlRouteTypeLookups.Page), adminUser.Id);
+                var parentUrlRoute = new UrlRoute(site.SiteId, url, urlRouteTypeLookups.Get("Page"), adminUser.Id);
 
                 var content = new Content(parentUrlRoute, title, typeof(MarkdownPage));
                 content.AddContent(_culture_en, en);
@@ -38,13 +37,13 @@ namespace cms.arragro.com
             }
         }
         private static void CreatePost(
-            Site site, User adminUser, UrlRoutes urlRoutes, UrlRouteTypeLookups urlRouteTypeLookups, Contents contents, IMapper mapper,
+            Site site, User adminUser, UrlRoutes urlRoutes, ArragroCMS.BusinessLayer.Domains.UrlRouteTypes urlRouteTypeLookups, Contents contents, IMapper mapper,
             string url, string title, MarkdownPost en, MarkdownPost en_nz)
         {
             var testUrlRoute = urlRoutes.FindUrlRoute(url, Status.Published);
             if (testUrlRoute == null)
             {
-                var parentUrlRoute = new UrlRoute(site.SiteId, url, urlRouteTypeLookups.Get(UrlRouteTypeLookups.Post), adminUser.Id);
+                var parentUrlRoute = new UrlRoute(site.SiteId, url, urlRouteTypeLookups.Get("Post"), adminUser.Id);
 
                 var content = new Content(parentUrlRoute, title, typeof(MarkdownPost));
                 content.AddContent(_culture_en, en);
@@ -57,7 +56,7 @@ namespace cms.arragro.com
             }
         }
 
-        private static void CreatePosts(Site site, User adminUser, UrlRoutes urlRoutes, UrlRouteTypeLookups urlRouteTypeLookups, Contents contents, IMapper mapper)
+        private static void CreatePosts(Site site, User adminUser, UrlRoutes urlRoutes, ArragroCMS.BusinessLayer.Domains.UrlRouteTypes urlRouteTypeLookups, Contents contents, IMapper mapper)
         {
             for (var i = 0; i < 50; i++)
             {
@@ -81,7 +80,7 @@ namespace cms.arragro.com
                 var urlRoutes = serviceProvider.GetService<UrlRoutes>();
                 var contents = serviceProvider.GetService<Contents>();
                 var users = serviceProvider.GetService<Users>();
-                var urlRouteTypeLookups = serviceProvider.GetService<UrlRouteTypeLookups>();
+                var urlRouteTypeLookups = serviceProvider.GetService<ArragroCMS.BusinessLayer.Domains.UrlRouteTypes>();
                 var mapper = serviceProvider.GetService<IMapper>();
 
 

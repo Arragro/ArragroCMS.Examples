@@ -7,6 +7,7 @@
     <UserSecretsId>d731134e-f4f4-40ed-af50-3322d25e585d</UserSecretsId>
     <ApplicationInsightsResourceId>/subscriptions/b14fc132-f785-4cd4-bb68-dc54a289e92f/resourcegroups/arragro-web/providers/microsoft.insights/components/arragro-cms</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/b14fc132-f785-4cd4-bb68-dc54a289e92f/resourcegroups/arragro-web/providers/microsoft.insights/components/arragro-cms</ApplicationInsightsAnnotationResourceId>
+    <DockerTargetOS>Linux</DockerTargetOS>
     <!--<NoWarn>$(NoWarn);NU1605</NoWarn>-->
   </PropertyGroup>
 
@@ -17,12 +18,14 @@
   <ItemGroup>
     <PackageReference Include="Arragro.Providers.ImageServiceProvider" Version="1.0.0-alpha-211" />
     <PackageReference Include="Arragro.Providers.SendgridEmailProvider" Version="1.0.0-alpha-211" />
-    <PackageReference Include="ArragroCMS.Web.Management" Version="1.0.0-alpha-210" />
+    <PackageReference Include="ArragroCMS.Web.Management" Version="1.0.0-alpha-220" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.0-preview3-final" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.1.0-rc1-final" />
+    <!--<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="0.1.1646902" />-->
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.0-rc1" />
     <PackageReference Include="Serilog" Version="2.6.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
