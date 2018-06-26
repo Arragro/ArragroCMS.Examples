@@ -1,4 +1,11 @@
-bin/
-obj/
-out/
-TestResults/
+*/bin
+*/obj
+*/out
+*/TestResults
+.dockerignore
+.env
+.git
+.gitignore
+.vs
+.vscode
+**/.toolstarget
