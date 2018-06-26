@@ -9,27 +9,27 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Arragro.Core.Web" Version="1.0.0-alpha-211" />
-    <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-208" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.0-preview3-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Arragro.Core.Web" Version="1.0.0-alpha-223" />
+    <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-240" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="Polly" Version="6.0.1" />
-    <PackageReference Include="Serilog" Version="2.6.0" />
+    <PackageReference Include="Serilog" Version="2.7.1" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-    <PackageReference Include="WindowsAzure.Storage" Version="9.1.1" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.2.0" />
   </ItemGroup>
   
   <ItemGroup>

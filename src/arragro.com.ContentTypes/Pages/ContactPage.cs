@@ -71,10 +71,14 @@ namespace arragro.com.ContentTypes.Pages
             throw new NotImplementedException();
         }
 
-        public void Validate()
+        public void Validate(Guid urlRouteId, IServiceProvider serviceProvider)
         {
             ValidateModelPropertiesAndBuildRulesException(this);
-            RulesException.ThrowException();
+
+            var rulesExceptionCollection = ValidateModelPropertiesAndBuildRulesExceptionCollection(this, new ValidationParameters());
+            rulesExceptionCollection.RulesExceptions.Add(RulesException);
+
+            rulesExceptionCollection.ThrowException();
         }
     }
 }
