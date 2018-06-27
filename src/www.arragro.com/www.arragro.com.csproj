@@ -10,7 +10,7 @@
   
   <ItemGroup>
     <PackageReference Include="Arragro.Core.Web" Version="1.0.0-alpha-223" />
-    <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-240" />
+    <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-245" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.1" />
@@ -34,10 +34,6 @@
   
   <ItemGroup>
     <EmbeddedResource Include="Resources\test-cert.pfx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
