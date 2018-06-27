@@ -81,15 +81,15 @@ namespace www.arragro.com
                 .AddSingleton(ConfigurationSettings);
 
             
-            var assembly = typeof(Startup).GetTypeInfo().Assembly;
-            var bytes = ReadStreamAsBytes(assembly.GetManifestResourceStream("www.arragro.com.Resources.test-cert.pfx"));
-            X509Certificate2 x509Cert = new X509Certificate2(bytes, "password");
+            //var assembly = typeof(Startup).GetTypeInfo().Assembly;
+            //var bytes = ReadStreamAsBytes(assembly.GetManifestResourceStream("www.arragro.com.Resources.test-cert.pfx"));
+            //X509Certificate2 x509Cert = new X509Certificate2(bytes, "password");
 
-            var redis = ConnectionMultiplexer.Connect(Configuration.GetConnectionString("RedisConnection"));
+            // var redis = ConnectionMultiplexer.Connect(Configuration.GetConnectionString("RedisConnection"));
 
-            services.AddDataProtection()
-                .PersistKeysToRedis(redis, "DataProtection-Keys")
-                .ProtectKeysWithCertificate(x509Cert);
+            //services.AddDataProtection()
+            //    .PersistKeysToRedis(redis, "DataProtection-Keys")
+            //    .ProtectKeysWithCertificate(x509Cert);
 
             services.Configure<GzipCompressionProviderOptions>
                 (options => options.Level = CompressionLevel.Fastest);
