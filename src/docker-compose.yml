@@ -27,8 +27,8 @@ services:
       BACKENDS: "cms_arragro_com:5000"
       DNS_ENABLED: "true"
       LOG_LEVEL: "info"
-      COOKIES_ENABLED: "true"
-      BALANCE: "rdp-cookie"
+      # COOKIES_ENABLED: "true"
+      # BALANCE: "rdp-cookie"
       HTTPCHK: GET /web-info/799c809f-9ca4-47ca-a9b1-3bce5c5215cf
 
   haproxy_www:
@@ -47,7 +47,7 @@ services:
       HTTPCHK: GET /web-info/60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v0.0.9-alpha-2.1-data-protection
+    image: docker.arragro.com/cms.arragro.com:v0.0.1-alpha
     logging:
       driver: none
     # ports:
@@ -84,7 +84,7 @@ services:
     scale: 2
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v0.0.8-alpha-2.1-data-protection
+    image: docker.arragro.com/www.arragro.com:v0.0.1-alpha
     depends_on:
       - cms_arragro_com
     # logging:

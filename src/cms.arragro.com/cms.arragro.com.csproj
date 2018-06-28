@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arragro.Providers.ImageServiceProvider" Version="1.0.0-alpha-223" />
-    <PackageReference Include="Arragro.Providers.SendgridEmailProvider" Version="1.0.0-alpha-223" />
-    <PackageReference Include="ArragroCMS.Web.Management" Version="1.0.0-alpha-245" />
+    <PackageReference Include="Arragro.Providers.ImageServiceProvider" Version="1.0.0-alpha-227" />
+    <PackageReference Include="Arragro.Providers.SendgridEmailProvider" Version="1.0.0-alpha-227" />
+    <PackageReference Include="ArragroCMS.Web.Management" Version="1.0.0-alpha-253" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
@@ -28,7 +28,7 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-    <PackageReference Include="WindowsAzure.Storage" Version="9.2.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.0" />
   </ItemGroup>
 
   <ItemGroup>
