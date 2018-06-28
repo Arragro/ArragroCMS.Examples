@@ -9,8 +9,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Arragro.Core.Web" Version="1.0.0-alpha-227" />
-    <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-253" />
+    <PackageReference Include="Arragro.Core.Web" Version="1.0.0-alpha-228" />
+    <PackageReference Include="ArragroCMS.Web" Version="1.0.0-alpha-254" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.1" />
