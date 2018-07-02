@@ -16,9 +16,11 @@
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
 
     <environment names="Development">
+        <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/dist/main.css" asp-append-version="true" />
     </environment>
     <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/dist/main.css" asp-append-version="true" />
     </environment>
 
@@ -55,10 +57,12 @@
     </footer>
 
     <environment names="Development">
+        <script src="~/dist/styles.js"></script>
         <script src="~/dist/vendor.js"></script>
         <script src="~/dist/main.js"></script>
     </environment>
     <environment names="Staging,Production">
+        <script src="~/dist/styles.js" asp-append-version="true"></script>
         <script src="~/dist/vendor.js" asp-append-version="true"></script>
         <script src="~/dist/main.js" asp-append-version="true"></script>
     </environment>
