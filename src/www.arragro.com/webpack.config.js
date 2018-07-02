@@ -3,11 +3,18 @@ const glob = require('glob-all');
 const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CompressionPlugin = require("compression-webpack-plugin")
+const CompressionPlugin = require("compression-webpack-plugin");
+const PurifyCSSPlugin = require('purifycss-webpack');
 
 module.exports = (env) => {
 
     const isDevBuild = !(env && env.prod);
+
+    var purifyPaths = glob.sync([
+        path.join(__dirname, './Views/**/*.cshtml'),
+        path.join(__dirname, './app/**/*.tsx'),
+        path.join(__dirname, './app/**/*.ts')
+    ]);
 
     let config = {
         devtool: 'source-map',
@@ -56,13 +63,44 @@ module.exports = (env) => {
                 jQuery: "jquery",
                 "window.jQuery": "jquery",
                 Popper: ['popper.js', 'default']
-            })
+            }),
+            new ExtractTextPlugin('main.css'),
+            new PurifyCSSPlugin({
+                // Give paths to parse for rules. These should be absolute!
+                paths: purifyPaths,
+                purifyOptions: {
+                    info: false,
+                    minify: false,
+                    rejected: true,
+                    whitelist: [
+                        '*carousel-*',
+                        '*background-wrap',
+                        'infinite-clouds',
+                        '*cloud*',
+                        '*banner-text',
+                        'carousel-fade',
+                        'carousel-item*',
+                        'header#standardHeader*',
+                        'header#errorNotFoundPageHeader*',
+                        'header#errorPageHeader*',
+                        'header#landingPageHeader*',
+                        '*whatWeveDone*',
+                        '*tileBulletPage*',
+                        '*digital-signage*',
+                        '*case-study-bayleys-web*',
+                        '*what-weve-done-img*',
+                        '*bayleys-case-study*',
+                        '*navbar*',
+                        'nav-link*',
+                        '*collapse*',
+                        'navbar-collapse'
+                    ]
+                }
+            }),
         ].concat(
             isDevBuild ? [
-                new ExtractTextPlugin('main.css'),
                 new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
             ] : [
-                    new ExtractTextPlugin('main.css'),
                     new UglifyJSPlugin(),
                     new webpack.LoaderOptionsPlugin({
                         minimize: true,
