@@ -2,13 +2,20 @@
 const glob = require('glob-all');
 const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
+const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 const PurifyCSSPlugin = require('purifycss-webpack');
+const { dependencies } = require('./package.json');
 
 module.exports = (env) => {
+    const devMode = env === null || env['run-prod'] === undefined || env['run-prod'] === null || env['run-prod'] === false;
 
-    const isDevBuild = !(env && env.prod);
+    var purifyPaths = glob.sync([
+        path.join(__dirname, './Views/**/*.cshtml'),
+        path.join(__dirname, './app/**/*.tsx'),
+        path.join(__dirname, './app/**/*.ts')
+    ]);
 
     var purifyPaths = glob.sync([
         path.join(__dirname, './Views/**/*.cshtml'),
@@ -17,30 +24,48 @@ module.exports = (env) => {
     ]);
 
     let config = {
+        mode: devMode ? 'development' : 'production',
         devtool: 'source-map',
         resolve: {
-            extensions: ['.js', '.jsx', '.ts', '.tsx']
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
+            plugins: [
+                new TsConfigPathsPlugin(/* { tsconfig, compiler } */)
+            ]
         },
         module: {
-            loaders: [
+            rules: [
                 {
-                    test: /\.ts$/,
-                    include: /app/,
+                    test: /\.ts(x?)$/,
                     exclude: [
                         /node_modules/,
                         /obj/
                     ],
-                    use: [
-                        { loader: 'babel-loader' },
-                        { loader: 'ts-loader?silent=true' }
-                    ]
+                    loader: 'awesome-typescript-loader',
+                    query: {
+                        useBabel: true,
+                        useCache: devMode
+                    }
                 },
-                { 
-                    test: /\.scss?/, 
-                    exclude: /node_modules/, 
+                {
+                    test: /\.(sa|sc|c)ss$/,
                     use: [
-                        'css-hot-loader'                        
-                    ].concat(ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader']}))
+                        'css-hot-loader',
+                        MiniCssExtractPlugin.loader,
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                importLoaders: 2,
+                                sourceMap: true
+                            }
+                        },
+                        'postcss-loader',
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        }
+                    ],
                 },
                 { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
                 { test: /\.woff(\?\S*)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
@@ -48,30 +73,45 @@ module.exports = (env) => {
             ]
         },
         entry: {
-            main: ['./app/index.ts'],
-            vendor: ['jquery', 'jquery-validation', 'jquery-validation-unobtrusive', 'bootstrap', 'popper.js']
+            main: ['./app/index.ts']
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
             filename: '[name].js',
+            chunkFilename: '[name].js',
             publicPath: '/dist/'
         },
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    styles: {
+                        name: 'styles',
+                        test: /\.css$/,
+                        chunks: 'all',
+                        enforce: true
+                    },
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: "vendor",
+                        chunks: "all"
+                    }
+                }
+            }
+        },
         plugins: [
-            new webpack.optimize.OccurrenceOrderPlugin(),
-            new webpack.ProvidePlugin({
-                $: "jquery",
-                jQuery: "jquery",
-                "window.jQuery": "jquery",
-                Popper: ['popper.js', 'default']
+            new MiniCssExtractPlugin({
+                // Options similar to the same options in webpackOptions.output
+                // both options are optional
+                filename: "main.css",
+                chunkFilename: "vendor.css"
             }),
-            new ExtractTextPlugin('main.css'),
             new PurifyCSSPlugin({
                 // Give paths to parse for rules. These should be absolute!
                 paths: purifyPaths,
                 purifyOptions: {
-                    info: false,
+                    info: devMode,
                     minify: false,
-                    rejected: true,
+                    rejected: devMode,
                     whitelist: [
                         '*carousel-*',
                         '*background-wrap',
@@ -97,25 +137,20 @@ module.exports = (env) => {
                     ]
                 }
             }),
+            require('autoprefixer')
         ].concat(
-            isDevBuild ? [
-                new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
+            devMode ? [
             ] : [
-                    new UglifyJSPlugin(),
-                    new webpack.LoaderOptionsPlugin({
-                        minimize: true,
-                        debug: false
-                    }),
-                    new webpack.DefinePlugin({
-                        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-                    }),
-                    require('autoprefixer'),
-                    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }),
-                    new CompressionPlugin({
-                        test: /\.(js|css)/
-                    })
-                ])
+                new CompressionPlugin({
+                    asset: "[path].gz[query]",
+                    //include: /\/wwwroot/,
+                    algorithm: "gzip",
+                    test: /\.js$|\.css$|\.svg$/,
+                    threshold: 10240,
+                    minRatio: 0.8
+                })
+            ])
     }
 
-    return config
+    return config;
 };

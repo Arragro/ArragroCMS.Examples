@@ -1,17 +1,23 @@
 ﻿const path = require('path');
+const glob = require('glob-all');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const PurifyCSSPlugin = require('purifycss-webpack');
-const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
+const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
+const PurifyCSSPlugin = require('purifycss-webpack');
 const sharedConfig = require('./webpack.shared.config');
 
 module.exports = (env) => {
-
-    const isDevBuild = !(env && env.prod);
+    const devMode = env === null || env['run-prod'] === undefined || env['run-prod'] === null || env['run-prod'] === false;
+    // const purifyPaths = glob.sync([
+    //     path.join(__dirname, './**/*.cshtml'),
+    //     path.join(__dirname, './**/*.tsx'),
+    //     path.join(__dirname, './node_modules/arragrocms-management/dist/arragrocms-management.js')
+    // ]);
 
     let config = {
+        mode: devMode ? 'development' : 'production',
         devtool: 'source-map',
         resolve: {
             alias: {
@@ -24,7 +30,7 @@ module.exports = (env) => {
             ]
         },
         module: {
-            loaders: [
+            rules: [
                 {
                     test: /\.ts(x?)$/,
                     include: /ReactApp/,
@@ -35,12 +41,28 @@ module.exports = (env) => {
                     loader: 'awesome-typescript-loader',
                     query: {
                         useBabel: true,
-                        useCache: true
+                        useCache: devMode
                     }
                 },
                 {
-                    test: /\.(less|css)$/,
-                    use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!less-loader' })
+                    test: /\.(sa|sc|c)ss$/,
+                    use: [].concat(
+                            devMode ? ['css-hot-loader', MiniCssExtractPlugin.loader] : [MiniCssExtractPlugin.loader]
+                        ).concat(
+                            {
+                                loader: 'css-loader',
+                                options: {
+                                    sourceMap: true
+                                }
+                            },
+                            'postcss-loader',
+                            {
+                                loader: 'sass-loader',
+                                options: {
+                                    sourceMap: true
+                                }
+                            }
+                    ),
                 },
                 { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
                 { test: /\.woff(\?\S*)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
@@ -48,47 +70,63 @@ module.exports = (env) => {
             ]
         },
         entry: {
-            main: ['./ReactApp/boot.tsx'],
-            vendor: [
-                'babel-polyfill',
-            ].concat(sharedConfig.vendors)
+            main: ['react-hot-loader/patch', './ReactApp/boot.tsx']
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
             filename: '[name].js',
+            chunkFilename: '[name].js',
             publicPath: '/dist/'
         },
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    styles: {
+                        name: 'vendor',
+                        test: /\.css$/,
+                        chunks: 'all',
+                        enforce: true
+                    },
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: "vendor",
+                        chunks: "all"
+                    }
+                }
+            }
+        },
         plugins: [
+            new MiniCssExtractPlugin({
+                filename: "main.css",
+                chunkFilename: "vendor.css"
+            }),
+            // new PurifyCSSPlugin({
+            //     // Give paths to parse for rules. These should be absolute!
+            //     paths: purifyPaths,
+            //     purifyOptions: {
+            //         info: true,
+            //         minify: devMode,
+            //         report: true,
+            //         whitelist: [
+            //             'dropdown-menu'
+            //         ]
+            //     }
+            // }),
+            require('autoprefixer'),
             new webpack.optimize.OccurrenceOrderPlugin()
         ].concat(
-            isDevBuild ? [
-                new ExtractTextPlugin('main.css'),
-                new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' })
+            devMode ? [
             ] : [
-                new webpack.LoaderOptionsPlugin({
-                    minimize: true,
-                    debug: false
-                }),
-                new ExtractTextPlugin('main.css'),
-                new webpack.DefinePlugin({
-                    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-                }),
-                new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }),
-                new UglifyJSPlugin({
-                    parallel: true,
-                    sourceMap: true
-                }),
-                new webpack.optimize.AggressiveMergingPlugin(),
-                new CompressionPlugin({
-                    asset: "[path].gz[query]",
-                    //include: /\/wwwroot/,
-                    algorithm: "gzip",
-                    test: /\.js$|\.css$|\.svg$/,
-                    threshold: 10240,
-                    minRatio: 0.8
-                }),
-            ])
-    }
-    
-    return config
+                    new CompressionPlugin({
+                        asset: "[path].gz[query]",
+                        //include: /\/wwwroot/,
+                        algorithm: "gzip",
+                        test: /\.js$|\.css$|\.svg$/,
+                        threshold: 10240,
+                        minRatio: 0.8
+                    })
+                ])
+    };
+
+    return config;
 };

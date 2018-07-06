@@ -7,6 +7,10 @@
     <UserSecretsId>91b0f212-0dc0-4cec-ac6e-cb3f5ea0e26a</UserSecretsId>
     <!--<NoWarn>$(NoWarn);NU1605</NoWarn>-->
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="App_Data\googledb792484012a65cc.html" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Arragro.Core.Web" Version="1.0.0-alpha-228" />

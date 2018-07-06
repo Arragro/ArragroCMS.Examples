@@ -105,7 +105,7 @@ namespace www.arragro.com
             {
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
-                    HotModuleReplacement = true
+                   HotModuleReplacement = true
                 });
 
                 app.UseDeveloperExceptionPage();
