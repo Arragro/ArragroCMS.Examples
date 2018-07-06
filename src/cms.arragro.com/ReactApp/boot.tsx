@@ -1,4 +1,6 @@
-﻿import '../wwwroot/less/site.less'
+﻿/// <reference types="node" />
+import 'node_modules/arragrocms-management/dist/main.css'
+import './scss/site.scss'
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
@@ -45,4 +47,3 @@ if (module.hot) {
         render(App)
     })
 }
-

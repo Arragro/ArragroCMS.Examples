@@ -17,8 +17,6 @@ module.exports = (env) => {
         path.join(__dirname, './app/**/*.ts')
     ]);
 
-    console.log(purifyPaths);
-
     let config = {
         mode: devMode ? 'development' : 'production',
         devtool: 'source-map',
@@ -69,16 +67,12 @@ module.exports = (env) => {
             ]
         },
         entry: {
-            main: ['./app/index.ts'],
-            vendor: [
-                'babel-polyfill',
-                ...Object.keys(dependencies || {})
-            ]
-                .filter(dependency => dependency !== 'bootstrap')
+            main: ['./app/index.ts']
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
             filename: '[name].js',
+            chunkFilename: '[name].js',
             publicPath: '/dist/'
         },
         optimization: {
@@ -90,26 +84,13 @@ module.exports = (env) => {
                         chunks: 'all',
                         enforce: true
                     },
-                    vendor: {
-                        name: 'vendor',
-                        test: /\.js$/,
-                        chunks: 'all',
-                        enforce: true
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: "vendor",
+                        chunks: "all"
                     }
                 }
-            },
-            minimizer: [
-                new UglifyJSPlugin({
-                    uglifyOptions: {
-                        mangle: true,
-                        compress: true,
-                        output: {
-                            comments: false,
-                            beautify: false
-                        },
-                    },
-                })
-            ]
+            }
         },
         plugins: [
             new MiniCssExtractPlugin({
@@ -122,9 +103,9 @@ module.exports = (env) => {
                 // Give paths to parse for rules. These should be absolute!
                 paths: purifyPaths,
                 purifyOptions: {
-                    info: true,
+                    info: devMode,
                     minify: false,
-                    rejected: true,
+                    rejected: devMode,
                     whitelist: [
                         '*carousel-*',
                         '*background-wrap',
@@ -150,9 +131,7 @@ module.exports = (env) => {
                     ]
                 }
             }),
-            require('autoprefixer'),
-            new webpack.optimize.OccurrenceOrderPlugin(),
-            new webpack.optimize.AggressiveMergingPlugin(),
+            require('autoprefixer')
         ].concat(
             devMode ? [
             ] : [
