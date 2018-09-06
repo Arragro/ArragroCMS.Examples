@@ -1,26 +1,21 @@
-﻿using Arragro.Core.Common.Models;
+﻿using Arragro.Core.Common.Interfaces;
+using Arragro.Core.Common.Models;
 using Arragro.Core.Web.Extensions;
 using ArragroCMS.Management.Extensions;
-using ArragroCMS.Web.Data;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using StackExchange.Redis;
-using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 
 namespace www.arragro.com
 {
@@ -65,7 +60,7 @@ namespace www.arragro.com
                 return ms.ToArray();
             }
         }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)

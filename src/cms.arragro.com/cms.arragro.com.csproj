@@ -15,20 +15,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arragro.Providers.ImageServiceProvider" Version="1.0.0-alpha-228" />
-    <PackageReference Include="Arragro.Providers.SendgridEmailProvider" Version="1.0.0-alpha-228" />
-    <PackageReference Include="ArragroCMS.Web.Management" Version="1.0.0-alpha-254" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.3.0" />
+    <PackageReference Include="Arragro.Providers.ImageServiceProvider" Version="1.0.0-alpha-234" />
+    <PackageReference Include="Arragro.Providers.SendgridEmailProvider" Version="1.0.0-alpha-234" />
+    <PackageReference Include="ArragroCMS.Web.Management" Version="1.0.0-alpha-267" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.1.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.1.1" />
     <PackageReference Include="Serilog" Version="2.7.1" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-    <PackageReference Include="WindowsAzure.Storage" Version="9.3.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{02645822
 		src\.dockerignore = src\.dockerignore
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
+		src\build.bat = src\build.bat
 		src\CMS.DockerFile = src\CMS.DockerFile
 		src\docker-compose.yml = src\docker-compose.yml
 		LICENSE = LICENSE
@@ -28,23 +29,32 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		POSTGRES|Any CPU = POSTGRES|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8519BC1C-B6DA-4A82-80E7-F647F6451741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8519BC1C-B6DA-4A82-80E7-F647F6451741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8519BC1C-B6DA-4A82-80E7-F647F6451741}.POSTGRES|Any CPU.ActiveCfg = Release|Any CPU
+		{8519BC1C-B6DA-4A82-80E7-F647F6451741}.POSTGRES|Any CPU.Build.0 = Release|Any CPU
 		{8519BC1C-B6DA-4A82-80E7-F647F6451741}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8519BC1C-B6DA-4A82-80E7-F647F6451741}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5B503E9-0B15-44B6-886C-76F820431EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5B503E9-0B15-44B6-886C-76F820431EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B503E9-0B15-44B6-886C-76F820431EA7}.POSTGRES|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B503E9-0B15-44B6-886C-76F820431EA7}.POSTGRES|Any CPU.Build.0 = Release|Any CPU
 		{F5B503E9-0B15-44B6-886C-76F820431EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5B503E9-0B15-44B6-886C-76F820431EA7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.POSTGRES|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.POSTGRES|Any CPU.Build.0 = Release|Any CPU
 		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}.POSTGRES|Any CPU.ActiveCfg = Release|Any CPU
+		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}.POSTGRES|Any CPU.Build.0 = Release|Any CPU
 		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDC93AFB-EEBA-427B-B7D2-FFE723427CA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

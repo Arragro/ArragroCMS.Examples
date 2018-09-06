@@ -4,6 +4,7 @@ using ArragroCMS.Core.Models;
 using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
 using ArragroCMS.Web.Management.Middleware;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -70,7 +71,13 @@ namespace cms.arragro.com
                 var logger = _loggerFactory.CreateLogger<Startup>();
                 logger.LogInformation("Starting the configuration of the ArragroCmsServices");
 
-                services.AddDefaultArragroCmsServices(ConfigurationSettings, new CultureInfo("en"), new CultureInfo[] { new CultureInfo("en-nz") }, new TimeSpan(1, 0, 0), "arragro.com.ContentTypes");
+                services.AddDefaultArragroCmsServices(
+                    ConfigurationSettings, 
+                    new CultureInfo("en"), 
+                    new CultureInfo[] { new CultureInfo("en-nz") }, 
+                    new TimeSpan(2, 0, 0),
+                    true, 
+                    "arragro.com.ContentTypes");
 
                 // Replace Image Provider with ImageServiceProvider
                 services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
@@ -109,7 +116,7 @@ namespace cms.arragro.com
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime, IAntiforgery antiforgery)
         {
             loggerFactory.AddSerilog();
             appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
@@ -138,7 +145,7 @@ namespace cms.arragro.com
 
             app.UseAuthentication();
 
-            app.UseArragroCMS(serviceProvider);
+            app.UseArragroCMS(serviceProvider, antiforgery);
 
             app.UseResponseCompression();
 
