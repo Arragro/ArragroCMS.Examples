@@ -1,6 +1,8 @@
 ﻿import * as React from 'react'
-import * as FRC from 'formsy-react-components'
-import { Interfaces, Components } from 'arragrocms-management'
+import { Grid } from '@material-ui/core'
+import { Formik, FormikProps, Form } from 'formik'
+import * as Yup from 'yup'
+import { Components, Interfaces, utils } from 'arragrocms-management'
 
 import { ITile, ICloudBannerText, ISvgIconLink } from '../interfaces'
 
@@ -8,8 +10,12 @@ import SortableTiles from '../Components/Tiles/SortableTiles'
 import SortableCloudBannerTexts from '../Components/CloudBannerTexts/SortableCloudBannerTexts'
 import SortableSvgIcons from '../Components/SvgIconLinks/SortableSvgIcons'
 import MarkdownEditor from '../MarkdownEditor'
+import { cloudBannerTextYup, tileYup, svgIconLinkYup } from 'ReactApp/utils'
+import { Hr } from 'ReactApp/helpers'
 
-const { Input, Checkbox } = FRC
+const { CustomContentTypeBase } = Components
+const { CustomBubble, TextBox, CheckBox } = Components.FormikControls
+const { makeEmptyString } = utils.Helpers
 
 const landingPageHelper = {
     newTile: (): ITile => {
@@ -50,8 +56,7 @@ const landingPageHelper = {
     }
 }
 
-
-export interface ILandingPageState {
+export interface ILandingPageForm {
     title: string
     startingClouds: Array<ITile>
     infiniteClouds: Array<ITile>
@@ -65,193 +70,241 @@ export interface ILandingPageState {
     hasContactForm: boolean
 }
 
-
-export default class LandingPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, ILandingPageState> {
-    sortableStartingClouds: SortableTiles | null = null
-    sortableInfiniteClouds: SortableTiles | null = null
-    sortableCloudBannerTexts: SortableCloudBannerTexts | null = null
-    sortableSvgIcons: SortableSvgIcons | null = null
-    sortableTechnologyClouds: SortableTiles | null = null
-    sortableWhatWeveDones: SortableTiles | null = null
-
-    constructor(props: Interfaces.IComponentTypeBaseProps) {
+export default class LandingPage extends CustomContentTypeBase {
+    constructor (props: Interfaces.IComponentType) {
         super(props)
     }
 
-    public render() {
-        
-        const pageData = (this.props.contentData.contentJson as any)[this.props.culture] as ILandingPageState
-        const landingPage = {
-            title: pageData.title === undefined ? '' : pageData.title,
-            startingClouds: pageData.startingClouds === undefined ?
-                landingPageHelper.newTiles() :
-                pageData.startingClouds,
-            infiniteClouds: pageData.infiniteClouds === undefined ?
-                landingPageHelper.newTiles() :
-                pageData.infiniteClouds,
-            cloudBannerTexts: pageData.cloudBannerTexts === undefined ?
-                landingPageHelper.newCloudBannerTexts() :
-                pageData.cloudBannerTexts,
-            markdownIntro: pageData.markdownIntro === undefined ?
-                '' :
-                pageData.markdownIntro,
-            svgIconLinksServices: pageData.svgIconLinksServices === undefined ?
-                [] :
-                pageData.svgIconLinksServices,
-            whatWeveDones: pageData.whatWeveDones === undefined ?
-                landingPageHelper.newTiles() :
-                pageData.whatWeveDones,
-            technologyClouds: pageData.technologyClouds === undefined ?
-                landingPageHelper.newTiles() :
-                pageData.technologyClouds,
-            technologyMarkdown: pageData.technologyMarkdown === undefined ?
-                '' :
-                pageData.technologyMarkdown,
-            markdownOutro: pageData.markdownOutro === undefined ?
-                '' :
-                pageData.markdownOutro,
-            hasContactForm: pageData.hasContactForm === undefined ?
-                false :
-                pageData.hasContactForm
+    yup = Yup.object().shape({
+        title: Yup.string().required('Please supply a Title.').max(512, 'Title has a 512 character limit.'),
+        startingClouds: Yup.array().of(tileYup),
+        infiniteClouds: Yup.array().of(tileYup),
+        cloudBannerTexts: Yup.array().of(cloudBannerTextYup),
+        markdownIntro: Yup.string(),
+        svgIconLinksServices: Yup.array().of(svgIconLinkYup),
+        whatWeveDones: Yup.array().of(tileYup),
+        technologyClouds: Yup.array().of(tileYup),
+        technologyMarkdown: Yup.string(),
+        markdownOutro: Yup.string(),
+        hasContactForm: Yup.bool()
+    })
+
+    public render () {
+        const {
+            culture,
+            contentData,
+            edit
+        } = this.props
+        const contentJson = contentData.contentJson
+
+        const getArray = (array: any): Array<any> => {
+            if (array !== undefined) {
+                return array
+            }
+            return []
         }
 
-        return (
-            <div className='row no-gutters col-12'>
-                <div className='col-lg-6'>
-                    <Input
-                        type='text'
-                        name='title'
-                        label='Title'
-                        required
-                        onChange={this.onChange}
-                        value={landingPage.title}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 col-lg-6 no-gutters'>
-                    <SortableTiles
-                        ref={x => this.sortableStartingClouds = x}
-                        contentData={this.props.contentData}
-                        name='startingClouds'
-                        label='Starting Clouds'
-                        clouds={landingPage.startingClouds}
-                        newItem={landingPageHelper.newTile()}
-                        onChange={this.onChange}
-                        maxClouds={4}
-                        linkIsMandatory={false}
-                        useMarkdown={false}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 col-lg-6 no-gutters'>
-                    <SortableTiles
-                        ref={x => this.sortableInfiniteClouds = x}
-                        contentData={this.props.contentData}
-                        name='infiniteClouds'
-                        label='Infinite Clouds'
-                        clouds={landingPage.infiniteClouds}
-                        newItem={landingPageHelper.newTile()}
-                        onChange={this.onChange}
-                        maxClouds={8}
-                        linkIsMandatory={false}
-                        useMarkdown={false}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 col-lg-6 no-gutters'>
-                    <SortableCloudBannerTexts
-                        ref={x => this.sortableCloudBannerTexts = x}
-                        contentData={this.props.contentData}
-                        name='cloudBannerTexts'
-                        cloudBannerTexts={landingPage.cloudBannerTexts}
-                        newItem={landingPageHelper.newCloudBannerText()}
-                        onChange={this.onChange}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 no-gutters'>
+        const getInitialValues = (): ILandingPageForm => {
+            if (contentJson && contentJson[culture]) {
+                return {
+                    title: makeEmptyString(contentJson[culture].title),
+                    startingClouds: getArray(contentJson[culture].startingClouds),
+                    infiniteClouds: getArray(contentJson[culture].infiniteClouds),
+                    cloudBannerTexts: getArray(contentJson[culture].cloudBannerTexts),
+                    markdownIntro: makeEmptyString(contentJson[culture].markdownIntro),
+                    svgIconLinksServices: getArray(contentJson[culture].svgIconLinksServices),
+                    whatWeveDones: getArray(contentJson[culture].whatWeveDones),
+                    technologyClouds: getArray(contentJson[culture].technologyClouds),
+                    technologyMarkdown: makeEmptyString(contentJson[culture].technologyMarkdown),
+                    markdownOutro: makeEmptyString(contentJson[culture].markdownOutro),
+                    hasContactForm: contentJson[culture].hasContactForm === undefined ?
+                        false :
+                        contentJson[culture].hasContactForm
+                }
+            }
+            return {
+                title: '',
+                startingClouds: [],
+                infiniteClouds: [],
+                cloudBannerTexts: [],
+                markdownIntro: '',
+                svgIconLinksServices: [],
+                whatWeveDones: [],
+                technologyClouds: [],
+                technologyMarkdown: '',
+                markdownOutro: '',
+                hasContactForm: false
+            }
+        }
+
+        return <Formik
+            ref={(x: Formik<ILandingPageForm, any>) => this.formik = x}
+            initialValues={getInitialValues()}
+            isInitialValid={edit && this.yup.isValidSync(contentData)}
+            onSubmit={() => null}
+            validationSchema={this.yup}
+            render={({ submitCount, handleBlur, handleChange, values, errors, dirty, isValid, setFieldValue }: FormikProps<ILandingPageForm>) => (
+                <Form>
+                    <CustomBubble dirty={dirty} isValid={isValid} onChange={this.onCustomBubbleChange} />
+
+                    <Grid container>
+                        <Grid item xs={12} md={6}>
+
+                            <TextBox
+                                type='text'
+                                id='title'
+                                label='Title'
+                                value={values.title}
+                                error={errors.title}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <Hr />
+
+                            <SortableTiles
+                                contentData={this.props.contentData}
+                                name='startingClouds'
+                                typeName='Starting Clouds'
+                                items={values.startingClouds}
+                                newItem={landingPageHelper.newTile()}
+                                onChange={setFieldValue}
+                                getName={(item: ITile) => item.name}
+                                maxNumberOfItems={4}
+                                linkIsMandatory={false}
+                                useMarkdown={false}
+                            />
+
+                            <Hr />
+
+                            <SortableTiles
+                                contentData={this.props.contentData}
+                                name='infiniteClouds'
+                                typeName='Infinite Clouds'
+                                items={values.infiniteClouds}
+                                newItem={landingPageHelper.newTile()}
+                                onChange={setFieldValue}
+                                getName={(item: ITile) => item.name}
+                                maxNumberOfItems={8}
+                                linkIsMandatory={false}
+                                useMarkdown={false}
+                            />
+
+                            <Hr />
+
+                            <SortableCloudBannerTexts
+                                contentData={this.props.contentData}
+                                name='cloudBannerTexts'
+                                typeName='Cloud Banner Texts'
+                                items={values.cloudBannerTexts}
+                                newItem={landingPageHelper.newCloudBannerText()}
+                                onChange={setFieldValue}
+                                getName={(item: ICloudBannerText) => ''}
+                            />
+
+                            <Hr />
+
+                        </Grid>
+                    </Grid>
+
                     <MarkdownEditor
                         contentData={this.props.contentData}
                         name='markdownIntro'
-                        label='Introduction'
-                        value={landingPage.markdownIntro}
-                        onChange={this.onChange}
+                        label='Markdown Intro'
+                        value={makeEmptyString(values.markdownIntro)}
                         showAssetPicker={true}
+                        saveStashedIncomplete={this.props.saveStashedIncomplete}
+                        submitCount={submitCount}
+                        handleBlur={handleBlur}
+                        setFieldValue={setFieldValue}
                     />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 col-lg-6 no-gutters'>
-                    <SortableSvgIcons
-                        ref={x => this.sortableSvgIcons = x}
-                        contentData={this.props.contentData}
-                        name='svgIconLinksServices'
-                        svgIconLinksServices={landingPage.svgIconLinksServices}
-                        newItem={landingPageHelper.newSvgIconLink()}
-                        onChange={this.onChange}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 col-lg-6 no-gutters'>
-                    <SortableTiles
-                        ref={x => this.sortableWhatWeveDones = x}
-                        contentData={this.props.contentData}
-                        name='whatWeveDones'
-                        label="What We've Done Tiles"
-                        clouds={landingPage.whatWeveDones}
-                        newItem={landingPageHelper.newTile()}
-                        onChange={this.onChange}
-                        maxClouds={4}
-                        linkIsMandatory={true}
-                        useMarkdown={true}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 col-lg-6 no-gutters'>
-                    <SortableTiles
-                        ref={x => this.sortableTechnologyClouds = x}
-                        contentData={this.props.contentData}
-                        name='technologyClouds'
-                        label='Technology Clouds'
-                        clouds={landingPage.technologyClouds}
-                        newItem={landingPageHelper.newTile()}
-                        onChange={this.onChange}
-                        maxClouds={5}
-                        linkIsMandatory={false}
-                        useMarkdown={false}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 no-gutters'>
+
+                    <Grid container>
+                        <Grid item xs={12} md={6}>
+
+                            <Hr />
+
+                            <SortableSvgIcons
+                                contentData={this.props.contentData}
+                                name='svgIconLinksServices'
+                                typeName='SVG Icon Link'
+                                items={values.svgIconLinksServices}
+                                newItem={landingPageHelper.newSvgIconLink()}
+                                onChange={setFieldValue}
+                                getName={(item: ISvgIconLink) => item.title}
+                            />
+
+                            <Hr />
+
+                            <SortableTiles
+                                contentData={this.props.contentData}
+                                name='whatWeveDones'
+                                typeName='What We&quot;ve Done Tiles'
+                                items={values.whatWeveDones}
+                                newItem={landingPageHelper.newTile()}
+                                onChange={setFieldValue}
+                                getName={(item: ITile) => item.name}
+                                maxNumberOfItems={4}
+                                linkIsMandatory={true}
+                                useMarkdown={true}
+                            />
+
+                            <Hr />
+
+                            <SortableTiles
+                                contentData={this.props.contentData}
+                                name='technologyClouds'
+                                typeName='Technology Clouds'
+                                items={values.technologyClouds}
+                                newItem={landingPageHelper.newTile()}
+                                onChange={setFieldValue}
+                                getName={(item: ITile) => item.name}
+                                maxNumberOfItems={5}
+                                linkIsMandatory={false}
+                                useMarkdown={false}
+                            />
+
+                            <Hr />
+
+                        </Grid>
+                    </Grid>
+
                     <MarkdownEditor
                         contentData={this.props.contentData}
                         name='technologyMarkdown'
                         label='Technology Markdown'
-                        value={landingPage.technologyMarkdown}
-                        onChange={this.onChange}
+                        value={makeEmptyString(values.technologyMarkdown)}
                         showAssetPicker={true}
+                        saveStashedIncomplete={this.props.saveStashedIncomplete}
+                        submitCount={submitCount}
+                        handleBlur={handleBlur}
+                        setFieldValue={setFieldValue}
                     />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 no-gutters'>
+
                     <MarkdownEditor
                         contentData={this.props.contentData}
                         name='markdownOutro'
                         label='Outro'
-                        value={landingPage.markdownOutro}
-                        onChange={this.onChange}
+                        value={makeEmptyString(values.markdownOutro)}
                         showAssetPicker={true}
+                        saveStashedIncomplete={this.props.saveStashedIncomplete}
+                        submitCount={submitCount}
+                        handleBlur={handleBlur}
+                        setFieldValue={setFieldValue}
                     />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 no-gutters'>
-                    <Checkbox
-                        name='hasContactForm'
+
+                    <CheckBox
+                        id='hasContactForm'
                         label='Has Contact Form'
-                        onChange={this.onChange}
-                        value={landingPage.hasContactForm}
+                        checked={values.hasContactForm}
+                        submitCount={submitCount}
+                        handleBlur={handleBlur}
+                        handleChange={handleChange}
+                        value='hasContactForm'
                     />
-                </div>
-            </div>
-        )
+
+                </Form>
+            )} />
     }
 }

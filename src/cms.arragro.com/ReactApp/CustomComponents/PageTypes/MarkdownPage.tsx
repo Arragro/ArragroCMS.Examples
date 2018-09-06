@@ -1,70 +1,93 @@
 ﻿import * as React from 'react'
-import * as FRC from 'formsy-react-components'
-import { Interfaces, Components } from 'arragrocms-management'
+import { Grid } from '@material-ui/core'
+import { Formik, Form, FormikProps } from 'formik'
+import * as Yup from 'yup'
+import { Components, Interfaces, utils } from 'arragrocms-management'
+
 import MarkdownEditor from '../MarkdownEditor'
 
-const { Input } = FRC
+const { CustomContentTypeBase } = Components
+const { CustomBubble, TextBox } = Components.FormikControls
+const { makeEmptyString } = utils.Helpers
 
-export interface IMarkdownPageState {
+interface IMarkdownPage {
     title: string
     markdown: string
-    version: number
 }
 
-
-export default class MarkdownPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, IMarkdownPageState> {
-    constructor (props: Interfaces.IComponentTypeBaseProps) {
+export default class MarkdownPage extends CustomContentTypeBase {
+    constructor (props: Interfaces.IComponentType) {
         super(props)
-        
-        if (this.props.contentData) {
-            if (this.props.contentData.contentJson &&
-                (this.props.contentData.contentJson as any)[this.props.culture] !== undefined) {
-                const data = (this.props.contentData.contentJson as any)[this.props.culture]
-                this.state = {
-                    title: data.title,
-                    markdown: data.markdown,
-                    version: data.version
-                }
-            } else {
-                this.state = this.defaultStandardPage
-            }
-        }
     }
 
-    title: any
-    body: any
-
-    defaultStandardPage: IMarkdownPageState = {
-        title: '',
-        markdown: '',
-        version: -1,
-    }
+    yup = Yup.object().shape({
+        title: Yup.string()
+            .required('Please supply Title')
+            .max(255),
+        markdown: Yup.string()
+    })
 
     public render () {
-        return (
-            <div className='row no-gutters col-12'>
-                <div className='col-lg-6'>
-                    <Input
-                        ref={(x) => this.title = x}
-                        type='text'
-                        name='title'
-                        label='Title'
-                        required
-                        onChange={this.onChange}
-                        value={this.state.title}
-                    />
-                </div>
-                <div className='col-12 no-gutters'>
-                    <MarkdownEditor 
-                        contentData={this.props.contentData} 
+        const {
+            edit,
+            culture,
+            contentData
+        } = this.props
+
+        const getInitialValues = (contentData: Interfaces.IContentData) => {
+            if (contentData.contentJson[culture] !== undefined) {
+                return {
+                    title: makeEmptyString(contentData.contentJson[culture].title),
+                    markdown: makeEmptyString(contentData.contentJson[culture].markdown)
+                }
+            }
+            return {
+                title: '',
+                markdown: ''
+            }
+        }
+
+        return <Formik
+            ref={(x: Formik<IMarkdownPage, any>) => this.formik = x}
+            initialValues={getInitialValues(contentData)}
+            isInitialValid={edit && this.yup.isValidSync(contentData)}
+            onSubmit={() => null}
+            validationSchema={this.yup}
+            render={({ submitCount, handleBlur, handleChange, setFieldValue, values, errors, dirty, isValid }: FormikProps<IMarkdownPage>) => (
+                <Form>
+                    <CustomBubble dirty={dirty} isValid={isValid} onChange={this.onCustomBubbleChange} />
+
+                    <Grid container>
+                        <Grid item xs={12} md={6}>
+
+                            <TextBox
+                                type='text'
+                                label='Title'
+                                id='title'
+                                submitCount={submitCount}
+                                value={makeEmptyString(values.title)}
+                                error={errors.title}
+                                handleChange={handleChange}
+                                handleBlur={handleBlur}
+                            />
+                        </Grid>
+                    </Grid>
+
+                    <MarkdownEditor
+                        contentData={this.props.contentData}
                         name='markdown'
-                        label='Content'
-                        value={this.state.markdown} 
-                        onChange={this.onChange} 
+                        label='Introduction'
+                        value={makeEmptyString(values.markdown)}
                         showAssetPicker={true}
+                        saveStashedIncomplete={this.props.saveStashedIncomplete}
+                        submitCount={submitCount}
+                        handleBlur={handleBlur}
+                        setFieldValue={setFieldValue}
                     />
-                </div>
-            </div>
-        )
+
+                </Form>
+            )}
+        >
+        </Formik>
     }
 }

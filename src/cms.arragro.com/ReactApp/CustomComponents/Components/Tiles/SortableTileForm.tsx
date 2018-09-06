@@ -1,66 +1,89 @@
 import * as React from 'react'
-import * as FRC from 'formsy-react-components'
-import { Components, Interfaces } from 'arragrocms-management'
+import { FormikProps } from 'formik'
 
 import MarkdownEditor from '../../MarkdownEditor'
 import { ITile } from '../../interfaces'
 
-const { Input, Checkbox } = FRC
+import { Components, Interfaces, utils } from 'arragrocms-management'
 
-interface SortableTileFormProps {
+const { TextBox, CheckBox } = Components.FormikControls
+const { makeEmptyString } = utils.Helpers
+const { Aux } = utils
+
+interface SortableListProps {
     contentData: Interfaces.IContentData
-    index: number
-    item: ITile
+    formikBag: FormikProps<ITile>
+    saveStashedIncomplete? (): void
     linkIsMandatory: boolean
     useMarkdown: boolean
-    onChange (name: string, value: string): void   
 }
 
-const SortableTileForm: React.StatelessComponent<SortableTileFormProps> = (props) => {
+const SortableTileForm: React.StatelessComponent<SortableListProps> = (props) => {
+    const {
+        contentData,
+        formikBag,
+        saveStashedIncomplete,
+        linkIsMandatory,
+        useMarkdown
+    } = props
 
     const getSvgOrImageInputs = (svgBased: boolean) => {
         if (svgBased) {
-            return <div>
+            return <Aux>
+
                 <Components.AssetPicker
-                    name='imageUrl'
+                    id='imageUrl'
                     label='SVG'
-                    selectedAsset={props.item.imageUrl}
-                    contentData={props.contentData}
+                    contentData={contentData}
+                    selectedAsset={formikBag.values.imageUrl}
                     dropzoneAccept='image/svg+xml'
                     mimeTypeFilter='image/svg+xml'
                     maxSize={10485760}
                     showResize={true}
-                    onChange={props.onChange}
-                    value={props.item.imageUrl}
+                    onChange={formikBag.setFieldValue}
+                    value={formikBag.values.imageUrl}
+                    error={formikBag.errors.imageUrl}
+                    submitCount={formikBag.submitCount}
+                    saveStashedIncomplete={saveStashedIncomplete}
                 />
-            </div>
+
+            </Aux>
         } else {
-            return <div>
+            return <Aux>
+
                 <Components.AssetPicker
-                    name='imageUrl'
+                    id='imageUrl'
                     label='Image'
-                    selectedAsset={props.item.imageUrl}
-                    contentData={props.contentData}
+                    contentData={contentData}
+                    selectedAsset={formikBag.values.imageUrl}
                     dropzoneAccept='image/jpeg,image/pjpeg,image/png,image/gif'
                     mimeTypeFilter='image/jpeg,image/pjpeg,image/png,image/gif'
                     maxSize={10485760}
                     showResize={true}
-                    onChange={props.onChange}
-                    value={props.item.imageUrl}
+                    onChange={formikBag.setFieldValue}
+                    value={formikBag.values.imageUrl}
+                    error={formikBag.errors.imageUrl}
+                    submitCount={formikBag.submitCount}
+                    saveStashedIncomplete={saveStashedIncomplete}
                 />
-            </div>
+
+            </Aux>
         }
     }
 
     const getMarkdown = () => {
-        if (props.useMarkdown) {
+        if (useMarkdown) {
             return <MarkdownEditor
-                contentData={props.contentData}
+                contentData={contentData}
                 name='markdown'
                 label='Markdown'
-                value={props.item.markdown}
-                onChange={props.onChange}
-                showAssetPicker={true}
+                value={formikBag.values.markdown}
+                error={formikBag.errors.markdown}
+                submitCount={formikBag.submitCount}
+                handleBlur={formikBag.handleBlur}
+                setFieldValue={formikBag.setFieldValue}
+                showAssetPicker={false}
+                saveStashedIncomplete={saveStashedIncomplete}
             />
         }
         return null
@@ -68,152 +91,131 @@ const SortableTileForm: React.StatelessComponent<SortableTileFormProps> = (props
 
     const getHasLinkInputs = (hasLink: boolean) => {
         if (hasLink) {
-            return <div>
+            return <Aux>
 
-                <Input
+                <TextBox
                     type='text'
-                    name='linkText'
+                    id='linkText'
                     label='Link Text'
-                    onChange={props.onChange}
-                    value={props.item.linkText}
-                    validations={{
-                        maxLength: 100
-                    }}
-                    validationErrors={{
-                        maxLength: 'There is a 100 character limit to this field.'
-                    }}
+                    value={makeEmptyString(formikBag.values.linkText)}
+                    error={formikBag.errors.linkText}
+                    submitCount={formikBag.submitCount}
+                    handleBlur={formikBag.handleBlur}
+                    handleChange={formikBag.handleChange}
                 />
-            
-                <Input
+
+                <TextBox
                     type='text'
-                    name='href'
+                    id='href'
                     label='Href'
-                    onChange={props.onChange}
-                    value={props.item.href}
-                    validations={{
-                        isUrlRoute: 0,
-                        maxLength: 2000
-                    }}
-                    validationErrors={{
-                        isUrlRoute: 'Please supply a valid url route e.g. "home".',
-                        maxLength: 'There is a 2000 character limit to this field.'
-                    }}
+                    value={makeEmptyString(formikBag.values.href)}
+                    error={formikBag.errors.href}
+                    submitCount={formikBag.submitCount}
+                    handleBlur={formikBag.handleBlur}
+                    handleChange={formikBag.handleChange}
                 />
-                
-            </div>
+
+            </Aux>
         }
         return null
     }
 
     const getHasLinkCheckBoxAndLinkInputs = () => {
-        if (props.linkIsMandatory === true) {
-            return <div>
+        if (linkIsMandatory === true) {
+            return <Aux>
 
-                <Input
+                <TextBox
                     type='text'
-                    name='linkText'
+                    id='linkText'
                     label='Link Text'
-                    required
-                    onChange={props.onChange}
-                    value={props.item.linkText}
-                    validations={{
-                        maxLength: 100
-                    }}
-                    validationErrors={{
-                        maxLength: 'There is a 100 character limit to this field.'
-                    }}
+                    value={makeEmptyString(formikBag.values.linkText)}
+                    error={formikBag.errors.linkText}
+                    submitCount={formikBag.submitCount}
+                    handleBlur={formikBag.handleBlur}
+                    handleChange={formikBag.handleChange}
                 />
 
-                <Input
+                <TextBox
                     type='text'
-                    name='href'
+                    id='href'
                     label='Href'
-                    required
-                    onChange={props.onChange}
-                    value={props.item.href}
-                    validations={{
-                        isUrlRoute: 0,
-                        maxLength: 2000
-                    }}
-                    validationErrors={{
-                        isUrlRoute: 'Please supply a valid url route e.g. "home".',
-                        maxLength: 'There is a 2000 character limit to this field.'
-                    }}
+                    value={makeEmptyString(formikBag.values.href)}
+                    error={formikBag.errors.href}
+                    submitCount={formikBag.submitCount}
+                    handleBlur={formikBag.handleBlur}
+                    handleChange={formikBag.handleChange}
                 />
 
-            </div>
-
+            </Aux>
         }
 
-        return <div>
-            <Checkbox
-                name="hasLink"
-                value={props.item.hasLink}
-                label="Has Link"
-                onChange={props.onChange}
+        return <Aux>
+            <CheckBox
+                id='hasLink'
+                label='Has Link'
+                checked={formikBag.values.hasLink}
+                value='hasLink'
+                submitCount={formikBag.submitCount}
+                handleBlur={formikBag.handleBlur}
+                handleChange={formikBag.handleChange}
             />
 
-            { getHasLinkInputs(props.item.hasLink) }
-        </div>
+            { getHasLinkInputs(formikBag.values.hasLink) }
+        </Aux>
     }
 
-    return <div>
-        <Input
+    return <Aux>
+
+        <TextBox
             type='text'
-            name='name'
+            id='name'
             label='Name'
-            onChange={props.onChange}
-            value={props.item.name}
-            validations={{
-                maxLength: 128
-            }}
-            validationErrors={{
-                maxLength: 'There is a 128 character limit to this field.'
-            }}
+            value={makeEmptyString(formikBag.values.name)}
+            error={formikBag.errors.name}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
-        <Checkbox
-            name="svgBased"
-            value={props.item.svgBased}
-            label="Svg Icon?"
-            onChange={props.onChange}
+        <CheckBox
+            id='svgBased'
+            label='Svg Icon?'
+            checked={formikBag.values.svgBased}
+            value='svgBased'
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
-        {getSvgOrImageInputs(props.item.svgBased)}
-        
-        <Input
+        {getSvgOrImageInputs(formikBag.values.svgBased)}
+
+        <TextBox
             type='text'
-            name='imageAlt'
+            id='imageAlt'
             label='Image Alt Text'
-            onChange={props.onChange}
-            value={props.item.imageAlt}
-            validations={{
-                maxLength: 512
-            }}
-            validationErrors={{
-                maxLength: 'There is a 512 character limit to this field.'
-            }}
+            value={makeEmptyString(formikBag.values.imageAlt)}
+            error={formikBag.errors.imageAlt}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
         {getMarkdown()}
 
         {getHasLinkCheckBoxAndLinkInputs()}
 
-        <Input
+        <TextBox
             type='text'
-            name='cssClass'
+            id='cssClass'
             label='Class'
-            onChange={props.onChange}
-            value={props.item.cssClass}
-            validations={{
-                maxLength: 30
-            }}
-            validationErrors={{
-                maxLength: 'There is a 30 character limit to this field.'
-            }}
+            value={makeEmptyString(formikBag.values.cssClass)}
+            error={formikBag.errors.cssClass}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
-    </div>
+    </Aux>
 }
 
 export default SortableTileForm

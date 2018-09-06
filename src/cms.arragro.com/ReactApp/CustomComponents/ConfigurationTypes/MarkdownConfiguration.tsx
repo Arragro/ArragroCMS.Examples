@@ -1,17 +1,22 @@
 ﻿import * as React from 'react'
-import * as FRC from 'formsy-react-components'
-import { Interfaces, Components } from 'arragrocms-management'
+import * as Yup from 'yup'
+import { Formik, Form, FormikProps } from 'formik'
+import { Interfaces, Components, utils } from 'arragrocms-management'
 
-const { Input } = FRC
+const { CustomBubble, TextBox } = Components.FormikControls
+const { makeEmptyString } = utils.Helpers
 
 export interface IMarkdownConfigurationState {
     testData: string
     version: number
 }
 
+interface IMarkdownConfigurationForm {
+    testData: string
+}
 
-export default class MarkdownConfiguration extends Components.ConfigurationTypeBase<Interfaces.IConfigurationTypeBaseProps, IMarkdownConfigurationState> {
-    constructor (props: Interfaces.IConfigurationTypeBaseProps) {
+export default class MarkdownConfiguration extends Components.CustomConfigurationTypeBase {
+    constructor (props: Interfaces.ICustomControl) {
         super(props)
 
         if (this.props.contentData) {
@@ -21,7 +26,7 @@ export default class MarkdownConfiguration extends Components.ConfigurationTypeB
                 const version = configurationJson.version !== undefined ? configurationJson.version : -1
                 this.state = {
                     testData: testData,
-                    version: version,
+                    version: version
                 }
             } else {
                 this.state = this.defaultStandardPage
@@ -29,34 +34,51 @@ export default class MarkdownConfiguration extends Components.ConfigurationTypeB
         }
     }
 
-    testData: any
+    yup = Yup.object().shape({
+        testData: Yup.string()
+            .required('Please supply Test Data')
+    })
 
     defaultStandardPage: IMarkdownConfigurationState = {
         testData: '',
-        version: -1,
-    }
-
-    public getModel () {
-        return {
-            testData: this.testData.getValue()
-        }
+        version: -1
     }
 
     public render () {
-        return (
-            <div className='row no-gutters col-12'>
-                <div className='col-lg-6'>
-                    <Input
-                        ref={(x) => this.testData = x}
+        const {
+            contentData,
+            edit
+        } = this.props
+
+        const initialValues: IMarkdownConfigurationForm = {
+            testData: makeEmptyString(contentData.configurationJson && contentData.configurationJson.testData)
+        }
+
+        const isInitialValid = this.yup.isValidSync(initialValues)
+
+        return <Formik
+            ref={(x: Formik<IMarkdownConfigurationForm, any>) => this.formik = x}
+            initialValues={initialValues}
+            isInitialValid={edit && isInitialValid}
+            onSubmit={() => null}
+            validationSchema={this.yup}
+            render={({ submitCount, handleBlur, handleChange, values, errors, dirty, isValid }: FormikProps<IMarkdownConfigurationForm>) => (
+                <Form>
+                    <CustomBubble dirty={dirty} isValid={isValid} onChange={this.onCustomBubbleChange} />
+
+                    <TextBox
                         type='text'
-                        name='testData'
+                        id={'testData'}
                         label='Test Data'
-                        required
-                        onChange={this.onChange}
-                        value={this.state.testData}
+                        // required
+                        value={values.testData}
+                        error={errors.testData}
+                        submitCount={submitCount}
+                        handleBlur={handleBlur}
+                        handleChange={handleChange}
                     />
-                </div>
-            </div>
-        )
+                </Form>
+            )}
+        />
     }
 }

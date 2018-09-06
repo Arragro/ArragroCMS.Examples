@@ -1,137 +1,115 @@
 import * as React from 'react'
-import * as Formsy from 'formsy-react'
-import * as FRC from 'formsy-react-components'
-import { Components, utils, Interfaces } from 'arragrocms-management'
+import { FormikProps } from 'formik'
 
 import MarkdownEditor from '../../MarkdownEditor'
 import { IContact } from '../../interfaces'
 
-const { Input } = FRC
+import { Components, Interfaces, utils } from 'arragrocms-management'
+
+const { TextBox } = Components.FormikControls
+const { makeEmptyString } = utils.Helpers
+const { Aux } = utils
 
 interface SortableContactFormProps {
     contentData: Interfaces.IContentData
-    index: number
-    item: IContact
-    onChange (name: string, value: string): void
+    formikBag: FormikProps<IContact>
+    saveStashedIncomplete? (): void
 }
 
-Formsy.addValidationRule('isPhoneNumber', (values: any, value: string) => {
-    if (value !== null) {
-        if (value.length === 0) {
-            return true
-        }
-        return /^\+?\d{7,13}$/i.test(value)
-    }
-    return true
-});
-
-utils.LoadCustomValidationRules();
-
 const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = (props) => {
-    
-    return <div>
-        <Input
+    const {
+        contentData,
+        formikBag,
+        saveStashedIncomplete
+    } = props
+
+    return <Aux>
+
+        <TextBox
             type='text'
-            name='title'
+            id='title'
             label='Title'
-            onChange={props.onChange}
-            value={utils.Helpers.makeEmptyString(props.item.title)}
-            required
-            validations={{
-                maxLength: 100
-            }}
-            validationErrors={{
-                maxLength: 'There is a 100 character limit to this field.'
-            }}
+            value={makeEmptyString(props.formikBag.values.title)}
+            error={formikBag.errors.title}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
-        <Input
+        <TextBox
             type='text'
-            name='name'
+            id='name'
             label='Name'
-            onChange={props.onChange}
-            value={utils.Helpers.makeEmptyString(props.item.name)}
-            required
-            validations={{
-                maxLength: 100
-            }}
-            validationErrors={{
-                maxLength: 'There is a 100 character limit to this field.'
-            }}
+            value={makeEmptyString(props.formikBag.values.name)}
+            error={formikBag.errors.name}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
-        <Input
+        <TextBox
             type='text'
-            name='phoneNumber'
+            id='phoneNumber'
             label='Phone Number'
-            onChange={props.onChange}
-            value={utils.Helpers.makeEmptyString(props.item.phoneNumber)}
-            required
-            validations={{
-                maxLength: 20
-            }}
-            validationErrors={{
-                maxLength: 'There is a 20 character limit to this field.'
-            }}
+            value={makeEmptyString(props.formikBag.values.phoneNumber)}
+            error={formikBag.errors.phoneNumber}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
-        
-        <Input
-            type='text'
-            name='email'
+
+        <TextBox
+            type='email'
+            id='phoneNumber'
             label='Email'
-            onChange={props.onChange}
-            value={utils.Helpers.makeEmptyString(props.item.email)}
-            validations={{
-                isEmail: 1,
-                maxLength: 100,
-
-            }}
-            validationErrors={{
-                isEmail: 'Please supply a valid Email Address',
-                maxLength: 'There is a 100 character limit to this field'
-            }}
+            value={makeEmptyString(props.formikBag.values.email)}
+            error={formikBag.errors.email}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
-        <Input
-            type='text'
-            name='linkedIn'
+        <TextBox
+            type='email'
+            id='linkedIn'
             label='LinkedIn'
-            onChange={props.onChange}
-            value={utils.Helpers.makeEmptyString(props.item.linkedIn)}
-            required
-            validations={{
-                isValidUrl: 1,
-                maxLength: 255
-            }}
-            validationErrors={{
-                isValidUrl: 'Please supply a valid Url',
-                maxLength: 'There is a 255 character limit to this field.'
-            }}
+            value={makeEmptyString(props.formikBag.values.linkedIn)}
+            error={formikBag.errors.linkedIn}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
         <Components.AssetPicker
-            name='gravitar'
+            id='gravitar'
             label='Gravitar'
-            selectedAsset={props.item.gravitar}
+            selectedAsset={props.formikBag.values.gravitar}
             contentData={props.contentData}
             dropzoneAccept='image/jpeg,image/pjpeg,image/png,image/gif'
             mimeTypeFilter='image/jpeg,image/pjpeg,image/png,image/gif'
             maxSize={10485760}
             showResize={true}
-            onChange={props.onChange}
-            value={props.item.gravitar}
+            onChange={formikBag.setFieldValue}
+            value={formikBag.values.gravitar}
+            error={formikBag.errors.gravitar}
+            submitCount={formikBag.submitCount}
+            saveStashedIncomplete={saveStashedIncomplete}
         />
 
         <MarkdownEditor
-            contentData={props.contentData}
+            contentData={contentData}
             name='bio'
             label='Bio'
-            value={utils.Helpers.makeEmptyString(props.item.bio)}
-            onChange={props.onChange}
-            showAssetPicker={true}
+            value={formikBag.values.bio}
+            error={formikBag.errors.bio}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            setFieldValue={formikBag.setFieldValue}
+            showAssetPicker={false}
+            saveStashedIncomplete={props.saveStashedIncomplete}
         />
 
-    </div>
+    </Aux>
 }
 
 export default SortableContactForm

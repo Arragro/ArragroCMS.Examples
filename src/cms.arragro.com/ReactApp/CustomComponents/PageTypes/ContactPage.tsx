@@ -1,23 +1,18 @@
 ﻿import * as React from 'react'
-import * as Formsy from 'formsy-react'
-import * as FRC from 'formsy-react-components'
-import { Interfaces, Components, utils } from 'arragrocms-management'
+import { Grid } from '@material-ui/core'
+import { Formik, FormikProps, Form } from 'formik'
+import * as Yup from 'yup'
+import { Components, Interfaces, utils } from 'arragrocms-management'
 
 import { IContact } from '../interfaces'
 import SortableContacts from '../Components/Contacts/SortableContacts'
 import MarkdownEditor from '../MarkdownEditor'
+import { isValidPhoneNumber, contactYup } from 'ReactApp/utils'
+import { Hr } from 'ReactApp/helpers'
 
-const { Input, Checkbox, Textarea } = FRC
-
-Formsy.addValidationRule('isPhoneNumber', (values: any, value: string) => {
-    if (value !== null) {
-        if (value.length === 0) {
-            return true
-        }
-        return /^\+?\d{7,13}$/i.test(value)
-    }
-    return true
-});
+const { CustomContentTypeBase } = Components
+const { CustomBubble, TextBox, TextArea, CheckBox } = Components.FormikControls
+const { makeEmptyString, makeDefaultString } = utils.Helpers
 
 const contactPageHelper = {
     newContact: (): IContact => {
@@ -37,8 +32,7 @@ const contactPageHelper = {
     }
 }
 
-
-export interface IContactPageState {
+export interface IContactForm {
     addressLine1: string
     addressLine2: string
     city: string
@@ -48,25 +42,28 @@ export interface IContactPageState {
     officeTelephone: string
     officeEmail: string
     contacts: Array<IContact>
-    latitude: number
-    longitude: number
+    latitude: string
+    longitude: string
     googleMapStyleJson: string
     markdownIntro: string
     markdownOutro: string
     hasContactForm: boolean
 }
 
+export default class ContactPage extends CustomContentTypeBase {
 
-export default class ContactPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, IContactPageState> {
-    sortableContacts: SortableContacts | null = null
-
-    constructor(props: Interfaces.IComponentTypeBaseProps) {
+    constructor (props: Interfaces.IComponentType) {
         super(props)
 
         this.onOfficeTelephoneChange = this.onOfficeTelephoneChange.bind(this)
     }
 
-    onOfficeTelephoneChange(name: string, value: string) {
+    onOfficeTelephoneChange (event: React.ChangeEvent<HTMLInputElement>) {
+        const {
+            name,
+            value
+        } = event.target
+
         if (value.length === 0) {
             this.onChange(name, null)
         } else {
@@ -74,244 +71,272 @@ export default class ContactPage extends Components.StateManagedComponentTypeBas
         }
     }
 
-    public render() {
-        if (this.props.culture === null) {
-            return null
-        }
-        const pageData = (this.props.contentData.contentJson as any)[this.props.culture] as IContactPageState
-        const contactPage = {
-            addressLine1: utils.Helpers.makeEmptyString(pageData.addressLine1),
-            addressLine2: utils.Helpers.makeEmptyString(pageData.addressLine2),
-            city: utils.Helpers.makeEmptyString(pageData.city),
-            district: utils.Helpers.makeEmptyString(pageData.district),
-            country: utils.Helpers.makeEmptyString(pageData.country),
-            postCode: utils.Helpers.makeEmptyString(pageData.postCode),
-            officeTelephone: utils.Helpers.makeEmptyString(pageData.officeTelephone),
-            officeEmail: utils.Helpers.makeEmptyString(pageData.officeEmail),
-            contacts: pageData.contacts === undefined ? [] : pageData.contacts,
-            latitude: pageData.latitude === undefined ? '0.00' :
-                pageData.latitude.toString().split('.').length === 1 ? `${pageData.latitude}.00` : pageData.latitude,
-            longitude: pageData.longitude === undefined ? '0.00' :
-                pageData.longitude.toString().split('.').length === 1 ? `${pageData.longitude}.00` : pageData.longitude,
-            googleMapStyleJson: utils.Helpers.makeEmptyString(pageData.googleMapStyleJson),
-            markdownIntro: utils.Helpers.makeEmptyString(pageData.markdownIntro),
-            markdownOutro: utils.Helpers.makeEmptyString(pageData.markdownOutro),
-            hasContactForm: pageData.hasContactForm === undefined ? false : pageData.hasContactForm
+    yup = Yup.object().shape({
+        addressLine1: Yup.string()
+            .max(100, 'Address Line 1 has a 100 character limit.')
+            .required('Please supply Address Line 1.'),
+        addressLine2: Yup.string()
+            .max(100, 'Address Line 2 has 100 character limit.'),
+        city: Yup.string()
+            .max(100, 'City has a 100 character limit.')
+            .required('Please supply a City.'),
+        district: Yup.string()
+            .max(100, 'District has a 100 character limit.'),
+        county: Yup.string()
+            .max(100, 'County has a 100 character limit.'),
+        postCode: Yup.string()
+            .max(10, 'Post Code has a 10 character limit.'),
+        officeTelephone: Yup.string()
+            .max(20, 'Post Code has a 10 character limit.')
+            .matches(isValidPhoneNumber),
+        officeEmail: Yup.string()
+            .max(100, 'Office Email has a 100 character limit.')
+            .required('Please supply an Office Email.')
+            .email('Please supple a valid Office Email.'),
+        contacts: contactYup,
+        latitude: Yup.number(),
+        longitude: Yup.number(),
+        googleMapStyleJson: Yup.string(),
+        markdownIntro: Yup.string().max(2000, 'Markdown Intro has a 2000 character limit.'),
+        markdownOutro: Yup.string().max(2000, 'Markdown Outro has a 2000 character limit.'),
+        hasContactForm: Yup.bool()
+    })
+
+    public render () {
+        const {
+            culture,
+            contentData,
+            edit
+        } = this.props
+        const contentJson = contentData.contentJson
+
+        const getInitialValues = (): IContactForm => {
+            if (contentJson && contentJson[culture] !== undefined) {
+                return {
+                    addressLine1: makeEmptyString(contentJson[culture].addressLine1),
+                    addressLine2: makeEmptyString(contentJson[culture].addressLine2),
+                    city: makeEmptyString(contentJson[culture].city),
+                    district: makeEmptyString(contentJson[culture].district),
+                    country: makeEmptyString(contentJson[culture].country),
+                    postCode: makeEmptyString(contentJson[culture].postCode),
+                    officeTelephone: makeEmptyString(contentJson[culture].officeTelephone),
+                    officeEmail: makeEmptyString(contentJson[culture].officeEmail),
+                    contacts: !contentJson[culture].contacts ? [] : contentJson[culture].contacts,
+                    latitude: makeDefaultString(contentJson[culture].latitude, '0.00'),
+                    longitude: makeDefaultString(contentJson[culture].longitude, '0.00'),
+                    googleMapStyleJson: makeEmptyString(contentJson[culture].googleMapStyleJson),
+                    markdownIntro: makeEmptyString(contentJson[culture].markdownIntro),
+                    markdownOutro: makeEmptyString(contentJson[culture].markdownOutro),
+                    hasContactForm: !contentJson[culture] ? false : contentJson[culture].hasContactForm
+                }
+            }
+            return {
+                addressLine1: '',
+                addressLine2: '',
+                city: '',
+                district: '',
+                country: '',
+                postCode: '',
+                officeTelephone: '',
+                officeEmail: '',
+                contacts: [],
+                latitude: '0.00',
+                longitude: '0.00',
+                googleMapStyleJson: '',
+                markdownIntro: '',
+                markdownOutro: '',
+                hasContactForm: false
+            }
         }
 
-        return (
-            <div className='row col-12'>
-                <div className='col-lg-6'>
-                    <Input
-                        type='text'
-                        name='addressLine1'
-                        label='Address line 1'
-                        required
-                        onChange={this.onChange}
-                        value={contactPage.addressLine1}
-                        validations={{
-                            maxLength: 100
-                        }}
-                        validationErrors={{
-                            maxLength: 'There is a 100 character limit to this field'
-                        }}
-                    />
-                </div>  
-                <div className='col-lg-6'>
-                    <Input
-                        type='text'
-                        name='addressLine2'
-                        label='Address line 2'
-                        onChange={this.onChange}
-                        value={contactPage.addressLine2}
-                        validations={{
-                            maxLength: 100
-                        }}
-                        validationErrors={{
-                            maxLength: 'There is a 100 character limit to this field'
-                        }}
-                    />
-                </div>
-                <div className='col-lg-6'>
-                    <Input
-                        type='text'
-                        name='city'
-                        label='City'
-                        required
-                        onChange={this.onChange}
-                        value={contactPage.city}
-                        validations={{
-                            maxLength: 100
-                        }}
-                        validationErrors={{
-                            maxLength: 'There is a 100 character limit to this field'
-                        }}
-                    />
-                </div>
-                <div className='col-lg-6'>
-                    <Input
-                        type='text'
-                        name='district'
-                        label='District'
-                        onChange={this.onChange}
-                        value={contactPage.district}
-                        validations={{
-                            maxLength: 100
-                        }}
-                        validationErrors={{
-                            maxLength: 'There is a 100 character limit to this field'
-                        }}
-                    />
-                </div>
-                <div className='col-lg-6'>
-                    <Input
-                        type='text'
-                        name='country'
-                        label='Country'
-                        onChange={this.onChange}
-                        value={contactPage.country}
-                        validations={{
-                            maxLength: 100
-                        }}
-                        validationErrors={{
-                            maxLength: 'There is a 100 character limit to this field'
-                        }}
-                    />
-                </div>
-                <div className='col-lg-6'>
-                    <Input
-                        type='text'
-                        name='postCode'
-                        label='Post Code'
-                        onChange={this.onChange}
-                        value={contactPage.postCode}
-                        required
-                        validations={{
-                            maxLength: 10
-                        }}
-                        validationErrors={{
-                            maxLength: 'There is a 10 character limit to this field'
-                        }}
-                    />
-                </div>
-                <div className='col-lg-6'>
-                    <Input
-                        type='text'
-                        name='officeTelephone'
-                        label='Office Telephone'
-                        onChange={this.onOfficeTelephoneChange}
-                        value={utils.Helpers.makeEmptyString(contactPage.officeTelephone)}
-                        validations={{
-                            maxLength: 20
-                        }}
-                        validationErrors={{
-                            maxLength: 'There is a 20 character limit to this field'
-                        }}
-                    />
-                </div>
-                <div className='col-lg-6'>
-                    <Input
-                        type='text'
-                        name='officeEmail'
-                        label='Office Email'
-                        onChange={this.onChange}
-                        value={contactPage.officeEmail}
-                        validations={{
-                            isEmail: 1,
-                            maxLength: 100,
+        return <Formik
+            ref={(x: Formik<IContactForm, any>) => this.formik = x}
+            initialValues={getInitialValues()}
+            isInitialValid={edit && this.yup.isValidSync(contentData)}
+            onSubmit={() => null}
+            validationSchema={this.yup}
+            render={({ submitCount, handleBlur, handleChange, values, errors, dirty, isValid, setFieldValue }: FormikProps<IContactForm>) => (
+                <Form>
+                    <CustomBubble dirty={dirty} isValid={isValid} onChange={this.onCustomBubbleChange} />
 
-                        }}
-                        validationErrors={{
-                            isEmail: 'Please supply a valid Email Address',
-                            maxLength: 'There is a 100 character limit to this field'
-                        }}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 no-gutters full-width-buttons'>
-                    <SortableContacts
-                        ref={(x: SortableContacts | null) => this.sortableContacts = x}
-                        contentData={this.props.contentData}
-                        name='contacts'
-                        label="Contacts"
-                        contacts={contactPage.contacts}
-                        newItem={contactPageHelper.newContact()}
-                        onChange={this.onChange}
-                        maxContacts={5}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-lg-6'>
-                    <Input
-                        type='number'
-                        name='latitude'
-                        label='Latitude'
-                        onChange={this.onChange}
-                        value={contactPage.latitude.toString()}
-                        validations={{
-                            maxLength: 15
-                        }}
-                        validationErrors={{
-                            maxLength: 'There is a 15 character limit to this field'
-                        }}
-                    />
-                </div>
-                <div className='col-lg-6'>
-                    <Input
-                        type='number'
-                        name='longitude'
-                        label='Longitude'
-                        onChange={this.onChange}
-                        value={contactPage.longitude.toString()}
-                        validations={{
-                            maxLength: 15
-                        }}
-                        validationErrors={{
-                            maxLength: 'There is a 15 character limit to this field'
-                        }}
-                    />
-                </div>
-                <div className='col-lg-12'>
-                    <Textarea
-                        name='googleMapStyleJson'
-                        label='Google Map Json'
-                        onChange={this.onChange}
-                        value={contactPage.googleMapStyleJson}
-                        rows={8}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-lg-12'>
+                    <Grid container>
+                        <Grid item xs={12} md={6}>
+
+                            <TextBox
+                                type='text'
+                                id='addressLine1'
+                                label='Address line 1'
+                                value={values.addressLine1}
+                                error={errors.addressLine1}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <TextBox
+                                type='text'
+                                id='addressLine1'
+                                label='Address line 2'
+                                value={values.addressLine2}
+                                error={errors.addressLine2}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <TextBox
+                                type='text'
+                                id='city'
+                                label='City'
+                                value={values.city}
+                                error={errors.city}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <TextBox
+                                type='text'
+                                id='district'
+                                label='District'
+                                value={values.district}
+                                error={errors.district}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <TextBox
+                                type='text'
+                                id='country'
+                                label='Country'
+                                value={values.country}
+                                error={errors.country}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <TextBox
+                                type='text'
+                                id='postCode'
+                                label='Post Code'
+                                value={values.postCode}
+                                error={errors.postCode}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <TextBox
+                                type='text'
+                                id='officeTelephone'
+                                label='Office Telephone'
+                                value={values.officeTelephone}
+                                error={errors.officeTelephone}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={this.onOfficeTelephoneChange}
+                            />
+
+                            <TextBox
+                                type='text'
+                                id='officeEmail'
+                                label='Office Email'
+                                value={values.officeEmail}
+                                error={errors.officeEmail}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <Hr />
+
+                            <SortableContacts
+                                name='contacts'
+                                typeName='Contact'
+                                contentData={this.props.contentData}
+                                items={values.contacts}
+                                newItem={contactPageHelper.newContact()}
+                                rulesExceptionListContainers={this.getContentRulesExceptionListContainers()}
+                                onChange={setFieldValue}
+                                getName={(item: IContact) => item.name}
+                                maxNumberOfItems={5}
+                            />
+
+                            <Hr />
+
+                            <TextBox
+                                type='number'
+                                id='latitude'
+                                label='Latitude'
+                                value={values.latitude}
+                                error={errors.latitude}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <TextBox
+                                type='number'
+                                id='longitude'
+                                label='Longitude'
+                                value={values.longitude}
+                                error={errors.longitude}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <TextArea
+                                id='googleMapStyleJson'
+                                label='Google Map Json'
+                                value={values.googleMapStyleJson}
+                                error={errors.googleMapStyleJson}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                        </Grid>
+                    </Grid>
+
                     <MarkdownEditor
                         contentData={this.props.contentData}
                         name='markdownIntro'
                         label='Markdown Intro'
-                        value={contactPage.markdownIntro}
-                        onChange={this.onChange}
+                        value={makeEmptyString(values.markdownIntro)}
                         showAssetPicker={true}
+                        saveStashedIncomplete={this.props.saveStashedIncomplete}
+                        submitCount={submitCount}
+                        handleBlur={handleBlur}
+                        setFieldValue={setFieldValue}
                     />
-                </div>
-                <hr className='col-12' />
-                <div className='col-lg-12'>
+
                     <MarkdownEditor
                         contentData={this.props.contentData}
                         name='markdownOutro'
                         label='Markdown Outro'
-                        value={contactPage.markdownOutro}
-                        onChange={this.onChange}
+                        value={makeEmptyString(values.markdownOutro)}
                         showAssetPicker={true}
+                        saveStashedIncomplete={this.props.saveStashedIncomplete}
+                        submitCount={submitCount}
+                        handleBlur={handleBlur}
+                        setFieldValue={setFieldValue}
                     />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 no-gutters'>
-                    <Checkbox
-                        name='hasContactForm'
+
+                    <CheckBox
+                        id='hasContactForm'
                         label='Has Contact Form'
-                        onChange={this.onChange}
-                        value={contactPage.hasContactForm}
+                        checked={values.hasContactForm}
+                        submitCount={submitCount}
+                        handleBlur={handleBlur}
+                        handleChange={handleChange}
+                        value='hasContactForm'
                     />
-                </div>
-            </div>
-        )
+
+                </Form>
+            )}>
+            </Formik>
     }
 }

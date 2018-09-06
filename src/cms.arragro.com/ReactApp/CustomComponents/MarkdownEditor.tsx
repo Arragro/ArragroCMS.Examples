@@ -1,69 +1,98 @@
 ﻿import * as React from 'react'
-import { Controlled as CodeMirror } from 'react-codemirror2'
 import * as ReactMarkdown from 'react-markdown'
-import * as Formsy from 'formsy-react'
-import { Interfaces, Components, utils } from 'arragrocms-management'
+import { FormHelperText, Grid, Button, createStyles, Theme, WithStyles, withStyles } from '@material-ui/core'
+import { Controlled as CodeMirror } from 'react-codemirror2'
+import { Interfaces, Components } from 'arragrocms-management'
 
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/eclipse.css'
 import 'codemirror/mode/markdown/markdown'
 import 'codemirror/addon/display/autorefresh'
 
-export interface IMarkdownEditorProps {
+const style = (theme: Theme) => createStyles({
+    preview: {
+        paddingTop: 20,
+        paddingLeft: 5,
+        '& img': {
+            width: '100%'
+        }
+    }
+})
+
+export interface IMarkdownEditorProps extends WithStyles<typeof style> {
     contentData: Interfaces.IContentData
     name: string
     label: string
     value: string
+    error?: any
+    submitCount: number
     showAssetPicker: boolean
     options?: any
-    onChange(name: string, value: string): void
+    handleBlur (event: any): void
+    setFieldValue (name: string, value: any): void
+    saveStashedIncomplete? (): void
 }
 
-class MarkdownEditor extends React.Component<IMarkdownEditorProps & any> {
-    assetModal: Components.AssetModal | null = null
-    codeMirror: any = null
+interface IMarkdownEditorState {
+    dirty: boolean
+    assetModalOpen: boolean
+}
 
-    constructor(props: IMarkdownEditorProps & any) {
+class MarkdownEditor extends React.Component<IMarkdownEditorProps, IMarkdownEditorState> {
+    codeMirror: any
+
+    constructor (props: IMarkdownEditorProps) {
         super(props)
 
         this.state = {
-            showImageAssetModal: false
+            dirty: false,
+            assetModalOpen: false
         }
 
         this.onChange = this.onChange.bind(this)
+        this.showImageAssetModal = this.showImageAssetModal.bind(this)
     }
 
     closeClick = () => {
-        if (this.assetModal !== null) {
-            this.assetModal.toggle()
-        }
+        this.setState({
+            ...this.state,
+            assetModalOpen: false
+        })
     }
 
     selectClick = (asset: Interfaces.IAsset) => {
         let cursor = this.codeMirror.editor.getCursor()
-        this.codeMirror.editor.replaceRange(`![${asset.alt}](${window.location.origin}/${asset.url})`, cursor, cursor)
-        this.setState({
-            ...this.state,
-            showImageAssetModal: false
-        })
+        this.codeMirror.editor.replaceRange(`![${asset.alt}](${asset.cdnUrl})`, cursor, cursor)
+        this.showImageAssetModal()
     }
 
     showImageAssetModal = () => {
-        if (this.assetModal !== null) {
-            this.assetModal.toggle()
+        this.setState({
+            ...this.state,
+            assetModalOpen: true
+        })
+    }
+
+    onChange (editor: any, metadata: any, value: any) {
+        this.setState({
+            ...this.state,
+            dirty: true
+        }, () => this.props.setFieldValue(this.props.name, value))
+    }
+
+    getError = () => {
+        const {
+            name,
+            submitCount,
+            error
+        } = this.props
+        if ((submitCount > 0 || this.state.dirty) && error) {
+            return <FormHelperText id={`${name}--error-text`}>{error}</FormHelperText>
         }
+        return null
     }
 
-    onChange(editor: any, metadata: any, value: any) {
-        this.props.onChange(this.props.name, value)
-        this.props.setValue(value)
-    }
-
-    isValid() {
-        return false
-    }
-
-    render() {
+    render () {
         const options = {
             ...this.props.options,
             lineNumbers: true,
@@ -75,47 +104,48 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps & any> {
             autoRefresh: true
         }
 
-        const { contentData } = this.props
-        const markdownClass = this.props.showAssetPicker ? 'col-6 pt-4 mt-3' : 'col-6'
+        const { contentData, classes } = this.props
         const styleIssue = { border: '1px solid red' }
-        const style = (this.props.showRequired() && this.props.isFormSubmitted() ? styleIssue : this.props.showError() ? styleIssue : {})
-        const mimeTypeFilter = 'image/jpeg,image/png,image/pjpeg'
-        const dropzoneAccept = 'image/jpeg,image/png,image/pjpeg'
+        const style = (this.props.error !== undefined ? styleIssue : {})
+        const mimeTypeFilter = 'image/jpeg,image/png,image/pjpeg,image/gif'
+        const dropzoneAccept = 'image/jpeg,image/png,image/pjpeg,image/gif'
 
-        console.log(contentData)
-
-        return (
-            <div className='row no-gutters'>
-                <div className='form-group col-12'>
-                    <label className="control-label">{this.props.label}</label>
-                </div>
-                <div className='col-6 full-width-buttons' style={style}>
-                    <Components.AssetModal
-                        ref={(x: Components.AssetModal | null) => this.assetModal = x}
-                        contentData={contentData}              
-                        mimeTypeFilter={mimeTypeFilter}
-                        selectClick={this.selectClick}
-                        closeClick={this.closeClick}
-                        dropzoneAccept={dropzoneAccept}
-                        maxSize={10485760}
-                        showResize={true}
-                    />
-                    {utils.HtmlHelper.renderButton('btn-primary', this.showImageAssetModal.bind(this), '', 'Select Image', this.props.showAssetPicker, false)}
-                    <CodeMirror 
-                        ref={(x) => this.codeMirror = x} 
-                        value={this.props.value} 
-                        options={options} 
-                        onChange={this.onChange}                         
-                        onBeforeChange={this.onChange} />
-                </div>
-                <div className={markdownClass}>
-                    <ReactMarkdown source={this.props.value} escapeHtml={false} />
-                </div>
-            </div>
-        )
+        return <Grid container>
+            <Grid item xs={12} xl={8}>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <label>{this.props.label}</label>
+                    </Grid>
+                    <Grid item xs={12} md={6} style={style}>
+                        <Components.AssetModal
+                            contentData={contentData}
+                            mimeTypeFilter={mimeTypeFilter}
+                            selectClick={this.selectClick}
+                            closeClick={this.closeClick}
+                            dropzoneAccept={dropzoneAccept}
+                            maxSize={10485760}
+                            showResize={true}
+                            saveStashedIncomplete={this.props.saveStashedIncomplete}
+                            modalOpen={this.state.assetModalOpen}
+                        />
+                        <Button onClick={this.showImageAssetModal} variant='contained' color='secondary' fullWidth={true}>Select Image</Button>
+                        {/* {utils.HtmlHelper.renderCmsButton(this.showImageAssetModal, null, 'Select Image', this.props.showAssetPicker, false)} */}
+                        <CodeMirror
+                            ref={(x) => this.codeMirror = x}
+                            value={this.props.value}
+                            options={options}
+                            onChange={this.onChange}
+                            onBeforeChange={this.onChange}
+                        />
+                        {this.getError()}
+                    </Grid>
+                    <Grid item xs={12} md={6} className={classes.preview} >
+                        <ReactMarkdown source={this.props.value} escapeHtml={false} />
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
     }
 }
 
-var markdownEditor = Formsy.withFormsy(MarkdownEditor)
-
-export default markdownEditor
+export default withStyles(style)(MarkdownEditor)

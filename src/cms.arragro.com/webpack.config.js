@@ -7,6 +7,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 const PurifyCSSPlugin = require('purifycss-webpack');
 const sharedConfig = require('./webpack.shared.config');
+const { dependencies } = require('./package.json');
 
 module.exports = (env) => {
     const devMode = env === null || env['run-prod'] === undefined || env['run-prod'] === null || env['run-prod'] === false;
@@ -41,8 +42,13 @@ module.exports = (env) => {
                     loader: 'awesome-typescript-loader',
                     query: {
                         useBabel: true,
-                        useCache: devMode
+                        useCache: devMode,
+                        babelCore: "@babel/core"
                     }
+                },
+                {
+                    test: /\.js$/,
+                    loader: 'source-map-loader'
                 },
                 {
                     test: /\.(sa|sc|c)ss$/,
@@ -70,7 +76,7 @@ module.exports = (env) => {
             ]
         },
         entry: {
-            main: ['react-hot-loader/patch', './ReactApp/boot.tsx']
+            main: './ReactApp/boot.tsx'
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
@@ -86,11 +92,6 @@ module.exports = (env) => {
                         test: /\.css$/,
                         chunks: 'all',
                         enforce: true
-                    },
-                    commons: {
-                        test: /[\\/]node_modules[\\/]/,
-                        name: "vendor",
-                        chunks: "all"
                     }
                 }
             }

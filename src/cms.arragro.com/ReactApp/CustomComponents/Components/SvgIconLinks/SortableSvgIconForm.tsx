@@ -1,17 +1,18 @@
 import * as React from 'react'
-import * as FRC from 'formsy-react-components'
+import { FormikProps } from 'formik'
 import MarkdownEditor from '../../MarkdownEditor'
+import { Interfaces, utils, Components } from 'arragrocms-management'
 
 import { ISvgIconLink } from '../../interfaces'
-import { Interfaces } from 'arragrocms-management';
 
-const { Input, Select } = FRC
+const { TextBox, Select } = Components.FormikControls
+const { makeEmptyString } = utils.Helpers
+const { Aux } = utils
 
-interface SortableItemProps<ItemType> {
+interface SortableListProps {
     contentData: Interfaces.IContentData
-    index: number
-    item: ItemType
-    onChange (name: string, value: string): void
+    formikBag: FormikProps<ISvgIconLink>
+    saveStashedIncomplete? (): void
 }
 
 const selectOptions = [
@@ -19,64 +20,67 @@ const selectOptions = [
     { value: 'fal fa-lightbulb', label: 'Lightbulb' },
     { value: 'fal fa-cloud', label: 'Cloud' },
     { value: 'fal fa-dollar-sign', label: 'Dollar' }
-];
+]
 
 const singleSelectOptions = [
     { value: '', label: 'Please select...' },
-    ...selectOptions,
-];
+    ...selectOptions
+]
 
-const SortableSvgIcon: React.StatelessComponent<SortableItemProps<ISvgIconLink>> = (props) => {
-    return <div>
-            <Input
+const SortableSvgIcon: React.StatelessComponent<SortableListProps> = (props) => {
+    const {
+        contentData,
+        formikBag
+    } = props
+
+    return <Aux>
+
+            <TextBox
                 type='text'
-                name='title'
+                id='title'
                 label='Title'
-                required
-                onChange={props.onChange}
-                value={props.item.title}
-                validations={{
-                    maxLength: 255
-                }}
-                validationErrors={{
-                    maxLength: 'There is a 255 character limit to this field.'
-                }}
+                value={makeEmptyString(formikBag.values.title)}
+                error={formikBag.errors.title}
+                submitCount={formikBag.submitCount}
+                handleBlur={formikBag.handleBlur}
+                handleChange={formikBag.handleChange}
             />
 
             <Select
-                name="svg"
-                label="Select SVG"
-                options={singleSelectOptions}
-                required
-                value={props.item.svg}
-                onChange={props.onChange}
+                id='svg'
+                label='Select SVG'
+                items={singleSelectOptions}
+                value={makeEmptyString(formikBag.values.svg)}
+                error={formikBag.errors.svg}
+                submitCount={formikBag.submitCount}
+                handleChange={formikBag.handleChange}
             />
-            
-            <Input
+
+            <TextBox
                 type='text'
-                name='href'
+                id='href'
                 label='Href'
-                onChange={props.onChange}
-                value={props.item.href}
-                validations={{
-                    isUrlRoute: 0,
-                    maxLength: 2000
-                }}
-                validationErrors={{
-                    isUrlRoute: 'Please supply a valid url route e.g. "home".',
-                    maxLength: 'There is a 2000 character limit to this field.'
-                }}
+                value={makeEmptyString(formikBag.values.href)}
+                error={formikBag.errors.href}
+                submitCount={formikBag.submitCount}
+                handleBlur={formikBag.handleBlur}
+                handleChange={formikBag.handleChange}
             />
 
             <MarkdownEditor
-                contentData={props.contentData}
+                contentData={contentData}
                 name='markdown'
                 label='Markdown'
-                value={props.item.markdown}
-                onChange={props.onChange}
-                showAssetPicker={true}
+                value={formikBag.values.markdown}
+                error={formikBag.errors.markdown}
+                submitCount={formikBag.submitCount}
+                handleBlur={formikBag.handleBlur}
+                setFieldValue={formikBag.setFieldValue}
+                showAssetPicker={false}
+                saveStashedIncomplete={props.saveStashedIncomplete}
             />
-        </div>
+
+        </Aux>
 }
 
 export default SortableSvgIcon

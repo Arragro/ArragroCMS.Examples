@@ -25,34 +25,34 @@ const { ComponentTypesExtender } = Components
 export function extendContentTypeMap (): void {
 
     ComponentTypesExtender.componentTypeMap[PAGETYPES_MARKDOWN] = (pageType: Interfaces.IComponentType): JSX.Element => {
-        return <MarkdownPage ref={pageType.ref} contentData={pageType.contentData} culture={pageType.culture} onChange={pageType.onChange} />
+        return <MarkdownPage {...pageType} />
     }
 
     ComponentTypesExtender.componentTypeMap[PAGETYPES_LANDINGPAGE] = (pageType: Interfaces.IComponentType): JSX.Element => {
-        return <LandingPage ref={pageType.ref} contentData={pageType.contentData} culture={pageType.culture} onChange={pageType.onChange} />
+        return <LandingPage {...pageType} />
     }
 
     ComponentTypesExtender.componentTypeMap[PAGETYPES_TILEBULLETPAGE] = (pageType: Interfaces.IComponentType): JSX.Element => {
-        return <TileBulletPage ref={pageType.ref} contentData={pageType.contentData} culture={pageType.culture} onChange={pageType.onChange} />
+        return <TileBulletPage {...pageType} />
     }
 
     ComponentTypesExtender.componentTypeMap[PAGETYPES_REDIRECTPAGE] = (pageType: Interfaces.IComponentType): JSX.Element => {
-        return <RedirectPage ref={pageType.ref} contentData={pageType.contentData} culture={pageType.culture} onChange={pageType.onChange} />
+        return <RedirectPage {...pageType} />
     }
 
     ComponentTypesExtender.componentTypeMap[PAGETYPES_CONTACTPAGE] = (pageType: Interfaces.IComponentType): JSX.Element => {
-        return <ContactPage ref={pageType.ref} contentData={pageType.contentData} culture={pageType.culture} onChange={pageType.onChange} />
+        return <ContactPage {...pageType} />
     }
-    
+
     ComponentTypesExtender.componentTypeMap[POSTTYPES_MARKDOWN] = (pageType: Interfaces.IComponentType): JSX.Element => {
-        return <MarkdownPost ref={pageType.ref} contentData={pageType.contentData} culture={pageType.culture} onChange={pageType.onChange} />
+        return <MarkdownPost {...pageType} />
     }
 }
 
 export function extendConfigurationTypeMap (): void {
 
-    ComponentTypesExtender.configurationTypeMap[CONFIGURATIONTYPES_MARKDOWN] = (pageType: Interfaces.IConfigurationType): JSX.Element => {
-        return <MarkdownConfiguration ref={pageType.ref} contentData={pageType.contentData} onChange={pageType.onChange} />
+    ComponentTypesExtender.configurationTypeMap[CONFIGURATIONTYPES_MARKDOWN] = (pageType: Interfaces.ICustomControl): JSX.Element => {
+        return <MarkdownConfiguration {...pageType} />
     }
 
 }

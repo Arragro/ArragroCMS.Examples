@@ -1,14 +1,19 @@
 ﻿import * as React from 'react'
-import * as Formsy from 'formsy-react'
-import * as FRC from 'formsy-react-components'
-import { Interfaces, Components } from 'arragrocms-management'
+import { Grid } from '@material-ui/core'
+import { Formik, FormikProps, Form } from 'formik'
+import * as Yup from 'yup'
 
 import { ITile } from '../interfaces'
-
 import SortableTiles from '../Components/Tiles/SortableTiles'
 import MarkdownEditor from '../MarkdownEditor'
+import { tileYup } from 'ReactApp/utils'
+import { Hr } from 'ReactApp/helpers'
 
-const { Input, Checkbox } = FRC
+import { Components, Interfaces, utils } from 'arragrocms-management'
+
+const { CustomContentTypeBase } = Components
+const { CustomBubble, TextBox, CheckBox } = Components.FormikControls
+const { makeEmptyString } = utils.Helpers
 
 const tileBulletPageHelper = {
     newTile: (): ITile => {
@@ -30,131 +35,159 @@ const tileBulletPageHelper = {
     }
 }
 
-Formsy.addValidationRule('isCol', (values: any, value: string) => {
-    const int = parseInt(value);
-    console.log(int)
-    console.log(values)
-    if (typeof int !== 'number') {
-        return false;
-    }
-    return int <= 12;
-});
-
-
-export interface ITileBulletPageState {
+export interface ITileBulletPageForm {
     title: string
     introMarkdown: string
     cloudTileBullets: boolean
     tileBullets: Array<ITile>
-    leftColumns: number
-    rightColumns: number
+    leftColumns: string
+    rightColumns: string
 }
 
+export default class TileBulletPage extends CustomContentTypeBase {
 
-export default class TileBulletPage extends Components.StateManagedComponentTypeBase<Interfaces.IComponentTypeBaseProps, ITileBulletPageState> {
-    sortableTechnologySections: SortableTiles | null = null
-
-    constructor(props: Interfaces.IComponentTypeBaseProps) {
+    constructor (props: Interfaces.IComponentType) {
         super(props)
     }
 
-    public render() {
-        
-        const pageData = (this.props.contentData.contentJson as any)[this.props.culture] as ITileBulletPageState
-        const tileBulletPage = {
-            title: pageData.title === undefined ? '' : pageData.title,
-            introMarkdown: pageData.introMarkdown === undefined ? '' : pageData.introMarkdown,
-            cloudTileBullets: pageData.cloudTileBullets === undefined ? false : pageData.cloudTileBullets,
-            tileBullets: pageData.tileBullets === undefined ?
-                tileBulletPageHelper.newTiles() :
-                pageData.tileBullets,
-            leftColumns: pageData.leftColumns === undefined ? '4' : pageData.leftColumns,
-            rightColumns: pageData.rightColumns === undefined ? '8' : pageData.rightColumns,
+    yup = Yup.object().shape({
+        title: Yup.string()
+            .required('Please supply a Title.')
+            .max(50, 'Title has a 50 character limit.'),
+        introMarkdown: Yup.string()
+            .required('Please supply an Introduction.')
+            .max(4000, 'Introduction has a 4000 charater limit'),
+        cloudTileBullets: Yup.bool(),
+        tileBullets: Yup.array().of(tileYup),
+        leftColumns: Yup.number().required('Please supply a Left Columns.').max(12, 'Please supply a number <= 12.'),
+        rightColumns: Yup.number().required('Please supply a Right Columns.').max(12, 'Please supply a number <= 12.')
+    })
+
+    public render () {
+        const {
+            culture,
+            contentData,
+            edit
+        } = this.props
+        const contentJson = contentData.contentJson
+
+        const getInitialValues = (): ITileBulletPageForm => {
+            if (contentJson && contentJson[culture] !== undefined) {
+                return {
+                    title: makeEmptyString(contentJson[culture].title),
+                    introMarkdown: makeEmptyString(contentJson[culture].introMarkdown),
+                    cloudTileBullets: contentJson[culture].cloudTileBullets,
+                    tileBullets: contentJson[culture].tileBullets ? contentJson[culture].tileBullets : [],
+                    leftColumns: makeEmptyString(contentJson[culture].leftColumns),
+                    rightColumns: makeEmptyString(contentJson[culture].rightColumns)
+                }
+            }
+            return {
+                title: '',
+                introMarkdown: '',
+                cloudTileBullets: false,
+                tileBullets: [],
+                leftColumns: '4',
+                rightColumns: '6'
+            }
         }
 
-        return (
-            <div className='row col-12'>
-                <div className='col-lg-6'>
-                    <Input
-                        type='text'
-                        name='title'
-                        label='Title'
-                        required
-                        onChange={this.onChange}
-                        value={tileBulletPage.title}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 no-gutters'>
+        return <Formik
+            ref={(x: Formik<ITileBulletPageForm, any>) => this.formik = x}
+            initialValues={getInitialValues()}
+            isInitialValid={edit && this.yup.isValidSync(contentData)}
+            onSubmit={() => null}
+            validationSchema={this.yup}
+            render={({ submitCount, handleBlur, handleChange, values, errors, dirty, isValid, setFieldValue }: FormikProps<ITileBulletPageForm>) => (
+                <Form>
+                    <CustomBubble dirty={dirty} isValid={isValid} onChange={this.onCustomBubbleChange} />
+
+                    <Grid container>
+                        <Grid item xs={12} md={6}>
+
+                            <TextBox
+                                type='text'
+                                id='title'
+                                label='Title'
+                                value={values.title}
+                                error={errors.title}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                        </Grid>
+                    </Grid>
+
                     <MarkdownEditor
                         contentData={this.props.contentData}
                         name='introMarkdown'
                         label='Intro'
-                        value={tileBulletPage.introMarkdown}
-                        onChange={this.onChange}
+                        value={makeEmptyString(values.introMarkdown)}
                         showAssetPicker={true}
+                        saveStashedIncomplete={this.props.saveStashedIncomplete}
+                        submitCount={submitCount}
+                        handleBlur={handleBlur}
+                        setFieldValue={setFieldValue}
                     />
-                </div>
-                <hr className='col-12' />
-                <div className='col-lg-2'>
-                    <Checkbox
-                        type='checkbox'
-                        name='cloudTileBullets'
-                        label='Use Clouds for the Bullets'
-                        onChange={this.onChange}
-                        value={tileBulletPage.cloudTileBullets}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-12 col-lg-6 no-gutters full-width-buttons'>
-                    <SortableTiles
-                        ref={x => this.sortableTechnologySections = x}
-                        contentData={this.props.contentData}
-                        name='tileBullets'
-                        label='Tile Bullets'
-                        clouds={tileBulletPage.tileBullets}
-                        newItem={tileBulletPageHelper.newTile()}
-                        onChange={this.onChange}
-                        maxClouds={10}
-                        linkIsMandatory={false}
-                        useMarkdown={true}
-                    />
-                </div>
-                <hr className='col-12' />
-                <div className='col-6 col-lg-3'>
-                    <Input
-                        type='number'
-                        name='leftColumns'
-                        label='Left Columns'
-                        required
-                        validations={{
-                            isCol: 0
-                        }}
-                        validationErrors={{
-                            isCol: 'Please supply a number <= 12'
-                        }}
-                        onChange={this.onChange}
-                        value={tileBulletPage.leftColumns}
-                    />
-                </div>
-                <div className='col-6 col-lg-3'>
-                    <Input
-                        type='number'
-                        name='rightColumns'
-                        label='Right Columns'
-                        required
-                        validations={{
-                            isCol: 0
-                        }}
-                        validationErrors={{
-                            isCol: 'Please supply a number <= 12'
-                        }}
-                        onChange={this.onChange}
-                        value={tileBulletPage.rightColumns}
 
-                    />
-                </div>
-            </div>
-        )
+                    <Grid container>
+                        <Grid item xs={12} md={6}>
+
+                            <CheckBox
+                                id='cloudTileBullets'
+                                label='Use Clouds for the Bullets'
+                                checked={values.cloudTileBullets}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                                value='cloudTileBullets'
+                            />
+
+                            <Hr />
+
+                            <SortableTiles
+                                contentData={this.props.contentData}
+                                name='tileBullets'
+                                typeName='Tile Bullets'
+                                items={values.tileBullets}
+                                newItem={tileBulletPageHelper.newTile()}
+                                onChange={setFieldValue}
+                                getName={(item: ITile) => item.name}
+                                maxNumberOfItems={8}
+                                linkIsMandatory={false}
+                                useMarkdown={true}
+                            />
+
+                            <Hr />
+
+                            <TextBox
+                                type='text'
+                                id='leftColumns'
+                                label='Left Columns'
+                                value={values.leftColumns}
+                                error={errors.leftColumns}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                            <TextBox
+                                type='text'
+                                id='rightColumns'
+                                label='Right Columns'
+                                value={values.rightColumns}
+                                error={errors.rightColumns}
+                                submitCount={submitCount}
+                                handleBlur={handleBlur}
+                                handleChange={handleChange}
+                            />
+
+                        </Grid>
+                    </Grid>
+
+                </Form>
+            )}
+        />
     }
 }

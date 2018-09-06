@@ -1,110 +1,114 @@
 import * as React from 'react'
-import * as FRC from 'formsy-react-components'
-import { Components, Interfaces } from 'arragrocms-management'
+import { FormikProps } from 'formik'
 
 import { ICarousel } from '../../interfaces'
 import MarkdownEditor from '../../MarkdownEditor'
 
-const { Input, Checkbox } = FRC
+import { Components, Interfaces, utils } from 'arragrocms-management'
+
+const { TextBox, CheckBox } = Components.FormikControls
+const { makeEmptyString } = utils.Helpers
+const { Aux } = utils
 
 interface SortableListProps {
     contentData: Interfaces.IContentData
-    index: number
-    item: ICarousel
-    assetPickerClass: string
-    onChange (name: string, value: string): void
+    formikBag: FormikProps<ICarousel>
+    saveStashedIncomplete? (): void
 }
 
 const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) => {
+    const {
+        contentData,
+        formikBag,
+        saveStashedIncomplete
+    } = props
 
-    const getHasLinkInputs = (hasLink: boolean) => {
-        if (hasLink) {
-            return <div>
-            
-                <MarkdownEditor 
-                    contentData={props.contentData} 
+    const getHasLinkInputs = () => {
+        if (formikBag.values.hasLink) {
+            return <Aux>
+                <MarkdownEditor
+                    contentData={contentData}
                     name='linkText'
                     label='Link Text'
-                    value={props.item.linkText}
-                    onChange={props.onChange} 
+                    value={formikBag.values.linkText}
+                    error={formikBag.errors.linkText}
+                    submitCount={formikBag.submitCount}
+                    handleBlur={formikBag.handleBlur}
+                    setFieldValue={formikBag.setFieldValue}
                     showAssetPicker={false}
+                    saveStashedIncomplete={saveStashedIncomplete}
                 />
-            
-                <Input
+
+                <TextBox
                     type='text'
-                    name='href'
+                    id='href'
                     label='Href'
-                    onChange={props.onChange}
-                    value={props.item.href}
-                    validations={{
-                        isValidUrl: 0,
-                        maxLength: 2000
-                    }}
-                    validationErrors={{
-                        isValidUrl: 'Please supply a valid url e.g. "https://www.test-url-example.com".',
-                        maxLength: 'There is a 2000 character limit to this field.'
-                    }}
+                    value={makeEmptyString(formikBag.values.href)}
+                    error={formikBag.errors.href}
+                    submitCount={formikBag.submitCount}
+                    handleBlur={formikBag.handleBlur}
+                    handleChange={formikBag.handleChange}
                 />
-                
-            </div>
+
+            </Aux>
         }
         return null
     }
 
-    return <div>
-        <Input
+    return <Aux>
+
+        <TextBox
             type='text'
-            name='name'
+            id='name'
             label='Name'
-            required
-            onChange={props.onChange}
-            value={props.item.name}
-            validations={{
-                maxLength: 128
-            }}
-            validationErrors={{
-                maxLength: 'There is a 128 character limit to this field.'
-            }}
+            value={makeEmptyString(formikBag.values.name)}
+            error={formikBag.errors.name}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
-        <Components.AssetPicker         
-            name='imageUrl'
-            required
-            selectedAsset={props.item.imageUrl}
-            className={props.assetPickerClass} 
-            contentData={props.contentData} 
-            dropzoneAccept='image/*' 
-            mimeTypeFilter='image/*' 
-            maxSize={10485760} 
+        <Components.AssetPicker
+            id='imageUrl'
+            label='Slide Image'
+            contentData={contentData}
+            selectedAsset={formikBag.values.imageUrl}
+            dropzoneAccept='image/*'
+            mimeTypeFilter='image/*'
+            maxSize={10485760}
             showResize={true}
-            onChange={props.onChange}
-            value={props.item.imageUrl}
+            onChange={formikBag.setFieldValue}
+            value={formikBag.values.imageUrl}
+            error={formikBag.errors.imageUrl}
+            submitCount={formikBag.submitCount}
+            saveStashedIncomplete={saveStashedIncomplete}
         />
-        
-        <Input
+
+        <TextBox
             type='text'
-            name='imageAlt'
+            id='imageAlt'
             label='Image Alt Text'
-            onChange={props.onChange}
-            value={props.item.imageAlt}
-            validations={{
-                maxLength: 512
-            }}
-            validationErrors={{
-                maxLength: 'There is a 512 character limit to this field.'
-            }}
+            value={makeEmptyString(formikBag.values.imageAlt)}
+            error={formikBag.errors.imageAlt}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
-        <Checkbox
-            name="hasLink"
-            value={props.item.hasLink}
-            label="Has Link"
-            onChange={props.onChange}
+        <CheckBox
+            id='hasLink'
+            label='Has Link'
+            checked={formikBag.values.hasLink}
+            value={formikBag.values.hasLink.toString()}
+            error={formikBag.errors.hasLink}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            handleChange={formikBag.handleChange}
         />
 
-        {getHasLinkInputs(props.item.hasLink)}
+        {getHasLinkInputs()}
 
-    </div>
+    </Aux>
 }
 
 export default SortableCarousel

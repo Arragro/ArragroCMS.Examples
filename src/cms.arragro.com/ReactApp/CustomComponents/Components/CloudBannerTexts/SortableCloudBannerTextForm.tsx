@@ -1,31 +1,41 @@
 import * as React from 'react'
-import { Interfaces } from 'arragrocms-management'
+import { FormikProps } from 'formik'
+import { Interfaces, utils } from 'arragrocms-management'
+
+const { Aux } = utils
 
 import { ICloudBannerText } from '../../interfaces'
 import MarkdownEditor from '../../MarkdownEditor'
 
 interface SortableCloudBannerTextFormProps {
     contentData: Interfaces.IContentData
-    index: number
-    item: ICloudBannerText
-    onChange (name: string, value: string): void
+    formikBag: FormikProps<ICloudBannerText>
+    saveStashedIncomplete? (): void
 }
 
 const SortableCloudBannerTextForm: React.StatelessComponent<SortableCloudBannerTextFormProps> = (props) => {
+    const {
+        contentData,
+        formikBag,
+        saveStashedIncomplete
+    } = props
 
-    return <div>
+    return <Aux>
 
         <MarkdownEditor
-            contentData={props.contentData}
-            name='markdown'
-            label='Markdown'
-            value={props.item.markdown}
-            onChange={props.onChange}
+            contentData={contentData}
+            name='linkText'
+            label='Link Text'
+            value={formikBag.values.markdown}
+            error={formikBag.errors.markdown}
+            submitCount={formikBag.submitCount}
+            handleBlur={formikBag.handleBlur}
+            setFieldValue={formikBag.setFieldValue}
             showAssetPicker={false}
-            required
+            saveStashedIncomplete={saveStashedIncomplete}
         />
 
-    </div>
+    </Aux>
 }
 
 export default SortableCloudBannerTextForm

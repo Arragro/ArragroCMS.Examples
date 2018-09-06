@@ -1,53 +1,34 @@
 ﻿import * as React from 'react'
-import { Components, Interfaces } from 'arragrocms-management'
+import { FormikProps } from 'formik'
+import { Components } from 'arragrocms-management'
+import { ISortableListProps } from 'arragrocms-management/dist/types/interfaces'
 
 import { ISvgIconLink } from '../../interfaces'
 import SortableSvgIconForm from './SortableSvgIconForm'
+import { svgIconLinkYup } from 'ReactApp/utils'
 
-interface SortableListProps<ItemType> {
-    name: string
-    svgIconLinksServices: Array<ISvgIconLink>
-    contentData: Interfaces.IContentData
-    newItem: ISvgIconLink
-    onChange(name: string, svgIconLinksServices: Array<ISvgIconLink>): void
-}
-
-export default class SortableCarousel extends React.Component<SortableListProps<ISvgIconLink>> {
-    sortableItems: Components.SortableItems<ISvgIconLink> | null = null
-
-    public constructor(props: SortableListProps<ISvgIconLink>) {
-        super(props);
-
-        this.getForm = this.getForm.bind(this)
-    }
-
-    getItemHeader = (item: ISvgIconLink) => {
+const SortableCarousel: React.SFC<ISortableListProps<ISvgIconLink>> = (props) => {
+    const getItemHeader = (item: ISvgIconLink) => {
         if (item.title.length > 0) {
             return <span>{item.title}</span>
         }
         return <span></span>
     }
-    
-    getForm = (index: number, item: ISvgIconLink, onChange: (name: string, value: any) => void) => {
-        return <SortableSvgIconForm        
-            contentData={this.props.contentData}
-            index={index}
-            item={item}
-            onChange={onChange}
+
+    const getForm = (formikBag: FormikProps<ISvgIconLink>) => {
+        return <SortableSvgIconForm
+            contentData={props.contentData}
+            saveStashedIncomplete={props.saveStashedIncomplete}
+            formikBag={formikBag}
         />
     }
 
-    public render() {
-        return <Components.SortableItems
-                    ref={(x: Components.SortableItems<ISvgIconLink> | null) => this.sortableItems = x}
-                    name={this.props.name}
-                    typeName='Svg Icon Links'
-                    items={this.props.svgIconLinksServices} 
-                    newItem={this.props.newItem}
-                    getName={(item: ISvgIconLink) => item.title}
-                    getItemHeader={this.getItemHeader}
-                    getForm={this.getForm}
-                    onChange={this.props.onChange}
-                />;
-    }
+    return <Components.SortableItems
+                {...props}
+                getItemHeader={getItemHeader}
+                getForm={getForm}
+                validationSchema={svgIconLinkYup}
+            />
 }
+
+export default SortableCarousel
