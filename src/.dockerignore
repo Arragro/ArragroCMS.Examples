@@ -9,3 +9,5 @@
 .vs
 .vscode
 **/.toolstarget
+**/*/wwwroot/dist
+**/*/node_modules
