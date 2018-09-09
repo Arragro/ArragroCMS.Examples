@@ -84,22 +84,21 @@ module.exports = (env) => {
             chunkFilename: '[name].js',
             publicPath: '/dist/'
         },
-        optimization: {
-            splitChunks: {
-                cacheGroups: {
-                    styles: {
-                        name: 'vendor',
-                        test: /\.css$/,
-                        chunks: 'all',
-                        enforce: true
-                    }
-                }
-            }
-        },
+        // optimization: {
+        //     splitChunks: {
+        //         cacheGroups: {
+        //             styles: {
+        //                 name: 'vendor',
+        //                 test: /\.css$/,
+        //                 chunks: 'all',
+        //                 enforce: true
+        //             }
+        //         }
+        //     }
+        // },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: "main.css",
-                chunkFilename: "vendor.css"
+                filename: "main.css"
             }),
             // new PurifyCSSPlugin({
             //     // Give paths to parse for rules. These should be absolute!
