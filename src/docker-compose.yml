@@ -115,6 +115,8 @@ services:
 
   redis:
     image: redis:4.0.9-alpine
+    ports:
+      - 6379:6379
     command: ["redis-server", "--appendonly", "yes"]
     mem_limit: 128m
     networks:
@@ -126,6 +128,8 @@ services:
     image: arafato/azurite
     ports:
       - 10000:10000
+      - 10001:10001
+      - 10002:10002
     networks:
       - azurite-net
     volumes:
@@ -137,7 +141,7 @@ services:
     environment:
       - POSTGRES_PASSWORD:'password1'
     ports:
-      - '5432:5432'
+      - 5432:5432
     volumes:
       - database:/var/lib/postgresql/data
     networks:
