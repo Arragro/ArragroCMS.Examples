@@ -84,7 +84,13 @@ module.exports = (env) => {
             chunkFilename: '[name].js',
             publicPath: '/dist/'
         },
-        // optimization: {
+        optimization: {
+            minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true
+            })
+            ]
         //     splitChunks: {
         //         cacheGroups: {
         //             styles: {
@@ -95,7 +101,7 @@ module.exports = (env) => {
         //             }
         //         }
         //     }
-        // },
+        },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: "main.css"
