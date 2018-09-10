@@ -4,8 +4,8 @@
   "description": "CMS for www.arragro.com using ArragroCMS",
   "main": "index.js",
   "scripts": {
-    "build-dev": "webpack --progress --profile --log-level trace",
-    "build-prod": "webpack --run-prod --progress --profile --log-level trace",
+    "build-dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --progress --profile --log-level trace",
+    "build-prod": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --run-prod --progress --profile --log-level trace",
     "run-app": "npm install && npm run build-prod && dotnet run -c Release",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -71,6 +71,7 @@
     "compression-webpack-plugin": "^1.1.12",
     "css-hot-loader": "^1.4.2",
     "css-loader": "^1.0.0",
+    "cross-env": "^5.2.0",
     "file-loader": "^2.0.0",
     "glob-all": "^3.1.0",
     "mini-css-extract-plugin": "^0.4.2",
