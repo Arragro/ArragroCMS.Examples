@@ -4,8 +4,8 @@
   "description": "CMS for www.arragro.com using ArragroCMS",
   "main": "index.js",
   "scripts": {
-    "build-dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --progress --profile --log-level trace",
-    "build-prod": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --run-prod --progress --profile --log-level trace",
+    "build-dev": "cross-env NODE_OPTIONS=--max_old_space_size=2048 webpack --progress --profile --log-level trace",
+    "build-prod": "cross-env NODE_OPTIONS=--max_old_space_size=2048 webpack --run-prod --progress --profile --log-level trace",
     "run-app": "npm install && npm run build-prod && dotnet run -c Release",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
