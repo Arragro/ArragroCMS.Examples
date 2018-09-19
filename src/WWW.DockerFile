@@ -7,6 +7,15 @@ WORKDIR /app
 COPY ./www.arragro.com ./www.arragro.com
 COPY ./arragro.com.ContentTypes ./arragro.com.ContentTypes
 
+RUN apk add nodejs
+
+WORKDIR /app/www.arragro.com
+
+RUN npm i
+RUN npm run build-prod
+
+WORKDIR /app
+
 RUN dotnet restore www.arragro.com/*.csproj
 RUN dotnet publish www.arragro.com/*.csproj -c Release -o out
 
