@@ -81,7 +81,7 @@ namespace cms.arragro.com
 
                 // Replace Image Provider with ImageServiceProvider
                 // services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
-                // services.AddSingleton<IImageProvider>(s => new Arragro.Providers.ImageServiceProvider.ImageProvider(Configuration["ApplicationSettings:ImageServiceUrl"], 20000));
+                // services.AddSingleton<IImageProvider>(s => new Arragro.Providers.ImageServiceProvider.ImageProvider(Configuration["ApplicationSettings:ImageServiceUrl"], 40000));
                 services.AddSingleton<BaseSettings>(ConfigurationSettings);
 
                 logger.LogInformation("Finished configuring of the ArragroCmsServices");
@@ -123,11 +123,11 @@ namespace cms.arragro.com
 
             if (env.IsDevelopment())
             {
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                   HotModuleReplacement = true,
-                   ReactHotModuleReplacement = true
-                });
+                // app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                // {
+                //    HotModuleReplacement = true,
+                //    ReactHotModuleReplacement = true
+                // });
 
                 app.UseDeveloperExceptionPage();
             }
