@@ -105,8 +105,7 @@ export default class ContactPage extends CustomContentTypeBase {
     public render () {
         const {
             culture,
-            contentData,
-            edit
+            contentData
         } = this.props
         const contentJson = contentData.contentJson
 
@@ -149,10 +148,12 @@ export default class ContactPage extends CustomContentTypeBase {
             }
         }
 
+        const initialValues = getInitialValues()
+
         return <Formik
             ref={(x: Formik<IContactForm, any>) => this.formik = x}
             initialValues={getInitialValues()}
-            isInitialValid={edit && this.yup.isValidSync(contentData)}
+            isInitialValid={this.yup.isValidSync(initialValues)}
             onSubmit={() => null}
             validationSchema={this.yup}
             render={({ submitCount, handleBlur, handleChange, values, errors, dirty, isValid, setFieldValue }: FormikProps<IContactForm>) => (

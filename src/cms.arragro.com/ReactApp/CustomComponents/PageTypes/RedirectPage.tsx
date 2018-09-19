@@ -28,8 +28,7 @@ export default class RedirectPage extends CustomContentTypeBase {
     public render () {
         const {
             culture,
-            contentData,
-            edit
+            contentData
         } = this.props
         const contentJson = contentData.contentJson
 
@@ -44,10 +43,12 @@ export default class RedirectPage extends CustomContentTypeBase {
             }
         }
 
+        const initialValues = getInitialValues()
+
         return <Formik
             ref={(x: Formik<IRedirectPageForm, any>) => this.formik = x}
             initialValues={getInitialValues()}
-            isInitialValid={edit && this.yup.isValidSync(contentData)}
+            isInitialValid={this.yup.isValidSync(initialValues)}
             onSubmit={() => null}
             validationSchema={this.yup}
             render={({ submitCount, handleBlur, handleChange, values, errors, dirty, isValid, setFieldValue }: FormikProps<IRedirectPageForm>) => (

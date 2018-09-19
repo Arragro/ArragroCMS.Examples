@@ -29,12 +29,11 @@ export default class MarkdownPage extends CustomContentTypeBase {
 
     public render () {
         const {
-            edit,
             culture,
             contentData
         } = this.props
 
-        const getInitialValues = (contentData: Interfaces.IContentData) => {
+        const getInitialValues = () => {
             if (contentData.contentJson[culture] !== undefined) {
                 return {
                     title: makeEmptyString(contentData.contentJson[culture].title),
@@ -47,10 +46,12 @@ export default class MarkdownPage extends CustomContentTypeBase {
             }
         }
 
+        const initialValues = getInitialValues()
+
         return <Formik
             ref={(x: Formik<IMarkdownPage, any>) => this.formik = x}
-            initialValues={getInitialValues(contentData)}
-            isInitialValid={edit && this.yup.isValidSync(contentData)}
+            initialValues={getInitialValues()}
+            isInitialValid={this.yup.isValidSync(initialValues)}
             onSubmit={() => null}
             validationSchema={this.yup}
             render={({ submitCount, handleBlur, handleChange, setFieldValue, values, errors, dirty, isValid }: FormikProps<IMarkdownPage>) => (
