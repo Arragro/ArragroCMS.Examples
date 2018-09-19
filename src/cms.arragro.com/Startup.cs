@@ -123,11 +123,11 @@ namespace cms.arragro.com
 
             if (env.IsDevelopment())
             {
-                // app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                // {
-                //    HotModuleReplacement = true,
-                //    ReactHotModuleReplacement = true
-                // });
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                   HotModuleReplacement = true,
+                   ReactHotModuleReplacement = true
+                });
 
                 app.UseDeveloperExceptionPage();
             }
