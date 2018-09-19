@@ -37,10 +37,7 @@ namespace arragro.com.ContentTypes.Pages
         public void Validate(Guid urlRouteId, IServiceProvider serviceProvider)
         {
             ValidateModelPropertiesAndBuildRulesException(this);
-
             var rulesExceptionCollection = ValidateModelPropertiesAndBuildRulesExceptionCollection(this, new ValidationParameters());
-            rulesExceptionCollection.RulesExceptions.Add(RulesException);
-
             rulesExceptionCollection.ThrowException();
         }
     }
