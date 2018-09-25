@@ -87,13 +87,14 @@ export default class ContactPage extends CustomContentTypeBase {
         postCode: Yup.string()
             .max(10, 'Post Code has a 10 character limit.'),
         officeTelephone: Yup.string()
+            .nullable(true)
             .max(20, 'Post Code has a 10 character limit.')
-            .matches(isValidPhoneNumber),
+            .matches(isValidPhoneNumber, { message: 'Please supply a valid telephone number.', excludeEmptyString: true }),
         officeEmail: Yup.string()
             .max(100, 'Office Email has a 100 character limit.')
             .required('Please supply an Office Email.')
             .email('Please supple a valid Office Email.'),
-        contacts: contactYup,
+        contacts: Yup.array(contactYup),
         latitude: Yup.number(),
         longitude: Yup.number(),
         googleMapStyleJson: Yup.string(),
