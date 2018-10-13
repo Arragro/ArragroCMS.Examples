@@ -47,7 +47,7 @@ services:
       HTTPCHK: GET /web-info/60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v0.0.5-alpha
+    image: docker.arragro.com/cms.arragro.com:v0.0.6-alpha
     # logging:
     #   driver: none
     # ports:
@@ -89,7 +89,7 @@ services:
     scale: 2
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v0.0.5-alpha
+    image: docker.arragro.com/www.arragro.com:v0.0.6-alpha
     depends_on:
       - cms_arragro_com
     # logging:
