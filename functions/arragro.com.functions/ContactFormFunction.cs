@@ -1,18 +1,18 @@
 using System.Threading.Tasks;
 using arragro.com.functions.Helpers;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Logging;
 
 namespace arragro.com.functions
 {
     public static class ContactFormFunction
     {
         [FunctionName("ProcessContactFormMessage")]
-        public static async Task ProcessContactFormMessage(
-            [QueueTrigger("contact-form", Connection = "")]string url,
-            TraceWriter log, ExecutionContext context)
+        public static async Task Run(
+            [QueueTrigger("contact-form", Connection = "")] string url,
+            ILogger log, ExecutionContext context)
         {
-            log.Info($"ProcessContactFormMessage: {url}");
+            log.LogInformation($"ProcessContactFormMessage: {url}");
 
             var azureStorageHelper = new AzureStorageHelper(context.GetStorageConnectionString());
             var contactForm = await azureStorageHelper.GetContactForm(url);
