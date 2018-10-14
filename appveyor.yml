@@ -108,21 +108,21 @@
     sync_retry_interval: 2000
     aspnet_core_force_restart: true
     skip_dirs: \\App_Data
-  - provider: WebDeploy
-    server: https://arragro-functions.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-functions
-    website: arragro-functions
-    remove_files: true
-    # ntlm: true
-    username: $arragro-functions
-    password:
-      secure: MXs0a2ETZczCMk6AUkdEQiMMtzAYFsr+3Zhump2pieZYL2+Ng7foWyfihA7V8YDMqkfq8lygcOgd3CxfBqYQeQ==
-    artifact: arragro.com.functions
-    do_not_use_checksum: true
-    app_offline: true
-    aspnet_core: true
-    sync_retry_attempts: 5
-    sync_retry_interval: 1000
-    aspnet_core_force_restart: true
+  # - provider: WebDeploy
+  #   server: https://arragro-functions.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-functions
+  #   website: arragro-functions
+  #   remove_files: true
+  #   # ntlm: true
+  #   username: $arragro-functions
+  #   password:
+  #     secure: MXs0a2ETZczCMk6AUkdEQiMMtzAYFsr+3Zhump2pieZYL2+Ng7foWyfihA7V8YDMqkfq8lygcOgd3CxfBqYQeQ==
+  #   artifact: arragro.com.functions
+  #   do_not_use_checksum: true
+  #   app_offline: true
+  #   aspnet_core: true
+  #   sync_retry_attempts: 5
+  #   sync_retry_interval: 1000
+  #   aspnet_core_force_restart: true
   after_deploy:
   - ps: >-
       Invoke-WebRequest -Uri "https://cms-manager.arragro.com" -UseBasicParsing > $null -TimeoutSec 120
