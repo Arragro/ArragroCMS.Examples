@@ -26,13 +26,13 @@ namespace www.arragro.com.TagHelpers
         
         public ViewContext ViewContext { get; set; }
 
-        private string GetDropdownItems(string id, IEnumerable<SiteMapDto> sitemaps, bool draft)
+        private string GetDropdownItems(string id, IEnumerable<ContentIndexItemSmallDto> contentItems, bool draft)
         {
             var output = new StringBuilder($"<div class=\"dropdown-menu\" aria-labelledby=\"{id}\">");
 
-            foreach (var sitemap in sitemaps)
+            foreach (var contentItem in contentItems)
             {
-                output.Append($"<a class=\"dropdown-item\" href=\"/{sitemap.Url}{(draft ? "/draft" : "")}\">{sitemap.Name}</a>");
+                output.Append($"<a class=\"dropdown-item\" href=\"/{contentItem.Url}{(draft ? "/draft" : "")}\">{contentItem.Name}</a>");
             }
 
             output.Append("</div>");
@@ -40,10 +40,10 @@ namespace www.arragro.com.TagHelpers
             return output.ToString();
         }
 
-        private string GetNavItems(SiteMapContainerDto sitemapContainer, bool draft)
+        private string GetNavItems(ContentsIndexContainerDto sitemapContainer, bool draft)
         {
             var output = new StringBuilder();
-            foreach (var sitemap in sitemapContainer.SiteMaps)
+            foreach (var sitemap in sitemapContainer.Contents)
             {
                 var className = "nav-link";
                 var sitemapPath = $"/{sitemap.Controller}/{sitemap.Action}/{sitemap.SiteId}/{sitemap.Id}/{sitemap.Status}".ToLower();
@@ -57,11 +57,11 @@ namespace www.arragro.com.TagHelpers
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             bool draft = Request.Path.HasValue && Request.Path.Value.ToLower().EndsWith("/draft");
-            var sitemapContainer = await _arragroCmsManagementClient.GetSitemapAsync(Request.Host.Host, Request.Host.Port, draft);
+            var contentIndexContainer = await _arragroCmsManagementClient.GetContentIndexContainerAsync(Request.Host.Host, Request.Host.Port, draft);
                         
             output.TagName = "ul";
             output.Attributes.Add(new TagHelperAttribute("class", "navbar-nav"));
-            output.Content.SetHtmlContent($"{GetNavItems(sitemapContainer, draft)}");
+            output.Content.SetHtmlContent($"{GetNavItems(contentIndexContainer, draft)}");
             output.TagMode = TagMode.StartTagAndEndTag;
         }
     }
