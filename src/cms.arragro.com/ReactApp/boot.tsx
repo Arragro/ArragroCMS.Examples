@@ -7,42 +7,35 @@ import * as ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 import { ConnectedRouter } from 'react-router-redux'
-import { AppContainer } from 'react-hot-loader'
+import { createGenerateClassName, jssPreset } from '@material-ui/core/styles'
+import { JssProvider } from 'react-jss'
+import { create } from 'jss'
 
-import { Redux, utils } from 'arragrocms-management'
+import { Redux, utils, configureStore, App } from 'arragrocms-management'
 import * as ComponentExtentionTypes from './componentExtentionTypes'
-import App from './app'
 
-// prepare store
 const initialState = (window as any).initialReduxState as Redux.ReduxModel.StoreState
-const history = utils.History
-const store = Redux.configureStore(history, true, initialState)
+const store = configureStore(utils.History, true, initialState)
 const rootEl = document.getElementById('react-app')
 ComponentExtentionTypes.extendContentTypeMap()
 ComponentExtentionTypes.extendConfigurationTypeMap()
 
+const generateClassName = createGenerateClassName()
+const jss = create(jssPreset())
+
 const render = (Component: any) => {
     ReactDOM.render(
-        <AppContainer>
-            <Provider store={store}>
-                <IntlProvider>
-                    <ConnectedRouter history={history}>
+        <Provider store={store}>
+            <IntlProvider>
+                <ConnectedRouter history={utils.History}>
+                    <JssProvider jss={jss} generateClassName={generateClassName}>
                         <Component />
-                    </ConnectedRouter>
-                </IntlProvider>
-            </Provider>
-        </AppContainer>,
+                    </JssProvider>
+                </ConnectedRouter>
+            </IntlProvider>
+        </Provider>,
         rootEl
     )
 }
 
 render(App)
-
-// Hot Module Replacement API
-declare let module: { hot: any }
-
-if (module.hot) {
-    module.hot.accept('./app', () => {
-        render(App)
-    })
-}

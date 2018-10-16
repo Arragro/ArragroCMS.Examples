@@ -49,11 +49,13 @@ const SortableSvgIcon: React.StatelessComponent<SortableListProps> = (props) => 
             <Select
                 id='svg'
                 label='Select SVG'
-                items={singleSelectOptions}
-                value={makeEmptyString(formikBag.values.svg)}
+                placeholder='Please select an SVG'
+                options={singleSelectOptions}
+                value={{ label: makeEmptyString(formikBag.values.svg), value: makeEmptyString(formikBag.values.svg) }}
                 error={formikBag.errors.svg}
                 submitCount={formikBag.submitCount}
                 handleChange={formikBag.handleChange}
+                handleBlur={() => null}
             />
 
             <TextBox

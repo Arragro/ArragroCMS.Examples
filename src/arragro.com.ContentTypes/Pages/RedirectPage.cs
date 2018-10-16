@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace arragro.com.ContentTypes.Pages
 {
     [DisplayName("Redirect Page")]
-    public class RedirectPage : RulesBase<RedirectPage>, ICliPageType
+    public class RedirectPage : RulesBase<RedirectPage>, ICliContentType
     {
         [Url]
         [Required]

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace arragro.com.ContentTypes.Post
 {
     [DisplayName("Markdown Post")]
-    public class MarkdownPost : RulesBase<MarkdownPost>, ICliPostType
+    public class MarkdownPost : RulesBase<MarkdownPost>, ICliContentType
     {
         [Required]
         [MaxLength(512)]
