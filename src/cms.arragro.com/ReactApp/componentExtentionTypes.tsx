@@ -51,7 +51,7 @@ export function extendContentTypeMap (): void {
 
 export function extendConfigurationTypeMap (): void {
 
-    ComponentTypesExtender.configurationTypeMap[CONFIGURATIONTYPES_MARKDOWN] = (pageType: Interfaces.ICustomControl): JSX.Element => {
+    ComponentTypesExtender.configurationTypeMap[CONFIGURATIONTYPES_MARKDOWN] = (pageType: Interfaces.IConfigurationType): JSX.Element => {
         return <MarkdownConfiguration {...pageType} />
     }
 

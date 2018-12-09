@@ -12,11 +12,12 @@ export interface IMarkdownConfigurationState {
 }
 
 interface IMarkdownConfigurationForm {
-    testData: string
+    testData: string,
+    version: number
 }
 
-export default class MarkdownConfiguration extends Components.CustomConfigurationTypeBase {
-    constructor (props: Interfaces.ICustomControl) {
+export default class MarkdownConfiguration extends Components.CustomConfigurationTypeBase<IMarkdownConfigurationForm> {
+    constructor (props: Interfaces.IConfigurationType) {
         super(props)
 
         if (this.props.contentData) {
@@ -51,7 +52,8 @@ export default class MarkdownConfiguration extends Components.CustomConfiguratio
         } = this.props
 
         const initialValues: IMarkdownConfigurationForm = {
-            testData: makeEmptyString(contentData.configurationJson && contentData.configurationJson.testData)
+            testData: makeEmptyString(contentData.configurationJson && contentData.configurationJson.testData),
+            version: -1
         }
 
         const isInitialValid = this.yup.isValidSync(initialValues)
