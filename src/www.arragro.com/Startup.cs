@@ -1,5 +1,6 @@
 ﻿using Arragro.Core.Common.Interfaces;
 using Arragro.Core.Common.Models;
+using Arragro.Core.DistributedCache;
 using Arragro.Core.Web.Extensions;
 using ArragroCMS.Management.Extensions;
 using Microsoft.AspNetCore.Antiforgery;
@@ -8,10 +9,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -80,6 +83,11 @@ namespace www.arragro.com
 
             services.Configure<GzipCompressionProviderOptions>
                 (options => options.Level = CompressionLevel.Fastest);
+
+            services.AddDistributedMemoryCache();
+
+            services.AddTransient<DistributedCacheManager>();
+            services.AddSingleton(new DistributedCacheEntryOptions { SlidingExpiration = new TimeSpan(0, 5, 0) });
 
             services.AddResponseCompression(options =>
             {
