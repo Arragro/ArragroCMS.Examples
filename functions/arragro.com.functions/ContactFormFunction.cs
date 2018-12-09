@@ -9,7 +9,7 @@ namespace arragro.com.functions
     {
         [FunctionName("ProcessContactFormMessage")]
         public static async Task Run(
-            [QueueTrigger("contact-form", Connection = "")] string url,
+            [QueueTrigger("contact-form")] string url,
             ILogger log, ExecutionContext context)
         {
             log.LogInformation($"ProcessContactFormMessage: {url}");
