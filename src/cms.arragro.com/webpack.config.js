@@ -85,12 +85,12 @@ module.exports = (env) => {
             publicPath: '/dist/'
         },
         optimization: {
-            minimizer: [
-            new UglifyJsPlugin({
-                cache: true,
-                parallel: true
-            })
-            ]
+            // minimizer: [
+            // new UglifyJsPlugin({
+            //     cache: true,
+            //     parallel: true
+            // })
+            // ]
         //     splitChunks: {
         //         cacheGroups: {
         //             styles: {
@@ -124,7 +124,7 @@ module.exports = (env) => {
             devMode ? [
             ] : [
                     new CompressionPlugin({
-                        asset: "[path].gz[query]",
+                        // asset: "[path].gz[query]",
                         //include: /\/wwwroot/,
                         algorithm: "gzip",
                         test: /\.js$|\.css$|\.svg$/,
