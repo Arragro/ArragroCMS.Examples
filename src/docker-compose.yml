@@ -47,7 +47,7 @@ services:
       HTTPCHK: GET /web-info/60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v0.0.6-alpha
+    image: docker.arragro.com/cms.arragro.com:v0.0.8-alpha
     # logging:
     #   driver: none
     # ports:
@@ -69,7 +69,7 @@ services:
       - ConnectionStrings:StorageConnection=BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
       - ConnectionStrings:RedisConnection=redis:6379
       - ApplicationSettings:ImageServiceUrl=http://image_service:3000
-      - ApplicationSettings:OverrideAssetUrl=http://192.168.69.89:10000/devstoreaccount1
+      - ApplicationSettings:OverrideAssetUrl=http://127.0.0.1:10000/devstoreaccount1
       - ApplicationSettings:DatabaseType=Postgres
 #      - ApplicationSettings:DatabaseType=SqlServer
       - ApplicationSettings:DapperSchema=public
@@ -89,7 +89,7 @@ services:
     scale: 2
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v0.0.6-alpha
+    image: docker.arragro.com/www.arragro.com:v0.0.8-alpha
     depends_on:
       - cms_arragro_com
     # logging:
@@ -148,6 +148,19 @@ services:
     networks:
       - cms-net
 
+  pgadmin:
+    restart: unless-stopped
+    image: dpage/pgadmin4
+    ports:
+      - 8081:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=support@arragro.com
+      - PGADMIN_DEFAULT_PASSWORD=@rr@gr0
+    networks:
+      - cms-net
+    volumes:
+      - pgadmin:/root/.pgadmin
+
   # sql:
   #   restart: always
   #   image: microsoft/mssql-server-linux:2017-latest
@@ -172,4 +185,5 @@ volumes:
   redis-data:
   azurite-data:
   database:
+  pgadmin:
   # sql-data:
