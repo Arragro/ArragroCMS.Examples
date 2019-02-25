@@ -1,6 +1,6 @@
 ﻿import * as React from 'react'
 import { FormikProps } from 'formik'
-import { Components, Interfaces } from 'arragrocms-management'
+import { Components, Interfaces } from '@arragro/cms-management'
 
 import { ICarousel } from '../../interfaces'
 import SortableCarouselForm from './SortableCarouselForm'

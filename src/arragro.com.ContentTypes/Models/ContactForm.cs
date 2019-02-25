@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Arragro.Core.Common.RulesExceptions;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace arragro.com.ContentTypes.Models
 {
-    public class ContactForm
+    public class ContactForm : RulesBase<ContactForm>, IRulesBase<ValidationParameters>
     {
         [Required]
         [JsonIgnore]
@@ -26,5 +27,13 @@ namespace arragro.com.ContentTypes.Models
         [EmailAddress]
         public string Email { get; set; }
         public string Message { get; set; }
+
+        public void Validate(ValidationParameters parameters)
+        {
+            ValidateModelPropertiesAndBuildRulesException(this);
+
+            if (parameters.ThrowException)
+                RulesException.ThrowException();
+        }
     }
 }

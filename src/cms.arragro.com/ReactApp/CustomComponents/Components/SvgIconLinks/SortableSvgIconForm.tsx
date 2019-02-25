@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { FormikProps } from 'formik'
 import MarkdownEditor from '../../MarkdownEditor'
-import { Interfaces, utils, Components } from 'arragrocms-management'
+import { Interfaces, utils, Components } from '@arragro/cms-management'
 
 import { ISvgIconLink } from '../../interfaces'
 
@@ -37,36 +37,24 @@ const SortableSvgIcon: React.StatelessComponent<SortableListProps> = (props) => 
 
             <TextBox
                 type='text'
-                id='title'
+                name='title'
                 label='Title'
                 value={makeEmptyString(formikBag.values.title)}
-                error={formikBag.errors.title}
-                submitCount={formikBag.submitCount}
-                handleBlur={formikBag.handleBlur}
-                handleChange={formikBag.handleChange}
             />
 
             <Select
-                id='svg'
+                name='svg'
                 label='Select SVG'
                 placeholder='Please select an SVG'
                 options={singleSelectOptions}
                 value={{ label: makeEmptyString(formikBag.values.svg), value: makeEmptyString(formikBag.values.svg) }}
-                error={formikBag.errors.svg}
-                submitCount={formikBag.submitCount}
-                handleChange={formikBag.handleChange}
-                handleBlur={() => null}
             />
 
             <TextBox
                 type='text'
-                id='href'
+                name='href'
                 label='Href'
                 value={makeEmptyString(formikBag.values.href)}
-                error={formikBag.errors.href}
-                submitCount={formikBag.submitCount}
-                handleBlur={formikBag.handleBlur}
-                handleChange={formikBag.handleChange}
             />
 
             <MarkdownEditor

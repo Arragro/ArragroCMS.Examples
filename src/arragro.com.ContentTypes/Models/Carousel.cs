@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Arragro.Core.Common.RulesExceptions;
 
 namespace arragro.com.ContentTypes.Models
 {
-    public class Carousel
+    public class Carousel : RulesBase<Carousel>, IRulesBase<ValidationParameters>
     {
         [Required]
         [MaxLength(128)]
@@ -18,5 +19,13 @@ namespace arragro.com.ContentTypes.Models
         public string LinkText { get; set; }
         [MaxLength(2000)]
         public string Href { get; set; }
+
+        public void Validate(ValidationParameters parameters)
+        {
+            ValidateModelPropertiesAndBuildRulesException(this);
+
+            if (parameters.ThrowException)
+                RulesException.ThrowException();
+        }
     }
 }

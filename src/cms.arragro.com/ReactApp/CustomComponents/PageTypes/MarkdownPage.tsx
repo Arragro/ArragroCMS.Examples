@@ -2,7 +2,7 @@
 import { Grid } from '@material-ui/core'
 import { Formik, Form, FormikProps } from 'formik'
 import * as Yup from 'yup'
-import { Components, Interfaces, utils } from 'arragrocms-management'
+import { Components, Interfaces, utils } from '@arragro/cms-management'
 
 import MarkdownEditor from '../MarkdownEditor'
 
@@ -49,7 +49,7 @@ export default class MarkdownPage extends CustomContentTypeBase {
         const initialValues = getInitialValues()
 
         return <Formik
-            ref={(x: Formik<IMarkdownPage, any>) => this.formik = x}
+            ref={(x: Formik<IMarkdownPage>) => this.formik = x}
             initialValues={getInitialValues()}
             isInitialValid={this.yup.isValidSync(initialValues)}
             onSubmit={() => null}
@@ -64,12 +64,8 @@ export default class MarkdownPage extends CustomContentTypeBase {
                             <TextBox
                                 type='text'
                                 label='Title'
-                                id='title'
-                                submitCount={submitCount}
+                                name='title'
                                 value={makeEmptyString(values.title)}
-                                error={errors.title}
-                                handleChange={handleChange}
-                                handleBlur={handleBlur}
                             />
                         </Grid>
                     </Grid>

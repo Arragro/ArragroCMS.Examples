@@ -6,5 +6,6 @@ namespace arragro.com.ContentTypes
 {
     public class ValidationParameters
     {
+        public bool ThrowException { get;set; } = false;
     }
 }

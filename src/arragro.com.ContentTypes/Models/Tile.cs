@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Arragro.Core.Common.RulesExceptions;
 
 namespace arragro.com.ContentTypes.Models
 {
-    public class Tile
+    public class Tile : RulesBase<Tile>, IRulesBase<ValidationParameters>
     {
         [Required]
         [MaxLength(100)]
@@ -25,5 +26,12 @@ namespace arragro.com.ContentTypes.Models
         [MaxLength(30)]
         public string CssClass { get; set; }
 
+        public void Validate(ValidationParameters parameters)
+        {
+            ValidateModelPropertiesAndBuildRulesException(this);
+
+            if (parameters.ThrowException)
+                RulesException.ThrowException();
+        }
     }
 }

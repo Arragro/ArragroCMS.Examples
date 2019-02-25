@@ -4,7 +4,7 @@ import { FormikProps } from 'formik'
 import MarkdownEditor from '../../MarkdownEditor'
 import { IContact } from '../../interfaces'
 
-import { Components, Interfaces, utils } from 'arragrocms-management'
+import { Components, Interfaces, utils } from '@arragro/cms-management'
 
 const { TextBox } = Components.FormikControls
 const { makeEmptyString } = utils.Helpers
@@ -27,61 +27,41 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
 
         <TextBox
             type='text'
-            id='title'
+            name='title'
             label='Title'
             value={makeEmptyString(props.formikBag.values.title)}
-            error={formikBag.errors.title}
-            submitCount={formikBag.submitCount}
-            handleBlur={formikBag.handleBlur}
-            handleChange={formikBag.handleChange}
         />
 
         <TextBox
             type='text'
-            id='name'
+            name='name'
             label='Name'
             value={makeEmptyString(props.formikBag.values.name)}
-            error={formikBag.errors.name}
-            submitCount={formikBag.submitCount}
-            handleBlur={formikBag.handleBlur}
-            handleChange={formikBag.handleChange}
         />
 
         <TextBox
             type='text'
-            id='phoneNumber'
+            name='phoneNumber'
             label='Phone Number'
             value={makeEmptyString(props.formikBag.values.phoneNumber)}
-            error={formikBag.errors.phoneNumber}
-            submitCount={formikBag.submitCount}
-            handleBlur={formikBag.handleBlur}
-            handleChange={formikBag.handleChange}
         />
 
         <TextBox
             type='email'
-            id='phoneNumber'
+            name='phoneNumber'
             label='Email'
             value={makeEmptyString(props.formikBag.values.email)}
-            error={formikBag.errors.email}
-            submitCount={formikBag.submitCount}
-            handleBlur={formikBag.handleBlur}
-            handleChange={formikBag.handleChange}
         />
 
         <TextBox
             type='email'
-            id='linkedIn'
+            name='linkedIn'
             label='LinkedIn'
             value={makeEmptyString(props.formikBag.values.linkedIn)}
-            error={formikBag.errors.linkedIn}
-            submitCount={formikBag.submitCount}
-            handleBlur={formikBag.handleBlur}
-            handleChange={formikBag.handleChange}
         />
 
         <Components.AssetPicker
-            id='gravitar'
+            name='gravitar'
             label='Gravitar'
             selectedAsset={props.formikBag.values.gravitar}
             contentData={props.contentData}

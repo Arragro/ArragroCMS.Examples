@@ -1,6 +1,6 @@
 ﻿import * as React from 'react'
 
-import { Interfaces, Components } from 'arragrocms-management'
+import { Interfaces, Components } from '@arragro/cms-management'
 import MarkdownConfiguration from './CustomComponents/ConfigurationTypes/MarkdownConfiguration'
 import MarkdownPage from './CustomComponents/PageTypes/MarkdownPage'
 import LandingPage from './CustomComponents/PageTypes/LandingPage'

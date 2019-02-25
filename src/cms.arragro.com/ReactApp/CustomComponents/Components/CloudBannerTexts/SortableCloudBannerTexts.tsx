@@ -1,7 +1,7 @@
 ﻿import * as React from 'react'
 import { FormikProps } from 'formik'
 import * as ReactMarkdown from 'react-markdown'
-import { Components, Interfaces } from 'arragrocms-management'
+import { Components, Interfaces } from '@arragro/cms-management'
 
 import { ICloudBannerText } from '../../interfaces'
 import SortableCloudBannerTextForm from './SortableCloudBannerTextForm'

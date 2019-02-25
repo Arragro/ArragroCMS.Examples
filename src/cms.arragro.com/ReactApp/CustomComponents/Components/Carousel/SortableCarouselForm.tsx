@@ -4,7 +4,7 @@ import { FormikProps } from 'formik'
 import { ICarousel } from '../../interfaces'
 import MarkdownEditor from '../../MarkdownEditor'
 
-import { Components, Interfaces, utils } from 'arragrocms-management'
+import { Components, Interfaces, utils } from '@arragro/cms-management'
 
 const { TextBox, CheckBox } = Components.FormikControls
 const { makeEmptyString } = utils.Helpers
@@ -41,13 +41,9 @@ const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) =>
 
                 <TextBox
                     type='text'
-                    id='href'
+                    name='href'
                     label='Href'
                     value={makeEmptyString(formikBag.values.href)}
-                    error={formikBag.errors.href}
-                    submitCount={formikBag.submitCount}
-                    handleBlur={formikBag.handleBlur}
-                    handleChange={formikBag.handleChange}
                 />
 
             </Aux>
@@ -59,17 +55,13 @@ const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) =>
 
         <TextBox
             type='text'
-            id='name'
+            name='name'
             label='Name'
             value={makeEmptyString(formikBag.values.name)}
-            error={formikBag.errors.name}
-            submitCount={formikBag.submitCount}
-            handleBlur={formikBag.handleBlur}
-            handleChange={formikBag.handleChange}
         />
 
         <Components.AssetPicker
-            id='imageUrl'
+            name='imageUrl'
             label='Slide Image'
             contentData={contentData}
             selectedAsset={formikBag.values.imageUrl}
@@ -86,24 +78,16 @@ const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) =>
 
         <TextBox
             type='text'
-            id='imageAlt'
+            name='imageAlt'
             label='Image Alt Text'
             value={makeEmptyString(formikBag.values.imageAlt)}
-            error={formikBag.errors.imageAlt}
-            submitCount={formikBag.submitCount}
-            handleBlur={formikBag.handleBlur}
-            handleChange={formikBag.handleChange}
         />
 
         <CheckBox
-            id='hasLink'
+            name='hasLink'
             label='Has Link'
             checked={formikBag.values.hasLink}
             value={formikBag.values.hasLink.toString()}
-            error={formikBag.errors.hasLink}
-            submitCount={formikBag.submitCount}
-            handleBlur={formikBag.handleBlur}
-            handleChange={formikBag.handleChange}
         />
 
         {getHasLinkInputs()}

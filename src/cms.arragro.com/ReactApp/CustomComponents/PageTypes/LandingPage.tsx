@@ -2,7 +2,7 @@
 import { Grid } from '@material-ui/core'
 import { Formik, FormikProps, Form } from 'formik'
 import * as Yup from 'yup'
-import { Components, Interfaces, utils } from 'arragrocms-management'
+import { Components, Interfaces, utils } from '@arragro/cms-management'
 
 import { ITile, ICloudBannerText, ISvgIconLink } from '../interfaces'
 
@@ -137,9 +137,11 @@ export default class LandingPage extends CustomContentTypeBase {
         }
 
         const initialValues = getInitialValues()
+        const contentRulesExceptionListContainers = this.getContentRulesExceptionListContainers()
+        console.log(contentRulesExceptionListContainers)
 
         return <Formik
-            ref={(x: Formik<ILandingPageForm, any>) => this.formik = x}
+            ref={(x: Formik<ILandingPageForm>) => this.formik = x}
             initialValues={getInitialValues()}
             isInitialValid={this.yup.isValidSync(initialValues)}
             onSubmit={() => null}
@@ -153,13 +155,9 @@ export default class LandingPage extends CustomContentTypeBase {
 
                             <TextBox
                                 type='text'
-                                id='title'
+                                name='title'
                                 label='Title'
                                 value={values.title}
-                                error={errors.title}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <Hr />
@@ -175,6 +173,7 @@ export default class LandingPage extends CustomContentTypeBase {
                                 maxNumberOfItems={4}
                                 linkIsMandatory={false}
                                 useMarkdown={false}
+                                rulesExceptionListContainers={contentRulesExceptionListContainers}
                             />
 
                             <Hr />
@@ -190,6 +189,7 @@ export default class LandingPage extends CustomContentTypeBase {
                                 maxNumberOfItems={8}
                                 linkIsMandatory={false}
                                 useMarkdown={false}
+                                rulesExceptionListContainers={contentRulesExceptionListContainers}
                             />
 
                             <Hr />
@@ -202,6 +202,7 @@ export default class LandingPage extends CustomContentTypeBase {
                                 newItem={landingPageHelper.newCloudBannerText()}
                                 onChange={setFieldValue}
                                 getName={(item: ICloudBannerText) => ''}
+                                rulesExceptionListContainers={contentRulesExceptionListContainers}
                             />
 
                             <Hr />
@@ -234,6 +235,7 @@ export default class LandingPage extends CustomContentTypeBase {
                                 newItem={landingPageHelper.newSvgIconLink()}
                                 onChange={setFieldValue}
                                 getName={(item: ISvgIconLink) => item.title}
+                                rulesExceptionListContainers={contentRulesExceptionListContainers}
                             />
 
                             <Hr />
@@ -249,6 +251,7 @@ export default class LandingPage extends CustomContentTypeBase {
                                 maxNumberOfItems={4}
                                 linkIsMandatory={true}
                                 useMarkdown={true}
+                                rulesExceptionListContainers={contentRulesExceptionListContainers}
                             />
 
                             <Hr />
@@ -264,6 +267,7 @@ export default class LandingPage extends CustomContentTypeBase {
                                 maxNumberOfItems={5}
                                 linkIsMandatory={false}
                                 useMarkdown={false}
+                                rulesExceptionListContainers={contentRulesExceptionListContainers}
                             />
 
                             <Hr />
@@ -296,12 +300,9 @@ export default class LandingPage extends CustomContentTypeBase {
                     />
 
                     <CheckBox
-                        id='hasContactForm'
+                        name='hasContactForm'
                         label='Has Contact Form'
                         checked={values.hasContactForm}
-                        submitCount={submitCount}
-                        handleBlur={handleBlur}
-                        handleChange={handleChange}
                         value='hasContactForm'
                     />
 

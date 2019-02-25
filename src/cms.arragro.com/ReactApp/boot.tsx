@@ -1,5 +1,5 @@
 ﻿/// <reference types="node" />
-import 'node_modules/arragrocms-management/dist/main.css'
+import 'node_modules/@arragro/cms-management/dist/main.css'
 import './scss/site.scss'
 
 import * as React from 'react'
@@ -11,9 +11,10 @@ import { createGenerateClassName, jssPreset } from '@material-ui/core/styles'
 import { JssProvider } from 'react-jss'
 import { create } from 'jss'
 
-import { Redux, utils, configureStore, App } from 'arragrocms-management'
+import { Redux, utils, configureStore, App, Components } from '@arragro/cms-management'
 import * as ComponentExtentionTypes from './componentExtentionTypes'
 import { CssBaseline, MuiThemeProvider, createMuiTheme } from '@material-ui/core'
+import { ArragroCMSAdminFieldControlExtender } from './ArragroCMSAdminFieldControlExtender'
 
 const initialState = (window as any).initialReduxState as Redux.ReduxModel.StoreState
 const store = configureStore(utils.History, true, initialState)
@@ -41,18 +42,20 @@ const theme = createMuiTheme({
 const render = (Component: any) => {
     ReactDOM.render(
         <Provider store={store}>
-            <IntlProvider>
-                <ConnectedRouter history={utils.History}>
-                    <JssProvider jss={jss} generateClassName={generateClassName}>
-                        <utils.Aux>
-                            <CssBaseline />
-                            <MuiThemeProvider theme={theme}>
-                                <Component />
-                            </MuiThemeProvider>
-                        </utils.Aux>
-                    </JssProvider>
-                </ConnectedRouter>
-            </IntlProvider>
+            <Components.FieldProvider.FieldContextProvider value={{ adminFieldControlExtender: new ArragroCMSAdminFieldControlExtender(), renderFieldControlExtender: new Components.DefaultRenderFieldControlExtender() }}>
+                <IntlProvider>
+                    <ConnectedRouter history={utils.History}>
+                        <JssProvider jss={jss} generateClassName={generateClassName}>
+                            <utils.Aux>
+                                <CssBaseline />
+                                <MuiThemeProvider theme={theme}>
+                                    <Component />
+                                </MuiThemeProvider>
+                            </utils.Aux>
+                        </JssProvider>
+                    </ConnectedRouter>
+                </IntlProvider>
+            </Components.FieldProvider.FieldContextProvider>
         </Provider>,
         rootEl
     )

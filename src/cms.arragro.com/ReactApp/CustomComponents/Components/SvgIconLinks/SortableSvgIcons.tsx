@@ -1,13 +1,12 @@
 ﻿import * as React from 'react'
 import { FormikProps } from 'formik'
-import { Components } from 'arragrocms-management'
-import { ISortableListProps } from 'arragrocms-management/dist/types/interfaces'
+import { Components, Interfaces } from '@arragro/cms-management'
 
 import { ISvgIconLink } from '../../interfaces'
 import SortableSvgIconForm from './SortableSvgIconForm'
 import { svgIconLinkYup } from 'ReactApp/utils'
 
-const SortableCarousel: React.SFC<ISortableListProps<ISvgIconLink>> = (props) => {
+const SortableCarousel: React.SFC<Interfaces.ISortableListProps<ISvgIconLink>> = (props) => {
     const getItemHeader = (item: ISvgIconLink) => {
         if (item.title.length > 0) {
             return <span>{item.title}</span>

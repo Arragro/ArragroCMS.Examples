@@ -13,12 +13,13 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
 WORKDIR /app/cms.arragro.com
 
 RUN npm i npm@latest -g
+RUN npm config set @arragro:registry https://registry.arragro.com/repository/npm-hosted/
 RUN npm i
 RUN npm run build-prod
 
 WORKDIR /app
 
-RUN dotnet restore cms.arragro.com/*.csproj
+RUN dotnet restore cms.arragro.com/*.csproj -s https://registry.arragro.com/repository/nuget-hosted/ -s https://api.nuget.org/v3/index.json
 RUN dotnet publish cms.arragro.com/*.csproj -c Release -o out
 
 # build runtime image

@@ -1,7 +1,7 @@
 ﻿import * as React from 'react'
 import * as Yup from 'yup'
 import { Formik, Form, FormikProps } from 'formik'
-import { Interfaces, Components, utils } from 'arragrocms-management'
+import { Interfaces, Components, utils } from '@arragro/cms-management'
 
 const { CustomBubble, TextBox } = Components.FormikControls
 const { makeEmptyString } = utils.Helpers
@@ -59,7 +59,7 @@ export default class MarkdownConfiguration extends Components.CustomConfiguratio
         const isInitialValid = this.yup.isValidSync(initialValues)
 
         return <Formik
-            ref={(x: Formik<IMarkdownConfigurationForm, any>) => this.formik = x}
+            ref={(x: Formik<IMarkdownConfigurationForm>) => this.formik = x}
             initialValues={initialValues}
             isInitialValid={edit && isInitialValid}
             onSubmit={() => null}
@@ -70,14 +70,10 @@ export default class MarkdownConfiguration extends Components.CustomConfiguratio
 
                     <TextBox
                         type='text'
-                        id={'testData'}
+                        name='testData'
                         label='Test Data'
                         // required
                         value={values.testData}
-                        error={errors.testData}
-                        submitCount={submitCount}
-                        handleBlur={handleBlur}
-                        handleChange={handleChange}
                     />
                 </Form>
             )}

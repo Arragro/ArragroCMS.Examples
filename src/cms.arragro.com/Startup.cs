@@ -22,6 +22,7 @@ using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading;
+using System.Reflection;
 
 namespace cms.arragro.com
 {
@@ -76,8 +77,8 @@ namespace cms.arragro.com
                     new CultureInfo("en"), 
                     new CultureInfo[] { new CultureInfo("en-nz") }, 
                     new TimeSpan(2, 0, 0),
-                    true, 
-                    "arragro.com.ContentTypes");
+                    true,
+                    "arragro.com.ContentTypes", "Arragro.Dynamic.Api", "Arragro.Dynamic", "ArragroCMS.Web.Management");
 
                 // Replace Image Provider with ImageServiceProvider
                 // services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
@@ -104,7 +105,8 @@ namespace cms.arragro.com
 
                     config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     config.Filters.Add(new ValidateModelAttribute());
-                });
+                }).AddApplicationPart(typeof(Arragro.Dynamic.Api.Controllers.ComponentController).GetTypeInfo().Assembly)
+                  .AddApplicationPart(typeof(ArragroCMS.Web.Management.ApiControllers.AccountController).GetTypeInfo().Assembly);
                 
                 return services.BuildServiceProvider();
             }

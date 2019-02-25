@@ -2,7 +2,7 @@
 import { Grid } from '@material-ui/core'
 import { FormikProps, Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { Components, Interfaces, utils } from 'arragrocms-management'
+import { Components, Interfaces, utils } from '@arragro/cms-management'
 
 const { CustomContentTypeBase } = Components
 const { CustomBubble, TextBox } = Components.FormikControls
@@ -46,7 +46,7 @@ export default class RedirectPage extends CustomContentTypeBase {
         const initialValues = getInitialValues()
 
         return <Formik
-            ref={(x: Formik<IRedirectPageForm, any>) => this.formik = x}
+            ref={(x: Formik<IRedirectPageForm>) => this.formik = x}
             initialValues={getInitialValues()}
             isInitialValid={this.yup.isValidSync(initialValues)}
             onSubmit={() => null}
@@ -60,13 +60,9 @@ export default class RedirectPage extends CustomContentTypeBase {
 
                             <TextBox
                                 type='text'
-                                id='redirectUrl'
+                                name='redirectUrl'
                                 label='Redirect Url'
                                 value={values.redirectUrl}
-                                error={errors.redirectUrl}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                         </Grid>

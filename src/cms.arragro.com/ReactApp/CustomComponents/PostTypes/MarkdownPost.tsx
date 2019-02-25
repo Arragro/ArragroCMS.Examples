@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 
 import MarkdownEditor from '../MarkdownEditor'
 
-import { Components, Interfaces, utils } from 'arragrocms-management'
+import { Components, Interfaces, utils } from '@arragro/cms-management'
 
 const { CustomContentTypeBase } = Components
 const { CustomBubble, TextBox } = Components.FormikControls
@@ -49,7 +49,7 @@ export default class MarkdownPost extends CustomContentTypeBase {
         }
 
         return <Formik
-            ref={(x: Formik<IMarkdownPostForm, any>) => this.formik = x}
+            ref={(x: Formik<IMarkdownPostForm>) => this.formik = x}
             initialValues={getInitialValues()}
             isInitialValid={edit && this.yup.isValidSync(contentData)}
             onSubmit={() => null}
@@ -64,12 +64,8 @@ export default class MarkdownPost extends CustomContentTypeBase {
                             <TextBox
                                 type='text'
                                 label='Title'
-                                id='title'
-                                submitCount={submitCount}
+                                name='title'
                                 value={makeEmptyString(values.title)}
-                                error={errors.title}
-                                handleChange={handleChange}
-                                handleBlur={handleBlur}
                             />
 
                         </Grid>

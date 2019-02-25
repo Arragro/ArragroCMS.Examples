@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { utils } from 'arragrocms-management'
+import { utils } from '@arragro/cms-management'
 
 const { isValidUrl, isUrlRoute } = utils
 

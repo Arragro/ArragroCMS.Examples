@@ -9,7 +9,7 @@ import MarkdownEditor from '../MarkdownEditor'
 import { tileYup } from 'ReactApp/utils'
 import { Hr } from 'ReactApp/helpers'
 
-import { Components, Interfaces, utils } from 'arragrocms-management'
+import { Components, Interfaces, utils } from '@arragro/cms-management'
 
 const { CustomContentTypeBase } = Components
 const { CustomBubble, TextBox, CheckBox } = Components.FormikControls
@@ -92,9 +92,10 @@ export default class TileBulletPage extends CustomContentTypeBase {
         }
 
         const initialValues = getInitialValues()
+        const contentRulesExceptionListContainers = this.getContentRulesExceptionListContainers()
 
         return <Formik
-            ref={(x: Formik<ITileBulletPageForm, any>) => this.formik = x}
+            ref={(x: Formik<ITileBulletPageForm>) => this.formik = x}
             initialValues={getInitialValues()}
             isInitialValid={this.yup.isValidSync(initialValues)}
             onSubmit={() => null}
@@ -108,13 +109,9 @@ export default class TileBulletPage extends CustomContentTypeBase {
 
                             <TextBox
                                 type='text'
-                                id='title'
+                                name='title'
                                 label='Title'
                                 value={values.title}
-                                error={errors.title}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                         </Grid>
@@ -136,12 +133,9 @@ export default class TileBulletPage extends CustomContentTypeBase {
                         <Grid item xs={12} md={6}>
 
                             <CheckBox
-                                id='cloudTileBullets'
+                                name='cloudTileBullets'
                                 label='Use Clouds for the Bullets'
                                 checked={values.cloudTileBullets}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                                 value='cloudTileBullets'
                             />
 
@@ -158,30 +152,23 @@ export default class TileBulletPage extends CustomContentTypeBase {
                                 maxNumberOfItems={8}
                                 linkIsMandatory={false}
                                 useMarkdown={true}
+                                rulesExceptionListContainers={contentRulesExceptionListContainers}
                             />
 
                             <Hr />
 
                             <TextBox
                                 type='text'
-                                id='leftColumns'
+                                name='leftColumns'
                                 label='Left Columns'
                                 value={values.leftColumns}
-                                error={errors.leftColumns}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <TextBox
                                 type='text'
-                                id='rightColumns'
+                                name='rightColumns'
                                 label='Right Columns'
                                 value={values.rightColumns}
-                                error={errors.rightColumns}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                         </Grid>

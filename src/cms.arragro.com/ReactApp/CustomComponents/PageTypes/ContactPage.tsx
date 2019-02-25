@@ -2,7 +2,7 @@
 import { Grid } from '@material-ui/core'
 import { Formik, FormikProps, Form } from 'formik'
 import * as Yup from 'yup'
-import { Components, Interfaces, utils } from 'arragrocms-management'
+import { Components, Interfaces, utils } from '@arragro/cms-management'
 
 import { IContact } from '../interfaces'
 import SortableContacts from '../Components/Contacts/SortableContacts'
@@ -150,9 +150,10 @@ export default class ContactPage extends CustomContentTypeBase {
         }
 
         const initialValues = getInitialValues()
+        const contentRulesExceptionListContainers = this.getContentRulesExceptionListContainers()
 
         return <Formik
-            ref={(x: Formik<IContactForm, any>) => this.formik = x}
+            ref={(x: Formik<IContactForm>) => this.formik = x}
             initialValues={getInitialValues()}
             isInitialValid={this.yup.isValidSync(initialValues)}
             onSubmit={() => null}
@@ -166,90 +167,58 @@ export default class ContactPage extends CustomContentTypeBase {
 
                             <TextBox
                                 type='text'
-                                id='addressLine1'
+                                name='addressLine1'
                                 label='Address line 1'
                                 value={values.addressLine1}
-                                error={errors.addressLine1}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <TextBox
                                 type='text'
-                                id='addressLine1'
+                                name='addressLine1'
                                 label='Address line 2'
                                 value={values.addressLine2}
-                                error={errors.addressLine2}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <TextBox
                                 type='text'
-                                id='city'
+                                name='city'
                                 label='City'
                                 value={values.city}
-                                error={errors.city}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <TextBox
                                 type='text'
-                                id='district'
+                                name='district'
                                 label='District'
                                 value={values.district}
-                                error={errors.district}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <TextBox
                                 type='text'
-                                id='country'
+                                name='country'
                                 label='Country'
                                 value={values.country}
-                                error={errors.country}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <TextBox
                                 type='text'
-                                id='postCode'
+                                name='postCode'
                                 label='Post Code'
                                 value={values.postCode}
-                                error={errors.postCode}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <TextBox
                                 type='text'
-                                id='officeTelephone'
+                                name='officeTelephone'
                                 label='Office Telephone'
                                 value={values.officeTelephone}
-                                error={errors.officeTelephone}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={this.onOfficeTelephoneChange}
                             />
 
                             <TextBox
                                 type='text'
-                                id='officeEmail'
+                                name='officeEmail'
                                 label='Office Email'
                                 value={values.officeEmail}
-                                error={errors.officeEmail}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <Hr />
@@ -260,7 +229,7 @@ export default class ContactPage extends CustomContentTypeBase {
                                 contentData={this.props.contentData}
                                 items={values.contacts}
                                 newItem={contactPageHelper.newContact()}
-                                rulesExceptionListContainers={this.getContentRulesExceptionListContainers()}
+                                rulesExceptionListContainers={contentRulesExceptionListContainers}
                                 onChange={setFieldValue}
                                 getName={(item: IContact) => item.name}
                                 maxNumberOfItems={5}
@@ -270,34 +239,22 @@ export default class ContactPage extends CustomContentTypeBase {
 
                             <TextBox
                                 type='number'
-                                id='latitude'
+                                name='latitude'
                                 label='Latitude'
                                 value={values.latitude}
-                                error={errors.latitude}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <TextBox
                                 type='number'
-                                id='longitude'
+                                name='longitude'
                                 label='Longitude'
                                 value={values.longitude}
-                                error={errors.longitude}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                             <TextArea
-                                id='googleMapStyleJson'
+                                name='googleMapStyleJson'
                                 label='Google Map Json'
                                 value={values.googleMapStyleJson}
-                                error={errors.googleMapStyleJson}
-                                submitCount={submitCount}
-                                handleBlur={handleBlur}
-                                handleChange={handleChange}
                             />
 
                         </Grid>
@@ -328,12 +285,9 @@ export default class ContactPage extends CustomContentTypeBase {
                     />
 
                     <CheckBox
-                        id='hasContactForm'
+                        name='hasContactForm'
                         label='Has Contact Form'
                         checked={values.hasContactForm}
-                        submitCount={submitCount}
-                        handleBlur={handleBlur}
-                        handleChange={handleChange}
                         value='hasContactForm'
                     />
 

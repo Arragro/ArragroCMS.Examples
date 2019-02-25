@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Arragro.Core.Common.RulesExceptions;
 
 namespace arragro.com.ContentTypes.Models
 {
-    public class Contact
+    public class Contact : RulesBase<Contact>, IRulesBase<ValidationParameters>
     {
         [MaxLength(100)]
         public string Title { get; set; }
@@ -25,5 +26,13 @@ namespace arragro.com.ContentTypes.Models
 
         [MaxLength(4000)]
         public string Bio { get; set; }
+
+        public void Validate(ValidationParameters parameters)
+        {
+            ValidateModelPropertiesAndBuildRulesException(this);
+
+            if (parameters.ThrowException)
+                RulesException.ThrowException();
+        }
     }
 }

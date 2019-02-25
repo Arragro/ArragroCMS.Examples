@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { FormikProps } from 'formik'
-import { Interfaces, utils } from 'arragrocms-management'
+import { Interfaces, utils } from '@arragro/cms-management'
 
 const { Aux } = utils
 

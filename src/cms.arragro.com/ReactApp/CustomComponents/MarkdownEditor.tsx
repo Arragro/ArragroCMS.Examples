@@ -2,7 +2,7 @@
 import * as ReactMarkdown from 'react-markdown'
 import { FormHelperText, Grid, Button, createStyles, Theme, WithStyles, withStyles, FormControl } from '@material-ui/core'
 import { Controlled as CodeMirror } from 'react-codemirror2'
-import { Interfaces, Components } from 'arragrocms-management'
+import { Interfaces, Components } from '@arragro/cms-management'
 
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/eclipse.css'
