@@ -1,5 +1,4 @@
-﻿/// <reference types="node" />
-import 'node_modules/@arragro/cms-management/dist/main.css'
+﻿import '@arragro/cms-management/dist/main.css'
 import './scss/site.scss'
 
 import * as React from 'react'
