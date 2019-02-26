@@ -1,27 +1,20 @@
 {
   "compilerOptions": {
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "target": "es5",
-    "jsx": "react",
-    "module": "es6",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "declaration": false,
-    "removeComments": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "strict": true,
-    "outDir": "./dist/",
-    "lib": [ "es6", "es7", "dom" ],
-    "baseUrl": "./",
-    "paths": {
-      "@app/*": [ "./*" ]
-    },
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types"
-    ]
+      "allowSyntheticDefaultImports": true,
+      "sourceMap": true,
+      "target": "es5",
+      "jsx": "react",
+      "module": "es6",
+      "moduleResolution": "node",
+      "experimentalDecorators": true,
+      "declaration": false,
+      "removeComments": true,
+      "noImplicitReturns": true,
+      "noUnusedLocals": true,
+      "strict": true,
+      "skipLibCheck": false,
+      "outDir": "./dist/",
+      "lib": ["es6", "es7", "dom"]
   },
-    "exclude": ["dist", "build", "node_modules"]
+  "exclude": ["dist", "build", "node_modules"]
 }

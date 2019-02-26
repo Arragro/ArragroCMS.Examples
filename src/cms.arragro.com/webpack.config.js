@@ -1,13 +1,13 @@
 ﻿const path = require('path');
-const glob = require('glob-all');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
-const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
-const PurifyCSSPlugin = require('purifycss-webpack');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const MinifyPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const sharedConfig = require('./webpack.shared.config');
-const { dependencies } = require('./package.json');
 
 module.exports = (env) => {
     const devMode = env === null || env['run-prod'] === undefined || env['run-prod'] === null || env['run-prod'] === false;
@@ -25,10 +25,10 @@ module.exports = (env) => {
                 react: path.resolve(__dirname, './node_modules/react'),
                 React: path.resolve(__dirname, './node_modules/react')
             },
-            extensions: ['.js', '.jsx', '.ts', '.tsx'],
-            plugins: [
-                new TsConfigPathsPlugin(/* { tsconfig, compiler } */)
-            ]
+            extensions: ['.js', '.jsx', '.ts', '.tsx']
+        },
+        devServer: {
+            hot: true
         },
         module: {
             rules: [
@@ -39,44 +39,57 @@ module.exports = (env) => {
                         /node_modules/,
                         /obj/
                     ],
-                    loader: 'awesome-typescript-loader',
-                    query: {
-                        useBabel: true,
-                        useCache: devMode,
-                        babelCore: "@babel/core"
+                    loader: 'babel-loader',
+                    options: devMode ? {
+                        cacheDirectory: true,
+                        babelrc: false,
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                { 
+                                    targets: { 
+                                        browsers: 'last 2 versions'
+                                    }
+                                }, // or whatever your project requires
+                            ],
+                            '@babel/preset-typescript',
+                            '@babel/preset-react',
+                        ],
+                        plugins: [
+                            // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
+                            // ['@babel/plugin-proposal-decorators', { legacy: true }],
+                            ['@babel/plugin-proposal-class-properties', { loose: true }],
+                            'react-hot-loader/babel',
+                        ],
+                    } : {
+                        cacheDirectory: true,
+                        babelrc: false,
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                { 
+                                    targets: { 
+                                        browsers: 'last 2 versions'
+                                    },
+                                    modules: false
+                                }, // or whatever your project requires
+                                
+                            ],
+                            '@babel/preset-typescript',
+                            '@babel/preset-react',
+                        ],
+                        plugins: [
+                            // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
+                            // ['@babel/plugin-proposal-decorators', { legacy: true }],
+                            ['@babel/plugin-proposal-class-properties', { loose: true }],
+                            '@babel/plugin-transform-runtime'
+                        ]
                     }
-                },
-                {
-                    test: /\.js$/,
-                    loader: 'source-map-loader'
-                },
-                {
-                    test: /\.(sa|sc|c)ss$/,
-                    use: [].concat(
-                            devMode ? ['css-hot-loader', MiniCssExtractPlugin.loader] : [MiniCssExtractPlugin.loader]
-                        ).concat(
-                            {
-                                loader: 'css-loader',
-                                options: {
-                                    sourceMap: true
-                                }
-                            },
-                            'postcss-loader',
-                            {
-                                loader: 'sass-loader',
-                                options: {
-                                    sourceMap: true
-                                }
-                            }
-                    ),
-                },
-                { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
-                { test: /\.woff(\?\S*)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-                { test: /\.(ttf|eot|svg)(\?\S*)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' }
-            ]
+                }
+            ].concat(sharedConfig.commonRules)
         },
         entry: {
-            main: './ReactApp/boot.tsx'
+            main: ['./ReactApp/boot.tsx']
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
@@ -85,52 +98,40 @@ module.exports = (env) => {
             publicPath: '/dist/'
         },
         optimization: {
-            // minimizer: [
-            // new UglifyJsPlugin({
-            //     cache: true,
-            //     parallel: true
-            // })
-            // ]
-        //     splitChunks: {
-        //         cacheGroups: {
-        //             styles: {
-        //                 name: 'vendor',
-        //                 test: /\.css$/,
-        //                 chunks: 'all',
-        //                 enforce: true
-        //             }
-        //         }
-        //     }
+            minimizer: [new MinifyPlugin()],
+            namedModules: false,
+            namedChunks: false,
+            nodeEnv: 'production',
+            flagIncludedChunks: true,
+            occurrenceOrder: true,
+            sideEffects: true,
+            usedExports: true,
+            concatenateModules: true,
+            noEmitOnErrors: true,
+            checkWasmTypes: true,
+            minimize: true,
         },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: "main.css"
             }),
-            // new PurifyCSSPlugin({
-            //     // Give paths to parse for rules. These should be absolute!
-            //     paths: purifyPaths,
-            //     purifyOptions: {
-            //         info: true,
-            //         minify: devMode,
-            //         report: true,
-            //         whitelist: [
-            //             'dropdown-menu'
-            //         ]
-            //     }
-            // }),
             require('autoprefixer'),
-            new webpack.optimize.OccurrenceOrderPlugin()
+            new webpack.optimize.OccurrenceOrderPlugin(),
+            new ForkTsCheckerWebpackPlugin({
+                tslint: false, useTypescriptIncrementalApi: true
+            }),
+            // new ForkTsCheckerNotifierWebpackPlugin({ title: 'TypeScript', excludeWarnings: false })
         ].concat(
             devMode ? [
             ] : [
+                    new LodashModuleReplacementPlugin(),
                     new CompressionPlugin({
-                        // asset: "[path].gz[query]",
-                        //include: /\/wwwroot/,
                         algorithm: "gzip",
                         test: /\.js$|\.css$|\.svg$/,
                         threshold: 10240,
                         minRatio: 0.8
-                    })
+                    }),
+                    // new BundleAnalyzerPlugin()
                 ])
     };
 
