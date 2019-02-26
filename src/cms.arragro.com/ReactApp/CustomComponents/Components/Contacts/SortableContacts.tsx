@@ -4,7 +4,7 @@ import { Components, Interfaces } from '@arragro/cms-management'
 
 import { IContact } from '../../interfaces'
 import SortableContactForm from './SortableContactForm'
-import { contactYup } from 'ReactApp/utils'
+import { contactYup } from '../../../utils'
 
 const SortableContacts: React.SFC<Interfaces.ISortableListProps<IContact>> = (props) => {
     const getItemHeader = (item: IContact) => {

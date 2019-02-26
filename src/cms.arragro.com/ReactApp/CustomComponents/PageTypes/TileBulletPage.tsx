@@ -6,8 +6,8 @@ import * as Yup from 'yup'
 import { ITile } from '../interfaces'
 import SortableTiles from '../Components/Tiles/SortableTiles'
 import MarkdownEditor from '../MarkdownEditor'
-import { tileYup } from 'ReactApp/utils'
-import { Hr } from 'ReactApp/helpers'
+import { tileYup } from '../../utils'
+import { Hr } from '../../helpers'
 
 import { Components, Interfaces, utils } from '@arragro/cms-management'
 

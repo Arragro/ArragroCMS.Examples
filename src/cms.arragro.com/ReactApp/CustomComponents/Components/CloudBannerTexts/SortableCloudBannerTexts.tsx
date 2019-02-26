@@ -5,7 +5,7 @@ import { Components, Interfaces } from '@arragro/cms-management'
 
 import { ICloudBannerText } from '../../interfaces'
 import SortableCloudBannerTextForm from './SortableCloudBannerTextForm'
-import { cloudBannerTextYup } from 'ReactApp/utils'
+import { cloudBannerTextYup } from '../../../utils'
 
 const SortableClouds: React.SFC<Interfaces.ISortableListProps<ICloudBannerText>> = (props) => {
     const getItemHeader = (item: ICloudBannerText) => {

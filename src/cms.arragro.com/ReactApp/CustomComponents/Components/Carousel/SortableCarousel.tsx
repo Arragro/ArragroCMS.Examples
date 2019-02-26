@@ -4,7 +4,7 @@ import { Components, Interfaces } from '@arragro/cms-management'
 
 import { ICarousel } from '../../interfaces'
 import SortableCarouselForm from './SortableCarouselForm'
-import { carouselYup } from 'ReactApp/utils'
+import { carouselYup } from '../../../utils'
 
 const SortableCarousel: React.SFC<Interfaces.ISortableListProps<ICarousel>> = (props) => {
     const getItemHeader = (item: ICarousel) => {

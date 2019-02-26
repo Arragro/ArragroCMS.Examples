@@ -4,7 +4,7 @@ import { Components, Interfaces } from '@arragro/cms-management'
 
 import { ITile } from '../../interfaces'
 import SortableTileForm from './SortableTileForm'
-import { tileYup } from 'ReactApp/utils'
+import { tileYup } from '../../../utils'
 
 interface SortableTilesProps extends Interfaces.ISortableListProps<ITile> {
     linkIsMandatory: boolean

@@ -4,7 +4,7 @@ import { Components, Interfaces } from '@arragro/cms-management'
 
 import { ISvgIconLink } from '../../interfaces'
 import SortableSvgIconForm from './SortableSvgIconForm'
-import { svgIconLinkYup } from 'ReactApp/utils'
+import { svgIconLinkYup } from '../../../utils'
 
 const SortableCarousel: React.SFC<Interfaces.ISortableListProps<ISvgIconLink>> = (props) => {
     const getItemHeader = (item: ISvgIconLink) => {

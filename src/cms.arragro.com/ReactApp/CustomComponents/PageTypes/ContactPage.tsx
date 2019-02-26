@@ -7,8 +7,8 @@ import { Components, Interfaces, utils } from '@arragro/cms-management'
 import { IContact } from '../interfaces'
 import SortableContacts from '../Components/Contacts/SortableContacts'
 import MarkdownEditor from '../MarkdownEditor'
-import { isValidPhoneNumber, contactYup } from 'ReactApp/utils'
-import { Hr } from 'ReactApp/helpers'
+import { isValidPhoneNumber, contactYup } from '../../utils'
+import { Hr } from '../../helpers'
 
 const { CustomContentTypeBase } = Components
 const { CustomBubble, TextBox, TextArea, CheckBox } = Components.FormikControls

@@ -10,8 +10,8 @@ import SortableTiles from '../Components/Tiles/SortableTiles'
 import SortableCloudBannerTexts from '../Components/CloudBannerTexts/SortableCloudBannerTexts'
 import SortableSvgIcons from '../Components/SvgIconLinks/SortableSvgIcons'
 import MarkdownEditor from '../MarkdownEditor'
-import { cloudBannerTextYup, tileYup, svgIconLinkYup } from 'ReactApp/utils'
-import { Hr } from 'ReactApp/helpers'
+import { cloudBannerTextYup, tileYup, svgIconLinkYup } from '../../utils'
+import { Hr } from '../../helpers'
 
 const { CustomContentTypeBase } = Components
 const { CustomBubble, TextBox, CheckBox } = Components.FormikControls
