@@ -78,7 +78,7 @@ namespace cms.arragro.com
                     new CultureInfo[] { new CultureInfo("en-nz") }, 
                     new TimeSpan(2, 0, 0),
                     true,
-                    "arragro.com.ContentTypes", "Arragro.Dynamic.Api", "Arragro.Dynamic", "ArragroCMS.Web.Management");
+                    "Arragro.Dynamic.Api", "Arragro.Dynamic", "ArragroCMS.Web.Management");
 
                 // Replace Image Provider with ImageServiceProvider
                 // services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
@@ -127,8 +127,8 @@ namespace cms.arragro.com
             {
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
-                   HotModuleReplacement = true,
-                   ReactHotModuleReplacement = true
+                    HotModuleReplacement = true,
+                    ReactHotModuleReplacement = true
                 });
 
                 app.UseDeveloperExceptionPage();
