@@ -17,7 +17,7 @@ RUN npm run build-prod
 
 WORKDIR /app
 
-RUN dotnet restore www.arragro.com/*.csproj
+RUN dotnet restore www.arragro.com/*.csproj -s https://registry.arragro.com/repository/nuget-hosted/ -s https://api.nuget.org/v3/index.json
 RUN dotnet publish www.arragro.com/*.csproj -c Release -o out
 
 # build runtime image

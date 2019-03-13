@@ -1,7 +1,8 @@
 version: '2.4'
 services:
   haproxy_image_service:
-    image: eeacms/haproxy
+    restart: always
+    image: eeacms/haproxy:1.8-1.3
     depends_on:
     - image_service
     networks:
@@ -15,7 +16,8 @@ services:
       LOG_LEVEL: "info"
 
   haproxy_cms:
-    image: eeacms/haproxy
+    restart: always
+    image: eeacms/haproxy:1.8-1.3
     depends_on:
     - cms_arragro_com
     ports:
@@ -27,12 +29,17 @@ services:
       BACKENDS: "cms_arragro_com:5000"
       DNS_ENABLED: "true"
       LOG_LEVEL: "info"
-      # COOKIES_ENABLED: "true"
-      # BALANCE: "rdp-cookie"
       HTTPCHK: GET /web-info/799c809f-9ca4-47ca-a9b1-3bce5c5215cf
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://cms_arragro_com:5000/web-info/799c809f-9ca4-47ca-a9b1-3bce5c5215cf"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
   haproxy_www:
-    image: eeacms/haproxy
+    restart: always
+    image: eeacms/haproxy:1.8-1.3
     depends_on:
     - www_arragro_com
     networks:
@@ -45,9 +52,15 @@ services:
       DNS_ENABLED: "true"
       LOG_LEVEL: "info"
       HTTPCHK: GET /web-info/60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://www_arragro_com:5000/web-info/60aa42a9-6a6d-49ef-92c3-6c35ec124f0c"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v0.0.11-alpha
+    image: docker.arragro.com/cms.arragro.com:v0.0.15-alpha
     # logging:
     #   driver: none
     # ports:
@@ -64,14 +77,12 @@ services:
       - azurite-net
       - cms-net
     environment:
-      - ConnectionStrings:CmsDatabaseConnection=host=postgres;port=5432;database=arragro-cms;user id=postgres;password=Password1;
-#      - ConnectionStrings:CmsDatabaseConnection=data source=sql;initial catalog=ArragroCMS;MultipleActiveResultSets=True;App=EntityFramework;User Id=sa;Password=@rr@gr0SuperPassword1;
-      - ConnectionStrings:StorageConnection=BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
+      - ConnectionStrings:CmsDatabaseConnection=host=postgres;port=5432;database=arragro-cms;user id=postgres;password=password1;
+      - ConnectionStrings:StorageConnection=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
       - ConnectionStrings:RedisConnection=redis:6379
       - ApplicationSettings:ImageServiceUrl=http://image_service:3000
       - ApplicationSettings:OverrideAssetUrl=http://127.0.0.1:10000/devstoreaccount1
       - ApplicationSettings:DatabaseType=Postgres
-#      - ApplicationSettings:DatabaseType=SqlServer
       - ApplicationSettings:DapperSchema=public
       - DataProtectionSettings:UseDataProtection=true
       - DataProtectionSettings:ApplicationName=cms.arragro.com
@@ -89,7 +100,7 @@ services:
     scale: 2
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v0.0.8-alpha
+    image: docker.arragro.com/www.arragro.com:v0.0.15-alpha
     depends_on:
       - cms_arragro_com
     # logging:
@@ -107,15 +118,23 @@ services:
       - WebInfoSettings:IsWebInfoEnabled=true
       - WebInfoSettings:Secret=60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
     scale: 2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://cms_arragro_com:5000/web-info/799c809f-9ca4-47ca-a9b1-3bce5c5215cf"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
   image_service:
-    image: docker.arragro.com/imageservice:v0.0.5-alpha
+    restart: always
+    image: docker.arragro.com/imageservice:v0.0.6-alpha
     networks:
       - image-service-net
     scale: 3
 
   redis:
-    image: redis:4.0.9-alpine
+    restart: always
+    image: redis:5.0.3-alpine3.9
     ports:
       - 6379:6379
     command: ["redis-server", "--appendonly", "yes"]
@@ -126,7 +145,8 @@ services:
       - redis-data:/data
 
   azurite:
-    image: arafato/azurite
+    restart: always
+    image: arafato/azurite:2.6.5
     ports:
       - 10000:10000
       - 10001:10001
@@ -138,9 +158,9 @@ services:
 
   postgres:
     restart: always
-    image: postgres:alpine
+    image: postgres:10.7-alpine
     environment:
-      - POSTGRES_PASSWORD:'password1'
+      - POSTGRES_PASSWORD=password1
     ports:
       - 5432:5432
     volumes:
@@ -150,7 +170,7 @@ services:
 
   pgadmin:
     restart: unless-stopped
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:4.2
     ports:
       - 8081:80
     environment:
@@ -159,21 +179,22 @@ services:
     networks:
       - cms-net
     volumes:
-      - pgadmin:/root/.pgadmin
+      - pgadmin:/var/lib/pgadmin
+      - pgadmin:/pgadmin4/servers.json
 
-  # sql:
-  #   restart: always
-  #   image: microsoft/mssql-server-linux:2017-latest
-  #   ports:
-  #     - 1433:1433
-  #   environment:
-  #     - "ACCEPT_EULA=Y"
-  #     - "SA_PASSWORD=@rr@gr0SuperPassword1"
-  #   volumes:
-  #     - sql-data:/var/opt/mssql
-  #   mem_limit: "2048m"
-  #   networks:
-  #     - cms-net
+#  sql:
+#    restart: unless-stopped
+#    image: microsoft/mssql-server-linux:2017-latest
+#    ports:
+#      - 1433:1433
+#    environment:
+#      - "ACCEPT_EULA=Y"
+#      - "SA_PASSWORD=@rr@gr0SuperPassword1"
+#    volumes:
+#      - sql-data:/var/opt/mssql
+#    mem_limit: "2048m"
+#    networks:
+#      - cms-net
 
 networks:
   redis-net:
@@ -185,5 +206,5 @@ volumes:
   redis-data:
   azurite-data:
   database:
+  sql-data:
   pgadmin:
-  # sql-data:
