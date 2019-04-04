@@ -19,12 +19,56 @@
     <meta property="og:title" content="Arragro Ltd - Boutique .Net Azure Solutions and Migrations" />
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link rel="SHORTCUT ICON" href="http://cdn.arragro.com/public/images/favicon.ico" />
-    <link rel="stylesheet" href="/dist/main.css" />
+    <link rel="stylesheet" asp-href-include="~/dist/main.*.css" />
+    <style type="text/css">
+        .full-page-loader {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        .full-page-loader > img {
+            margin-top: 65px;
+            animation: 1.8s infinite heartbeat;
+        }
+
+        @@keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.05);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            75% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="react-app"
-         asp-prerender-webpack-config="webpack.config.js"></div>
+         asp-prerender-webpack-config="webpack.config.js">
+        <div class="full-page-loader">
+            <img width="176" src="~/public/images/svg/ArragroLogo.svg" alt="Arragro CMS" />
+        </div>
+    </div>
 
-    <script src="/dist/main.js"></script>
+    <script type="text/javascript" asp-src-include="~/dist/main.*.js"></script>
 </body>
 </html>
