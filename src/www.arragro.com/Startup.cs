@@ -140,9 +140,9 @@ namespace www.arragro.com
             {
                 app.UseExceptionHandler(("/error/exception"));
                 app.UseStatusCodePagesWithReExecute("/error/{0}");
+                app.UseHsts();
             }
 
-            app.UseHsts();
             app.UseHttpsRedirection();
 
             app.UseDefaultFiles();

@@ -161,9 +161,9 @@ namespace cms.arragro.com
                 {
                     builder.UseExceptionHandler("/Home/Error");
                 });
+                app.UseHsts();
             }
 
-            app.UseHsts();
             app.UseHttpsRedirection();
 
             app.UseDefaultFiles();
