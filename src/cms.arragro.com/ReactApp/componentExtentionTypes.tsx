@@ -1,6 +1,7 @@
 ﻿import * as React from 'react'
 
-import { Interfaces, Components } from '@arragro/cms-management'
+import { Interfaces } from '@arragro/cms-management'
+import { ComponentTypesExtender } from '@arragro/cms-management/dist/src/components'
 import MarkdownConfiguration from './CustomComponents/ConfigurationTypes/MarkdownConfiguration'
 import MarkdownPage from './CustomComponents/PageTypes/MarkdownPage'
 import LandingPage from './CustomComponents/PageTypes/LandingPage'
@@ -19,8 +20,6 @@ const PAGETYPES_REDIRECTPAGE = 'arragro.com.ContentTypes.Pages.RedirectPage'
 const PAGETYPES_CONTACTPAGE = 'arragro.com.ContentTypes.Pages.ContactPage'
 
 const POSTTYPES_MARKDOWN = 'arragro.com.ContentTypes.Posts.MarkdownPage'
-
-const { ComponentTypesExtender } = Components
 
 export function extendContentTypeMap (): void {
 

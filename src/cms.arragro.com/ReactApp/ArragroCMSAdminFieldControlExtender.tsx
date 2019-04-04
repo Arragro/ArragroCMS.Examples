@@ -1,14 +1,15 @@
 import * as React from 'react'
 import { FormikProps, FormikErrors, yupToFormErrors } from 'formik'
 import * as Yup from 'yup'
-import { Components, Interfaces } from '@arragro/cms-management'
+import { Interfaces } from '@arragro/cms-management'
+import { DefaultAdminFieldControlExtenderBase, IAdminFieldControlExtender } from '@arragro/cms-management/dist/src/components'
 import TagSelectorForm, { tagSelectorSchema } from './CustomComponents/Fields/Admin/TagSelector'
 
 enum ArragroCmsAssemblies {
     TagSelector = 'ArragroCMS.Web.Management.TagSelector'
 }
 
-export class ArragroCMSAdminFieldControlExtender extends Components.DefaultAdminFieldControlExtenderBase implements Components.IAdminFieldControlExtender {
+export class ArragroCMSAdminFieldControlExtender extends DefaultAdminFieldControlExtenderBase implements IAdminFieldControlExtender {
     constructor () {
         super()
     }

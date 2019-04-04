@@ -1,14 +1,20 @@
 ﻿import * as React from 'react'
 import * as ReactMarkdown from 'react-markdown'
-import { FormHelperText, Grid, Button, createStyles, Theme, WithStyles, withStyles, FormControl } from '@material-ui/core'
+import { Theme } from '@material-ui/core/styles'
+import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles'
+import createStyles from '@material-ui/core/styles/createStyles'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import FormControl, { FormControlProps } from '@material-ui/core/FormControl'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
 import { Controlled as CodeMirror } from 'react-codemirror2'
-import { Interfaces, Components } from '@arragro/cms-management'
+import { Interfaces } from '@arragro/cms-management'
+import AssetModal from '@arragro/cms-management/dist/src/components/Asset/AssetModal'
 
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/eclipse.css'
 import 'codemirror/mode/markdown/markdown'
 import 'codemirror/addon/display/autorefresh'
-import { FormControlProps } from '@material-ui/core/FormControl'
 
 const style = (theme: Theme) => createStyles({
     formControl: {
@@ -124,7 +130,7 @@ class MarkdownEditor extends React.Component<IMarkdownEditorProps, IMarkdownEdit
                     <label style={style}>{this.props.label}</label>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Components.AssetModal
+                    <AssetModal
                         contentData={contentData}
                         mimeTypeFilter={mimeTypeFilter}
                         selectClick={this.selectClick}

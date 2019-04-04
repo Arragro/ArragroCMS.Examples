@@ -1,12 +1,13 @@
 ﻿import * as React from 'react'
 import { FormikProps } from 'formik'
-import { Components, Interfaces } from '@arragro/cms-management'
+import { Interfaces } from '@arragro/cms-management'
+import { SortableItems } from '@arragro/cms-management/dist/src/components'
 
 import { ICarousel } from '../../interfaces'
 import SortableCarouselForm from './SortableCarouselForm'
 import { carouselYup } from '../../../utils'
 
-const SortableCarousel: React.SFC<Interfaces.ISortableListProps<ICarousel>> = (props) => {
+const SortableCarousel: React.FunctionComponent<Interfaces.ISortableListProps<ICarousel>> = (props) => {
     const getItemHeader = (item: ICarousel) => {
         if (item.name &&
             item.name.length > 0) {
@@ -23,7 +24,7 @@ const SortableCarousel: React.SFC<Interfaces.ISortableListProps<ICarousel>> = (p
         />
     }
 
-    return <Components.SortableItems
+    return <SortableItems
                 {...props}
                 getItemHeader={getItemHeader}
                 getForm={getForm}

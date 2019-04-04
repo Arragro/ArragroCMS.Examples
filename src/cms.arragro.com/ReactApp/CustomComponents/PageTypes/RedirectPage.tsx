@@ -1,11 +1,13 @@
 ﻿import * as React from 'react'
-import { Grid } from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
 import { FormikProps, Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { Components, Interfaces, utils } from '@arragro/cms-management'
+import { Interfaces, utils } from '@arragro/cms-management'
 
-const { CustomContentTypeBase } = Components
-const { CustomBubble, TextBox } = Components.FormikControls
+import { CustomContentTypeBase } from '@arragro/cms-management/dist/src/components/ComponentTypeExtentions/CustomTypeBase'
+import TextBox from '@arragro/cms-management/dist/src/components/FormikControls/TextBox/async'
+import CustomBubble from '@arragro/cms-management/dist/src/components/FormikControls/CustomBubble'
+
 const { makeEmptyString } = utils.Helpers
 
 export interface IRedirectPageForm {

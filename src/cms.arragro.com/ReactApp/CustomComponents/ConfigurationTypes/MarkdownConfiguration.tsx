@@ -1,9 +1,12 @@
 ﻿import * as React from 'react'
 import * as Yup from 'yup'
 import { Formik, Form, FormikProps } from 'formik'
-import { Interfaces, Components, utils } from '@arragro/cms-management'
+import { Interfaces, utils } from '@arragro/cms-management'
 
-const { CustomBubble, TextBox } = Components.FormikControls
+import { CustomConfigurationTypeBase } from '@arragro/cms-management/dist/src/components/ComponentTypeExtentions/CustomTypeBase'
+import TextBox from '@arragro/cms-management/dist/src/components/FormikControls/TextBox/async'
+import CustomBubble from '@arragro/cms-management/dist/src/components/FormikControls/CustomBubble'
+
 const { makeEmptyString } = utils.Helpers
 
 export interface IMarkdownConfigurationState {
@@ -16,13 +19,13 @@ interface IMarkdownConfigurationForm {
     version: number
 }
 
-export default class MarkdownConfiguration extends Components.CustomConfigurationTypeBase<IMarkdownConfigurationForm> {
+export default class MarkdownConfiguration extends CustomConfigurationTypeBase<IMarkdownConfigurationForm> {
     constructor (props: Interfaces.IConfigurationType) {
         super(props)
 
         if (this.props.contentData) {
             if (this.props.contentData.configurationJson) {
-                const configurationJson = this.props.contentData.configurationJson as any
+                const configurationJson = this.props.contentData.configurationJson
                 const testData = configurationJson.testData !== undefined ? configurationJson.testData : ''
                 const version = configurationJson.version !== undefined ? configurationJson.version : -1
                 this.state = {

@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { FormikProps } from 'formik'
 import MarkdownEditor from '../../MarkdownEditor'
-import { Interfaces, utils, Components } from '@arragro/cms-management'
+import { Interfaces, utils } from '@arragro/cms-management'
+import TextBox from '@arragro/cms-management/dist/src/components/FormikControls/TextBox/async'
+import Select from '@arragro/cms-management/dist/src/components/FormikControls/Select/async'
 
 import { ISvgIconLink } from '../../interfaces'
 
-const { TextBox, Select } = Components.FormikControls
 const { makeEmptyString } = utils.Helpers
-const { Aux } = utils
 
 interface SortableListProps {
     contentData: Interfaces.IContentData
@@ -27,13 +27,13 @@ const singleSelectOptions = [
     ...selectOptions
 ]
 
-const SortableSvgIcon: React.StatelessComponent<SortableListProps> = (props) => {
+const SortableSvgIcon: React.FunctionComponent<SortableListProps> = (props) => {
     const {
         contentData,
         formikBag
     } = props
 
-    return <Aux>
+    return <React.Fragment>
 
             <TextBox
                 type='text'
@@ -70,7 +70,7 @@ const SortableSvgIcon: React.StatelessComponent<SortableListProps> = (props) => 
                 saveStashedIncomplete={props.saveStashedIncomplete}
             />
 
-        </Aux>
+        </React.Fragment>
 }
 
 export default SortableSvgIcon

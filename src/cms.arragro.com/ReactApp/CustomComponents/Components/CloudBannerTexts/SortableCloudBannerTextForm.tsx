@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { FormikProps } from 'formik'
-import { Interfaces, utils } from '@arragro/cms-management'
-
-const { Aux } = utils
+import { Interfaces } from '@arragro/cms-management'
 
 import { ICloudBannerText } from '../../interfaces'
 import MarkdownEditor from '../../MarkdownEditor'
@@ -13,14 +11,14 @@ interface SortableCloudBannerTextFormProps {
     saveStashedIncomplete? (): void
 }
 
-const SortableCloudBannerTextForm: React.StatelessComponent<SortableCloudBannerTextFormProps> = (props) => {
+const SortableCloudBannerTextForm: React.FunctionComponent<SortableCloudBannerTextFormProps> = (props) => {
     const {
         contentData,
         formikBag,
         saveStashedIncomplete
     } = props
 
-    return <Aux>
+    return <React.Fragment>
 
         <MarkdownEditor
             contentData={contentData}
@@ -35,7 +33,7 @@ const SortableCloudBannerTextForm: React.StatelessComponent<SortableCloudBannerT
             saveStashedIncomplete={saveStashedIncomplete}
         />
 
-    </Aux>
+    </React.Fragment>
 }
 
 export default SortableCloudBannerTextForm

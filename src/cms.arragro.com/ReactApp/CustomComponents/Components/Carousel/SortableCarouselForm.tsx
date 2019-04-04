@@ -4,11 +4,13 @@ import { FormikProps } from 'formik'
 import { ICarousel } from '../../interfaces'
 import MarkdownEditor from '../../MarkdownEditor'
 
-import { Components, Interfaces, utils } from '@arragro/cms-management'
+import { Interfaces, utils } from '@arragro/cms-management'
 
-const { TextBox, CheckBox } = Components.FormikControls
+import { AssetPicker } from '@arragro/cms-management/dist/src/components/Asset'
+import TextBox from '@arragro/cms-management/dist/src/components/FormikControls/TextBox/async'
+import CheckBox from '@arragro/cms-management/dist/src/components/FormikControls/CheckBox/async'
+
 const { makeEmptyString } = utils.Helpers
-const { Aux } = utils
 
 interface SortableListProps {
     contentData: Interfaces.IContentData
@@ -16,7 +18,7 @@ interface SortableListProps {
     saveStashedIncomplete? (): void
 }
 
-const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) => {
+const SortableCarousel: React.FunctionComponent<SortableListProps> = (props) => {
     const {
         contentData,
         formikBag,
@@ -25,7 +27,7 @@ const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) =>
 
     const getHasLinkInputs = () => {
         if (formikBag.values.hasLink) {
-            return <Aux>
+            return <React.Fragment>
                 <MarkdownEditor
                     contentData={contentData}
                     name='linkText'
@@ -46,12 +48,12 @@ const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) =>
                     value={makeEmptyString(formikBag.values.href)}
                 />
 
-            </Aux>
+            </React.Fragment>
         }
         return null
     }
 
-    return <Aux>
+    return <React.Fragment>
 
         <TextBox
             type='text'
@@ -60,7 +62,7 @@ const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) =>
             value={makeEmptyString(formikBag.values.name)}
         />
 
-        <Components.AssetPicker
+        <AssetPicker
             name='imageUrl'
             label='Slide Image'
             contentData={contentData}
@@ -92,7 +94,7 @@ const SortableCarousel: React.StatelessComponent<SortableListProps> = (props) =>
 
         {getHasLinkInputs()}
 
-    </Aux>
+    </React.Fragment>
 }
 
 export default SortableCarousel

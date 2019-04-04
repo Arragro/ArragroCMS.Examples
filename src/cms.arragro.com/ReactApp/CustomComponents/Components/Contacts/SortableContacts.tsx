@@ -1,12 +1,13 @@
 ﻿import * as React from 'react'
 import { FormikProps } from 'formik'
-import { Components, Interfaces } from '@arragro/cms-management'
+import { Interfaces } from '@arragro/cms-management'
+import SortableItems from '@arragro/cms-management/dist/src/components/Arrays/SortableItems'
 
 import { IContact } from '../../interfaces'
 import SortableContactForm from './SortableContactForm'
 import { contactYup } from '../../../utils'
 
-const SortableContacts: React.SFC<Interfaces.ISortableListProps<IContact>> = (props) => {
+const SortableContacts: React.FunctionComponent<Interfaces.ISortableListProps<IContact>> = (props) => {
     const getItemHeader = (item: IContact) => {
         if (item.name &&
             item.name !== null &&
@@ -24,7 +25,7 @@ const SortableContacts: React.SFC<Interfaces.ISortableListProps<IContact>> = (pr
         />
     }
 
-    return <Components.SortableItems
+    return <SortableItems
         {...props}
         getItemHeader={getItemHeader}
         getForm={getForm}

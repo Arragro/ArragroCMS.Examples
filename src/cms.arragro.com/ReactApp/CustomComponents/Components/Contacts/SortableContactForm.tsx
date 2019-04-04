@@ -4,11 +4,12 @@ import { FormikProps } from 'formik'
 import MarkdownEditor from '../../MarkdownEditor'
 import { IContact } from '../../interfaces'
 
-import { Components, Interfaces, utils } from '@arragro/cms-management'
+import { Interfaces, utils } from '@arragro/cms-management'
 
-const { TextBox } = Components.FormikControls
+import AssetPicker from '@arragro/cms-management/dist/src/components/Asset/AssetPicker'
+import TextBox from '@arragro/cms-management/dist/src/components/FormikControls/TextBox/async'
+
 const { makeEmptyString } = utils.Helpers
-const { Aux } = utils
 
 interface SortableContactFormProps {
     contentData: Interfaces.IContentData
@@ -16,14 +17,14 @@ interface SortableContactFormProps {
     saveStashedIncomplete? (): void
 }
 
-const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = (props) => {
+const SortableContactForm: React.FunctionComponent<SortableContactFormProps> = (props) => {
     const {
         contentData,
         formikBag,
         saveStashedIncomplete
     } = props
 
-    return <Aux>
+    return <React.Fragment>
 
         <TextBox
             type='text'
@@ -60,7 +61,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             value={makeEmptyString(props.formikBag.values.linkedIn)}
         />
 
-        <Components.AssetPicker
+        <AssetPicker
             name='gravitar'
             label='Gravitar'
             selectedAsset={props.formikBag.values.gravitar}
@@ -89,7 +90,7 @@ const SortableContactForm: React.StatelessComponent<SortableContactFormProps> = 
             saveStashedIncomplete={props.saveStashedIncomplete}
         />
 
-    </Aux>
+    </React.Fragment>
 }
 
 export default SortableContactForm

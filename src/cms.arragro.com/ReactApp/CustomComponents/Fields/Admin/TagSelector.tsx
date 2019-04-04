@@ -4,7 +4,9 @@ import { FormikProps } from 'formik'
 import * as Yup from 'yup'
 
 import { Grid } from '@material-ui/core'
-import { Interfaces, utils, Components } from '@arragro/cms-management'
+import { Interfaces } from '@arragro/cms-management'
+import BaseForm, * as BaseFormUtils from '@arragro/cms-management/dist/src/components/Field/Admin/BaseForm'
+import CheckBox from '@arragro/cms-management/dist/src/components/FormikControls/CheckBox/async'
 
 export const tagSelectorSchema = Yup.object().shape({
     fieldId: Yup.string().required('Please supply a fieldId'),
@@ -31,11 +33,11 @@ const TagSelectorForm: React.FunctionComponent<FormProps> = (props) => {
         formikBag
     } = props
 
-    return <utils.Aux>
-        <Components.BaseForm formikBag={formikBag}></Components.BaseForm>
+    return <React.Fragment>
+        <BaseForm formikBag={formikBag}></BaseForm>
         <Grid container>
-            {Components.BaseFormUtils.getField(
-                <Components.FormikControls.CheckBox
+            {BaseFormUtils.getField(
+                <CheckBox
                     label='Multiple Select?'
                     name='multi'
                     checked={formikBag.values.multi}
@@ -43,7 +45,7 @@ const TagSelectorForm: React.FunctionComponent<FormProps> = (props) => {
                     disabled={formikBag.isSubmitting}
                 />, 6, 3)}
         </Grid>
-    </utils.Aux>
+    </React.Fragment>
 }
 
 export default TagSelectorForm

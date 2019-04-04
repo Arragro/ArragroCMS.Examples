@@ -1,13 +1,14 @@
 ﻿import * as React from 'react'
-import { Grid } from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
 import { Formik, Form, FormikProps } from 'formik'
 import * as Yup from 'yup'
-import { Components, Interfaces, utils } from '@arragro/cms-management'
+import { Interfaces, utils } from '@arragro/cms-management'
+import { CustomContentTypeBase } from '@arragro/cms-management/dist/src/components/ComponentTypeExtentions/CustomTypeBase'
+import TextBox from '@arragro/cms-management/dist/src/components/FormikControls/TextBox/async'
+import CustomBubble from '@arragro/cms-management/dist/src/components/FormikControls/CustomBubble'
 
 import MarkdownEditor from '../MarkdownEditor'
 
-const { CustomContentTypeBase } = Components
-const { CustomBubble, TextBox } = Components.FormikControls
 const { makeEmptyString } = utils.Helpers
 
 interface IMarkdownPage {

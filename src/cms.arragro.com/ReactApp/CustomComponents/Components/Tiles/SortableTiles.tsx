@@ -1,6 +1,8 @@
 ﻿import * as React from 'react'
 import { FormikProps } from 'formik'
-import { Components, Interfaces } from '@arragro/cms-management'
+import { Interfaces } from '@arragro/cms-management'
+
+import SortableItems from '@arragro/cms-management/dist/src/components/Arrays/SortableItems'
 
 import { ITile } from '../../interfaces'
 import SortableTileForm from './SortableTileForm'
@@ -11,10 +13,9 @@ interface SortableTilesProps extends Interfaces.ISortableListProps<ITile> {
     useMarkdown: boolean
 }
 
-const SortableTiles: React.SFC<SortableTilesProps> = (props) => {
+const SortableTiles: React.FunctionComponent<SortableTilesProps> = (props) => {
     const getItemHeader = (item: ITile) => {
         if (item.name &&
-            item.name !== null &&
             item.name.length > 0) {
             return <span>{item.name}</span>
         }
@@ -31,7 +32,7 @@ const SortableTiles: React.SFC<SortableTilesProps> = (props) => {
         />
     }
 
-    return <Components.SortableItems
+    return <SortableItems
                 {...props}
                 getItemHeader={getItemHeader}
                 getForm={getForm}

@@ -1,10 +1,15 @@
 ﻿import * as React from 'react'
-import { Grid } from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
 import { Formik, FormikProps, Form } from 'formik'
 import * as Yup from 'yup'
-import { Components, Interfaces, utils } from '@arragro/cms-management'
+import { Interfaces, utils } from '@arragro/cms-management'
 
 import { ITile, ICloudBannerText, ISvgIconLink } from '../interfaces'
+
+import { CustomContentTypeBase } from '@arragro/cms-management/dist/src/components/ComponentTypeExtentions/CustomTypeBase'
+import TextBox from '@arragro/cms-management/dist/src/components/FormikControls/TextBox/async'
+import CheckBox from '@arragro/cms-management/dist/src/components/FormikControls/CheckBox/async'
+import CustomBubble from '@arragro/cms-management/dist/src/components/FormikControls/CustomBubble'
 
 import SortableTiles from '../Components/Tiles/SortableTiles'
 import SortableCloudBannerTexts from '../Components/CloudBannerTexts/SortableCloudBannerTexts'
@@ -13,8 +18,6 @@ import MarkdownEditor from '../MarkdownEditor'
 import { cloudBannerTextYup, tileYup, svgIconLinkYup } from '../../utils'
 import { Hr } from '../../helpers'
 
-const { CustomContentTypeBase } = Components
-const { CustomBubble, TextBox, CheckBox } = Components.FormikControls
 const { makeEmptyString } = utils.Helpers
 
 const landingPageHelper = {

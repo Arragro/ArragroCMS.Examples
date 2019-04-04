@@ -1,8 +1,14 @@
 ﻿import * as React from 'react'
-import { Grid } from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
 import { Formik, FormikProps, Form } from 'formik'
 import * as Yup from 'yup'
-import { Components, Interfaces, utils } from '@arragro/cms-management'
+import { Interfaces, utils } from '@arragro/cms-management'
+
+import { CustomContentTypeBase } from '@arragro/cms-management/dist/src/components/ComponentTypeExtentions/CustomTypeBase'
+import TextBox from '@arragro/cms-management/dist/src/components/FormikControls/TextBox/async'
+import TextArea from '@arragro/cms-management/dist/src/components/FormikControls/TextArea/async'
+import CheckBox from '@arragro/cms-management/dist/src/components/FormikControls/CheckBox/async'
+import CustomBubble from '@arragro/cms-management/dist/src/components/FormikControls/CustomBubble'
 
 import { IContact } from '../interfaces'
 import SortableContacts from '../Components/Contacts/SortableContacts'
@@ -10,8 +16,6 @@ import MarkdownEditor from '../MarkdownEditor'
 import { isValidPhoneNumber, contactYup } from '../../utils'
 import { Hr } from '../../helpers'
 
-const { CustomContentTypeBase } = Components
-const { CustomBubble, TextBox, TextArea, CheckBox } = Components.FormikControls
 const { makeEmptyString, makeDefaultString } = utils.Helpers
 
 const contactPageHelper = {

@@ -4,11 +4,12 @@ import { FormikProps } from 'formik'
 import MarkdownEditor from '../../MarkdownEditor'
 import { ITile } from '../../interfaces'
 
-import { Components, Interfaces, utils } from '@arragro/cms-management'
+import { Interfaces, utils } from '@arragro/cms-management'
+import TextBox from '@arragro/cms-management/dist/src/components/FormikControls/TextBox/async'
+import CheckBox from '@arragro/cms-management/dist/src/components/FormikControls/CheckBox/async'
+import AssetPicker from '@arragro/cms-management/dist/src/components/Asset/AssetPicker'
 
-const { TextBox, CheckBox } = Components.FormikControls
 const { makeEmptyString } = utils.Helpers
-const { Aux } = utils
 
 interface SortableListProps {
     contentData: Interfaces.IContentData
@@ -18,7 +19,7 @@ interface SortableListProps {
     useMarkdown: boolean
 }
 
-const SortableTileForm: React.StatelessComponent<SortableListProps> = (props) => {
+const SortableTileForm: React.FunctionComponent<SortableListProps> = (props) => {
     const {
         contentData,
         formikBag,
@@ -29,9 +30,9 @@ const SortableTileForm: React.StatelessComponent<SortableListProps> = (props) =>
 
     const getSvgOrImageInputs = (svgBased: boolean) => {
         if (svgBased) {
-            return <Aux>
+            return <React.Fragment>
 
-                <Components.AssetPicker
+                <AssetPicker
                     name='imageUrl'
                     label='SVG'
                     contentData={contentData}
@@ -47,11 +48,11 @@ const SortableTileForm: React.StatelessComponent<SortableListProps> = (props) =>
                     saveStashedIncomplete={saveStashedIncomplete}
                 />
 
-            </Aux>
+            </React.Fragment>
         } else {
-            return <Aux>
+            return <React.Fragment>
 
-                <Components.AssetPicker
+                <AssetPicker
                     name='imageUrl'
                     label='Image'
                     contentData={contentData}
@@ -67,7 +68,7 @@ const SortableTileForm: React.StatelessComponent<SortableListProps> = (props) =>
                     saveStashedIncomplete={saveStashedIncomplete}
                 />
 
-            </Aux>
+            </React.Fragment>
         }
     }
 
@@ -91,7 +92,7 @@ const SortableTileForm: React.StatelessComponent<SortableListProps> = (props) =>
 
     const getHasLinkInputs = (hasLink: boolean) => {
         if (hasLink) {
-            return <Aux>
+            return <React.Fragment>
 
                 <TextBox
                     type='text'
@@ -107,14 +108,14 @@ const SortableTileForm: React.StatelessComponent<SortableListProps> = (props) =>
                     value={makeEmptyString(formikBag.values.href)}
                 />
 
-            </Aux>
+            </React.Fragment>
         }
         return null
     }
 
     const getHasLinkCheckBoxAndLinkInputs = () => {
         if (linkIsMandatory === true) {
-            return <Aux>
+            return <React.Fragment>
 
                 <TextBox
                     type='text'
@@ -130,10 +131,10 @@ const SortableTileForm: React.StatelessComponent<SortableListProps> = (props) =>
                     value={makeEmptyString(formikBag.values.href)}
                 />
 
-            </Aux>
+            </React.Fragment>
         }
 
-        return <Aux>
+        return <React.Fragment>
             <CheckBox
                 name='hasLink'
                 label='Has Link'
@@ -142,10 +143,10 @@ const SortableTileForm: React.StatelessComponent<SortableListProps> = (props) =>
             />
 
             { getHasLinkInputs(formikBag.values.hasLink) }
-        </Aux>
+        </React.Fragment>
     }
 
-    return <Aux>
+    return <React.Fragment>
 
         <TextBox
             type='text'
@@ -181,7 +182,7 @@ const SortableTileForm: React.StatelessComponent<SortableListProps> = (props) =>
             value={makeEmptyString(formikBag.values.cssClass)}
         />
 
-    </Aux>
+    </React.Fragment>
 }
 
 export default SortableTileForm
