@@ -23,6 +23,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
 
 namespace cms.arragro.com
 {
@@ -107,8 +108,30 @@ namespace cms.arragro.com
                     config.Filters.Add(new ValidateModelAttribute());
                 }).AddApplicationPart(typeof(Arragro.Dynamic.Api.Controllers.ComponentController).GetTypeInfo().Assembly)
                   .AddApplicationPart(typeof(ArragroCMS.Web.Management.ApiControllers.AccountController).GetTypeInfo().Assembly);
-                
-                return services.BuildServiceProvider();
+
+                var serviceProvider = services.BuildServiceProvider();
+                var env = serviceProvider.GetService<IHostingEnvironment>();
+
+                services.AddHsts(options =>
+                {
+                    options.Preload = true;
+                    options.IncludeSubDomains = true;
+                    options.MaxAge = TimeSpan.FromDays(60);
+                    //options.ExcludedHosts.Add("example.com");
+                    //options.ExcludedHosts.Add("www.example.com");
+                });
+
+                services.AddHttpsRedirection(options =>
+                {
+                    if (env.IsDevelopment())
+                    {
+                        options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                        options.HttpsPort = 50001;
+                    }
+                });
+
+
+                return serviceProvider;
             }
             catch (Exception ex)
             {
