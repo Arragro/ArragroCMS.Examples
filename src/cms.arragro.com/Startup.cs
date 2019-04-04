@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -23,7 +24,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using System.Reflection;
-using Microsoft.AspNetCore.Http;
 
 namespace cms.arragro.com
 {
@@ -126,10 +126,9 @@ namespace cms.arragro.com
                     if (env.IsDevelopment())
                     {
                         options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
-                        options.HttpsPort = 50001;
+                        options.HttpsPort = 5003;
                     }
                 });
-
 
                 return serviceProvider;
             }
@@ -163,6 +162,9 @@ namespace cms.arragro.com
                     builder.UseExceptionHandler("/Home/Error");
                 });
             }
+
+            app.UseHsts();
+            app.UseHttpsRedirection();
 
             app.UseDefaultFiles();
             app.UseCompressedStaticFiles();

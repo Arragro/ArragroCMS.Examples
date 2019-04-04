@@ -66,7 +66,7 @@ namespace www.arragro.com
         
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddOptions()
                 .AddLogging()
@@ -95,6 +95,29 @@ namespace www.arragro.com
             });
 
             services.AddMvc();
+
+            var serviceProvider = services.BuildServiceProvider();
+            var env = serviceProvider.GetService<IHostingEnvironment>();
+
+            services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(60);
+                //options.ExcludedHosts.Add("example.com");
+                //options.ExcludedHosts.Add("www.example.com");
+            });
+
+            services.AddHttpsRedirection(options =>
+            {
+                if (env.IsDevelopment())
+                {
+                    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                    options.HttpsPort = 5005;
+                }
+            });
+
+            return serviceProvider;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -118,6 +141,9 @@ namespace www.arragro.com
                 app.UseExceptionHandler(("/error/exception"));
                 app.UseStatusCodePagesWithReExecute("/error/{0}");
             }
+
+            app.UseHsts();
+            app.UseHttpsRedirection();
 
             app.UseDefaultFiles();
             app.UseCompressedStaticFiles();

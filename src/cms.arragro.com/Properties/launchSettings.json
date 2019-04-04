@@ -19,10 +19,11 @@
     "cms.arragro.com": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "https://localhost:5003",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:50001/"
+      "applicationUrl": "http://localhost:5002;https://localhost:5003"
     }
   }
 }
