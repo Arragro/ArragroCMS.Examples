@@ -2,11 +2,10 @@
 import { processStartClouds } from './clouds'
 
 const initialiseLandingPage = () => {
-    
     const $contactForm = $('form#contactForm')
     const $contactFormContainer = $('#contactFormContainer')
     const $sentMessage = $('#sentMessage')
-    //const $flipper = $('#contactFormContainer .flipper')
+    // const $flipper = $('#contactFormContainer .flipper')
 
     const isIE = () => {
         return false || !!(document as any).documentMode

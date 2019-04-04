@@ -9,8 +9,7 @@ import { contactYup } from '../../../utils'
 
 const SortableContacts: React.FunctionComponent<Interfaces.ISortableListProps<IContact>> = (props) => {
     const getItemHeader = (item: IContact) => {
-        if (item.name &&
-            item.name !== null &&
+        if (item.name !== null &&
             item.name.length > 0) {
             return <span>{item.name}</span>
         }

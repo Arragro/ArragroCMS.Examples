@@ -151,7 +151,7 @@ export default class TileBulletPage extends CustomContentTypeBase {
                                 items={values.tileBullets}
                                 newItem={tileBulletPageHelper.newTile()}
                                 onChange={setFieldValue}
-                                getName={(item: ITile) => item.name}
+                                getName={(item: ITile) => utils.Helpers.makeEmptyString(item.name)}
                                 maxNumberOfItems={8}
                                 linkIsMandatory={false}
                                 useMarkdown={true}

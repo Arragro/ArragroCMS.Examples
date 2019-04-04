@@ -235,7 +235,7 @@ export default class ContactPage extends CustomContentTypeBase {
                                 newItem={contactPageHelper.newContact()}
                                 rulesExceptionListContainers={contentRulesExceptionListContainers}
                                 onChange={setFieldValue}
-                                getName={(item: IContact) => item.name}
+                                getName={(item: IContact) => utils.Helpers.makeEmptyString(item.name)}
                                 maxNumberOfItems={5}
                             />
 

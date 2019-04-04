@@ -7,7 +7,7 @@ const delays = [8, 18, 10, 20, 32, 46, 49, 40, 55]
 const animatedCloudStartingLeft = [44, 2, 65, 5]
 // const animatedCloudLeft = [-68, -120, -82, -134, -68, -120, -82, -134]
 
-export function processStartClouds(startClouds, speedFactor: number = 1) {
+export function processStartClouds (startClouds, speedFactor: number = 1) {
     for (let i = 0; i < startClouds.length; i++) {
         // dynamically create a cloud element
         let cloud = startClouds[i]
@@ -27,7 +27,7 @@ export function processStartClouds(startClouds, speedFactor: number = 1) {
     }
 }
 
-export function processInfiniteClouds(infiniteClouds) {
+export function processInfiniteClouds (infiniteClouds) {
 
     // loop through creation of 10 clouds
     for (let i = 0; i < infiniteClouds.length; i++) {

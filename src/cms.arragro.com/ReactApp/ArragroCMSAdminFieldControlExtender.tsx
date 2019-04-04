@@ -29,7 +29,7 @@ export class ArragroCMSAdminFieldControlExtender extends DefaultAdminFieldContro
     }
 
     public getFieldTypeLabel (fullName: string) {
-        let label = this.getFieldTypeLabelBase(fullName) as string
+        let label = this.getFieldTypeLabelBase(fullName) as string | null
         if (label === null) {
             switch (fullName) {
             case ArragroCmsAssemblies.TagSelector:

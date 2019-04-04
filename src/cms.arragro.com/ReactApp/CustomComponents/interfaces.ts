@@ -1,5 +1,5 @@
 export interface ICarousel extends IItemType {
-    name: string
+    name: string | null
     imageUrl: string
     imageAlt: string
     hasLink: boolean
@@ -8,7 +8,7 @@ export interface ICarousel extends IItemType {
 }
 
 export interface ITile extends IItemType {
-    name: string
+    name: string | null
     svgBased: boolean
     imageUrl: string
     imageAlt: string
@@ -21,7 +21,7 @@ export interface ITile extends IItemType {
 
 export interface IContact extends IItemType {
     title: string
-    name: string
+    name: string | null
     phoneNumber: string
     email: string
     linkedIn: string
@@ -45,5 +45,5 @@ export interface ISvgIconLink {
 }
 
 export interface IItemType {
-    name: string
+    name: string | null
 }

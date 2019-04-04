@@ -13,12 +13,12 @@ import './fa-custom'
 $(document).ready(function () {
 
     $(window).scroll(function () {
-        $("body, .navbar").toggleClass("navbar-shrink", $(this).scrollTop() > 50)
+        $('body, .navbar').toggleClass('navbar-shrink', $(this).scrollTop() > 50)
     })
 
-    function initClouds() {
+    function initClouds () {
         processStartClouds($('header .infinite-clouds .start'), 1)
-        processInfiniteClouds($('header .infinite-clouds [class^="cloud-wrapper-"]'))
+        processInfiniteClouds($('header .infinite-clouds [class^=\'cloud-wrapper-\']'))
     }
 
     initClouds()

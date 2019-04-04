@@ -172,7 +172,7 @@ export default class LandingPage extends CustomContentTypeBase {
                                 items={values.startingClouds}
                                 newItem={landingPageHelper.newTile()}
                                 onChange={setFieldValue}
-                                getName={(item: ITile) => item.name}
+                                getName={(item: ITile) => utils.Helpers.makeEmptyString(item.name)}
                                 maxNumberOfItems={4}
                                 linkIsMandatory={false}
                                 useMarkdown={false}
@@ -188,7 +188,7 @@ export default class LandingPage extends CustomContentTypeBase {
                                 items={values.infiniteClouds}
                                 newItem={landingPageHelper.newTile()}
                                 onChange={setFieldValue}
-                                getName={(item: ITile) => item.name}
+                                getName={(item: ITile) => utils.Helpers.makeEmptyString(item.name)}
                                 maxNumberOfItems={8}
                                 linkIsMandatory={false}
                                 useMarkdown={false}
@@ -250,7 +250,7 @@ export default class LandingPage extends CustomContentTypeBase {
                                 items={values.whatWeveDones}
                                 newItem={landingPageHelper.newTile()}
                                 onChange={setFieldValue}
-                                getName={(item: ITile) => item.name}
+                                getName={(item: ITile) => utils.Helpers.makeEmptyString(item.name)}
                                 maxNumberOfItems={4}
                                 linkIsMandatory={true}
                                 useMarkdown={true}
@@ -266,7 +266,7 @@ export default class LandingPage extends CustomContentTypeBase {
                                 items={values.technologyClouds}
                                 newItem={landingPageHelper.newTile()}
                                 onChange={setFieldValue}
-                                getName={(item: ITile) => item.name}
+                                getName={(item: ITile) => utils.Helpers.makeEmptyString(item.name)}
                                 maxNumberOfItems={5}
                                 linkIsMandatory={false}
                                 useMarkdown={false}
