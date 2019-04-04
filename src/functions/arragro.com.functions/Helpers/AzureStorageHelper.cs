@@ -1,4 +1,4 @@
-﻿using arragro.com.ContentTypes.Models;
+﻿using arragro_com_functions;
 using Microsoft.WindowsAzure.Storage;
 using Newtonsoft.Json;
 using System;

@@ -1,4 +1,4 @@
-﻿using arragro.com.ContentTypes.Models;
+﻿using arragro_com_functions;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
