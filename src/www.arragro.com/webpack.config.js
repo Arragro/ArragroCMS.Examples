@@ -14,10 +14,10 @@ const { dependencies } = require('./package.json');
 rimraf.sync(path.join(__dirname, 'wwwroot', 'dist'));
 
 module.exports = (env, argv) => {
-    const mode = argv.mode;
+    const mode = argv === undefined ? undefined : argv.mode;
     const devMode = mode === null || mode === undefined || mode === 'development';
     console.log(devMode)
-    
+
     var purifyPaths = glob.sync([
         path.join(__dirname, './Views/**/*.cshtml'),
         path.join(__dirname, './app/**/*.tsx'),

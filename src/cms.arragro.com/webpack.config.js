@@ -38,7 +38,7 @@ const ignoreNotFoundExportPlugin = new TSIgnoreNotFoundExportPlugin([
 rimraf.sync(path.join(__dirname, 'wwwroot', 'dist'));
 
 module.exports = (env, argv) => {
-    const mode = argv.mode;
+    const mode = argv === undefined ? undefined : argv.mode;
     const devMode = mode === null || mode === undefined || mode === 'development';
     console.log(devMode)
     // const purifyPaths = glob.sync([
