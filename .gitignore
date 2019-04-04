@@ -285,6 +285,10 @@ __pycache__/
 *.xsd.cs
 
 **/App_Data
+**/cms.arragro.com/dist
+**/www.arragro.com/dist
 **/wwwroot/dist
 **/functions/*/local.settings.json
 .awcache
+
+**/src/deploy-webapps.bat
