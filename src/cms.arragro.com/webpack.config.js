@@ -5,12 +5,42 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const MinifyPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
+const TSIgnoreNotFoundExportPlugin = require('ignore-not-found-export-plugin');
+const rimraf = require('rimraf');
 const sharedConfig = require('./webpack.shared.config');
 
-module.exports = (env) => {
-    const devMode = env === null || env['run-prod'] === undefined || env['run-prod'] === null || env['run-prod'] === false;
+const ignoreNotFoundExportPlugin = new TSIgnoreNotFoundExportPlugin([
+    'AccountAction',
+    'AssetAction',
+    'ComponentAction',
+    'ContentAction',
+    'ContentIndexAction',
+    'FieldControlAction',
+    'NavigationAction',
+    'OptionAction',
+    'SiteAction',
+    'TagAction',
+    'TemplateAction',
+    'UserAction',
+    'UsersAction',
+    'ImportExportAction',
+    'RulesExceptionDto',
+    'IAdminFieldControlExtender',
+    'IRenderFieldControlExtender',
+    'IAdminFieldControlExtender',
+    'IGenericListProps',
+    'StoreState'
+]);
+
+rimraf.sync(path.join(__dirname, 'wwwroot', 'dist'));
+
+module.exports = (env, argv) => {
+    const mode = argv.mode;
+    const devMode = mode === null || mode === undefined || mode === 'development';
+    console.log(devMode)
     // const purifyPaths = glob.sync([
     //     path.join(__dirname, './**/*.cshtml'),
     //     path.join(__dirname, './**/*.tsx'),
@@ -34,13 +64,12 @@ module.exports = (env) => {
             rules: [
                 {
                     test: /\.ts(x?)$/,
-                    include: /ReactApp/,
+                    include: __dirname,
                     exclude: [
-                        /node_modules/,
                         /obj/
                     ],
                     loader: 'babel-loader',
-                    options: devMode ? {
+                    options: {
                         cacheDirectory: true,
                         babelrc: false,
                         presets: [
@@ -58,33 +87,12 @@ module.exports = (env) => {
                         plugins: [
                             // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
                             // ['@babel/plugin-proposal-decorators', { legacy: true }],
+                            ["@babel/plugin-transform-runtime", { "regenerator": true }],
                             ['@babel/plugin-proposal-class-properties', { loose: true }],
                             'react-hot-loader/babel',
+                            'syntax-dynamic-import',
                         ],
-                    } : {
-                            cacheDirectory: true,
-                            babelrc: false,
-                            presets: [
-                                [
-                                    '@babel/preset-env',
-                                    {
-                                        targets: {
-                                            browsers: 'last 2 versions'
-                                        },
-                                        modules: false
-                                    }, // or whatever your project requires
-
-                                ],
-                                '@babel/preset-typescript',
-                                '@babel/preset-react',
-                            ],
-                            plugins: [
-                                // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
-                                // ['@babel/plugin-proposal-decorators', { legacy: true }],
-                                ['@babel/plugin-proposal-class-properties', { loose: true }],
-                                '@babel/plugin-transform-runtime'
-                            ]
-                        }
+                    }
                 }
             ].concat(sharedConfig.commonRules)
         },
@@ -93,12 +101,21 @@ module.exports = (env) => {
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
-            filename: '[name].js',
-            chunkFilename: '[name].js',
+            filename: '[name].[hash].js',
+            chunkFilename: '[name].[hash].js',
             publicPath: '/dist/'
         },
         optimization: devMode ? {} : {
-            minimizer: [new MinifyPlugin()],
+            minimizer: [
+                new TerserPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true, // Must be set to true if using source-maps in production
+                terserOptions: {
+                    // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+                }
+                }),
+            ],
             namedModules: false,
             namedChunks: false,
             nodeEnv: 'production',
@@ -113,21 +130,24 @@ module.exports = (env) => {
         },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: "main.css"
+                filename: "main.[hash].css"
             }),
             require('autoprefixer'),
             new webpack.optimize.OccurrenceOrderPlugin(),
             new ForkTsCheckerWebpackPlugin({
-                tslint: false, useTypescriptIncrementalApi: true
+                tslint: true, useTypescriptIncrementalApi: true
             }),
+            ignoreNotFoundExportPlugin,
+            new AsyncChunkNames(),
             // new ForkTsCheckerNotifierWebpackPlugin({ title: 'TypeScript', excludeWarnings: false })
         ].concat(
             devMode ? [
             ] : [
                     new LodashModuleReplacementPlugin(),
+                    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
                     new CompressionPlugin({
                         algorithm: "gzip",
-                        test: /\.js$|\.css$|\.svg$/,
+                        test: /\.js$|\.svg$/,
                         threshold: 10240,
                         minRatio: 0.8
                     }),

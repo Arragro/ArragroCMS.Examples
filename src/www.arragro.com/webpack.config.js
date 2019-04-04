@@ -1,16 +1,23 @@
 ﻿const path = require('path');
 const glob = require('glob-all');
 const webpack = require('webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
-const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
+const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const PurifyCSSPlugin = require('purifycss-webpack');
+const rimraf = require('rimraf');
 const { dependencies } = require('./package.json');
 
-module.exports = (env) => {
-    const devMode = env === null || env['run-prod'] === undefined || env['run-prod'] === null || env['run-prod'] === false;
+rimraf.sync(path.join(__dirname, 'wwwroot', 'dist'));
 
+module.exports = (env, argv) => {
+    const mode = argv.mode;
+    const devMode = mode === null || mode === undefined || mode === 'development';
+    console.log(devMode)
+    
     var purifyPaths = glob.sync([
         path.join(__dirname, './Views/**/*.cshtml'),
         path.join(__dirname, './app/**/*.tsx'),
@@ -27,10 +34,7 @@ module.exports = (env) => {
         mode: devMode ? 'development' : 'production',
         devtool: 'source-map',
         resolve: {
-            extensions: ['.js', '.jsx', '.ts', '.tsx'],
-            plugins: [
-                new TsConfigPathsPlugin(/* { tsconfig, compiler } */)
-            ]
+            extensions: ['.js', '.jsx', '.ts', '.tsx']
         },
         module: {
             rules: [
@@ -40,10 +44,27 @@ module.exports = (env) => {
                         /node_modules/,
                         /obj/
                     ],
-                    loader: 'awesome-typescript-loader',
-                    query: {
-                        useBabel: true,
-                        useCache: devMode
+                    loader: 'babel-loader',
+                    options: {
+                        cacheDirectory: true,
+                        babelrc: false,
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                {
+                                    targets: {
+                                        browsers: 'last 2 versions'
+                                    }
+                                }, // or whatever your project requires
+                            ],
+                            '@babel/preset-typescript'
+                        ],
+                        plugins: [
+                            // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
+                            // ['@babel/plugin-proposal-decorators', { legacy: true }],
+                            ["@babel/plugin-transform-runtime", { "regenerator": true }],
+                            ['@babel/plugin-proposal-class-properties', { loose: true }]
+                        ],
                     }
                 },
                 {
@@ -77,8 +98,8 @@ module.exports = (env) => {
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
-            filename: '[name].js',
-            chunkFilename: '[name].js',
+            filename: '[name].[hash].js',
+            chunkFilename: '[name].[hash].js',
             publicPath: '/dist/'
         },
         optimization: {
@@ -102,8 +123,8 @@ module.exports = (env) => {
             new MiniCssExtractPlugin({
                 // Options similar to the same options in webpackOptions.output
                 // both options are optional
-                filename: "main.css",
-                chunkFilename: "vendor.css"
+                filename: "main.[hash].css",
+                chunkFilename: "vendor.[hash].css"
             }),
             new PurifyCSSPlugin({
                 // Give paths to parse for rules. These should be absolute!
@@ -137,7 +158,11 @@ module.exports = (env) => {
                     ]
                 }
             }),
-            require('autoprefixer')
+            require('autoprefixer'),
+            new webpack.optimize.OccurrenceOrderPlugin(),
+            new ForkTsCheckerWebpackPlugin({
+                tslint: true, useTypescriptIncrementalApi: true
+            }),
         ].concat(
             devMode ? [
             ] : [

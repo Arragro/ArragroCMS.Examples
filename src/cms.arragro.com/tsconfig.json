@@ -4,7 +4,7 @@
       "sourceMap": true,
       "target": "es5",
       "jsx": "react",
-      "module": "es6",
+      "module": "esnext",
       "moduleResolution": "node",
       "experimentalDecorators": true,
       "declaration": false,
@@ -16,5 +16,5 @@
       "outDir": "./dist/",
       "lib": ["es6", "es7", "dom"]
   },
-  "exclude": ["dist", "build", "node_modules"]
+  "exclude": ["dist", "build"]
 }
