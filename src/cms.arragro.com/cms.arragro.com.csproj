@@ -7,6 +7,7 @@
     <ApplicationInsightsResourceId>/subscriptions/b14fc132-f785-4cd4-bb68-dc54a289e92f/resourcegroups/arragro-web/providers/microsoft.insights/components/arragro-cms</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/b14fc132-f785-4cd4-bb68-dc54a289e92f/resourcegroups/arragro-web/providers/microsoft.insights/components/arragro-cms</ApplicationInsightsAnnotationResourceId>
     <DockerTargetOS>Linux</DockerTargetOS>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>

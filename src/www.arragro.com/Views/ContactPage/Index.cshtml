@@ -83,7 +83,7 @@
 
 @if  (Model.HasContactForm)
 {
-    @Html.Partial("ContactForm", new ContactForm())
+    <partial name="../Shared/ContactForm.cshtml" model="new ContactForm()" />
 }
 
 </div>

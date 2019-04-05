@@ -96,11 +96,11 @@
     </div>
 }
 
-@Html.Partial("TechnologyClouds", Model)
+<partial name="TechnologyClouds.cshtml" model="Model" />
 
 @if (Model.HasContactForm)
 {
-    @Html.Partial("ContactForm", new ContactForm())
+    <partial name="../Shared/ContactForm.cshtml" model="new ContactForm()" />
 }
 
 @section scripts {
