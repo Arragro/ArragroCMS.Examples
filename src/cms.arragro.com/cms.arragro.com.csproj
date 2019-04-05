@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <UserSecretsId>d731134e-f4f4-40ed-af50-3322d25e585d</UserSecretsId>
     <ApplicationInsightsResourceId>/subscriptions/b14fc132-f785-4cd4-bb68-dc54a289e92f/resourcegroups/arragro-web/providers/microsoft.insights/components/arragro-cms</ApplicationInsightsResourceId>
@@ -11,9 +11,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="App_Data\Logs\log-20190221.txt" />
-  </ItemGroup>
   <ItemGroup>
     <!-- Arragro.Dynamic is included for the assembly lookup of FieldControls, all defaults live here -->
     <PackageReference Include="Arragro.Dynamic" Version="1.0.0-alpha-092" />
