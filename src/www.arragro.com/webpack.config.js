@@ -16,7 +16,7 @@ rimraf.sync(path.join(__dirname, 'wwwroot', 'dist'));
 module.exports = (env, argv) => {
     const mode = argv === undefined ? undefined : argv.mode;
     const devMode = mode === null || mode === undefined || mode === 'development';
-    console.log(devMode)
+    console.log(devMode);
 
     var purifyPaths = glob.sync([
         path.join(__dirname, './Views/**/*.cshtml'),
@@ -98,8 +98,8 @@ module.exports = (env, argv) => {
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
-            filename: '[name].[hash].js',
-            chunkFilename: '[name].[hash].js',
+            filename: '[name].js',
+            chunkFilename: '[name].js',
             publicPath: '/dist/'
         },
         optimization: {
@@ -121,18 +121,15 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new MiniCssExtractPlugin({
-                // Options similar to the same options in webpackOptions.output
-                // both options are optional
-                filename: "main.[hash].css",
-                chunkFilename: "vendor.[hash].css"
+                filename: "[name].css"
             }),
             new PurifyCSSPlugin({
                 // Give paths to parse for rules. These should be absolute!
                 paths: purifyPaths,
                 purifyOptions: {
-                    info: devMode,
+                    info: true,
                     minify: false,
-                    rejected: devMode,
+                    rejected: true,
                     whitelist: [
                         '*carousel-*',
                         '*background-wrap',
@@ -167,10 +164,8 @@ module.exports = (env, argv) => {
             devMode ? [
             ] : [
                 new CompressionPlugin({
-                    asset: "[path].gz[query]",
-                    //include: /\/wwwroot/,
                     algorithm: "gzip",
-                    test: /\.js$|\.css$|\.svg$/,
+                    test: /\.js$|\.svg$/,
                     threshold: 10240,
                     minRatio: 0.8
                 })

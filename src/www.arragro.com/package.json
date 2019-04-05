@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "Web front end for presenting the ArragroCMS content",
   "main": "index.js",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
   "private": true,
   "scripts": {
     "build-dev": "cross-env NODE_OPTIONS=--max_old_space_size=2048 webpack --progress --profile --log-level trace --reporter stylish",
-    "build-prod": "cross-env NODE_OPTIONS=--max_old_space_size=2048 webpack --run-prod --progress --profile --log-level trace --reporter stylish",
+    "build-prod": "cross-env NODE_OPTIONS=--max_old_space_size=2048 webpack --mode production --progress --profile --log-level trace --reporter stylish",
     "run-app": "npm install && npm run build-prod && dotnet run -c Release",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
