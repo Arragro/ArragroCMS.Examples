@@ -82,7 +82,7 @@
     website: arragro-cms
     username: $arragro-cms
     password:
-      secure: zlaTVNSRLXI9jdRZR8QubthCB/pvLGfWEBc1vigPDKjD8LRUVWcKe4QDk50nqvPg5piV5mrjzyQyhYOJjLW71g==
+      secure: /X5iH4t6Bv1VDZnllWOfU7E5Nli4dI5rEngYxk4dLTi12NDbdgUV6n0hM8BorgAelaKqgHPGooR/GrhCFwS0dw==
     artifact: cms.arragro.com
     async_deploy: true
     retry_attempts: 10
@@ -92,7 +92,7 @@
     website: arragro
     username: $arragro
     password:
-      secure: R6gZ3cN3ljXg5jmPQ5Z/3pgkwBN2q2xfFHRN2FzBMqOKx6F6AlDNUvZJpSS0uJbWrYqyTh9rbouOTehj4jLV0g==
+      secure: A8M2pVLiXFdCwAO52vlYtsNneJr8TV6EEm3O0HJcCC/ghxw03SPmjqrDOJDmOf26aXJOcaHM9BJhEJJzdkbLsA==
     artifact: cms.arragro.com
     async_deploy: true
     retry_attempts: 10
