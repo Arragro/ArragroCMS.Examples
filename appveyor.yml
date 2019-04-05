@@ -31,6 +31,7 @@
   - npm install npm@latest -g
   - npm install typings -g
   - npm install cross-env -g
+  - npm config set @arragro:registry https://registry.arragro.com/repository/npm-hosted/
   # install modules
   - cmd: >- 
       cd src\cms.arragro.com
@@ -48,10 +49,10 @@
 
       $Env:NODE_ENV
 
-      appveyor-retry dotnet restore -v Minimal;
+      appveyor-retry dotnet restore -v Minimal -s https://registry.arragro.com/repository/nuget-hosted/ -s https://api.nuget.org/v3/index.json;
   - cmd: >-
       cd src\cms.arragro.com
-
+      
       npm run build-prod
 
       cd ..\www.arragro.com
