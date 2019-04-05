@@ -77,60 +77,61 @@
   - path: publish\arragro.com.functions
     name: arragro.com.functions
 
-  # deploy:
-  # - provider: AzureAppServiceZipDeploy
-  #   website: arragro-cms
-  #   username: $arragro-cms
-  #   password:
-  #     secure: /X5iH4t6Bv1VDZnllWOfU7E5Nli4dI5rEngYxk4dLTi12NDbdgUV6n0hM8BorgAelaKqgHPGooR/GrhCFwS0dw==
-  #   artifact: cms.arragro.com
-  #   async_deploy: true
-  #   retry_attempts: 10
-  #   retry_interval: 2000
-  
-  # - provider: AzureAppServiceZipDeploy
-  #   website: arragro
-  #   username: $arragro
-  #   password:
-  #     secure: A8M2pVLiXFdCwAO52vlYtsNneJr8TV6EEm3O0HJcCC/ghxw03SPmjqrDOJDmOf26aXJOcaHM9BJhEJJzdkbLsA==
-  #   artifact: cms.arragro.com
-  #   async_deploy: true
-  #   retry_attempts: 10
-  #   retry_interval: 2000
-
   deploy:
-  - provider: WebDeploy
-    server: https://arragro-cms.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-cms
+  - provider: AzureAppServiceZipDeploy
     website: arragro-cms
-    remove_files: true
-    # ntlm: true
     username: $arragro-cms
     password:
       secure: /X5iH4t6Bv1VDZnllWOfU7E5Nli4dI5rEngYxk4dLTi12NDbdgUV6n0hM8BorgAelaKqgHPGooR/GrhCFwS0dw==
     artifact: cms.arragro.com
-    do_not_use_checksum: true
-    app_offline: true
-    aspnet_core: true
-    sync_retry_attempts: 10
-    sync_retry_interval: 2000
-    aspnet_core_force_restart: true
-    skip_dirs: \\App_Data
-  - provider: WebDeploy
-    server: https://arragro.scm.azurewebsites.net:443/msdeploy.axd?site=arragro
+    async_deploy: true
+    retry_attempts: 10
+    retry_interval: 2000
+  
+  - provider: AzureAppServiceZipDeploy
     website: arragro
-    remove_files: true
-    # ntlm: true
     username: $arragro
     password:
       secure: A8M2pVLiXFdCwAO52vlYtsNneJr8TV6EEm3O0HJcCC/ghxw03SPmjqrDOJDmOf26aXJOcaHM9BJhEJJzdkbLsA==
     artifact: www.arragro.com
-    do_not_use_checksum: true
-    app_offline: true
-    aspnet_core: true
-    sync_retry_attempts: 10
-    sync_retry_interval: 2000
-    aspnet_core_force_restart: true
-    skip_dirs: \\App_Data
+    async_deploy: true
+    retry_attempts: 10
+    retry_interval: 2000
+
+  # deploy:
+  # - provider: WebDeploy
+  #   server: https://arragro-cms.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-cms
+  #   website: arragro-cms
+  #   remove_files: true
+  #   # ntlm: true
+  #   username: $arragro-cms
+  #   password:
+  #     secure: /X5iH4t6Bv1VDZnllWOfU7E5Nli4dI5rEngYxk4dLTi12NDbdgUV6n0hM8BorgAelaKqgHPGooR/GrhCFwS0dw==
+  #   artifact: cms.arragro.com
+  #   do_not_use_checksum: true
+  #   app_offline: true
+  #   aspnet_core: true
+  #   sync_retry_attempts: 10
+  #   sync_retry_interval: 2000
+  #   aspnet_core_force_restart: true
+  #   skip_dirs: \\App_Data
+  # - provider: WebDeploy
+  #   server: https://arragro.scm.azurewebsites.net:443/msdeploy.axd?site=arragro
+  #   website: arragro
+  #   remove_files: true
+  #   # ntlm: true
+  #   username: $arragro
+  #   password:
+  #     secure: A8M2pVLiXFdCwAO52vlYtsNneJr8TV6EEm3O0HJcCC/ghxw03SPmjqrDOJDmOf26aXJOcaHM9BJhEJJzdkbLsA==
+  #   artifact: www.arragro.com
+  #   do_not_use_checksum: true
+  #   app_offline: true
+  #   aspnet_core: true
+  #   sync_retry_attempts: 10
+  #   sync_retry_interval: 2000
+  #   aspnet_core_force_restart: true
+  #   skip_dirs: \\App_Data
+
   # - provider: WebDeploy
   #   server: https://arragro-functions.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-functions
   #   website: arragro-functions
