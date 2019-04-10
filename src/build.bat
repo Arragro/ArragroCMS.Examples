@@ -1,7 +1,7 @@
 SET VERSION=v0.0.25-alpha
 docker build -f .\CMS.DockerFile -t docker.arragro.com/cms.arragro.com:%VERSION% . --no-cache
-docker build -f .\WWW.DockerFile -t docker.arragro.com/www.arragro.com:%VERSION% . --no-cache
-docker build -f .\Functions.DockerFile -t docker.arragro.com/arragro.com.functions:%VERSION% . --no-cache
+REM docker build -f .\WWW.DockerFile -t docker.arragro.com/www.arragro.com:%VERSION% . --no-cache
+REM docker build -f .\Functions.DockerFile -t docker.arragro.com/arragro.com.functions:%VERSION% . --no-cache
 
 docker tag docker.arragro.com/cms.arragro.com:%VERSION% arragro.azurecr.io/cms.arragro.com:%VERSION%
 docker tag docker.arragro.com/www.arragro.com:%VERSION% arragro.azurecr.io/www.arragro.com:%VERSION%

@@ -16,5 +16,9 @@
       "outDir": "./dist/",
       "lib": ["es6", "es7", "dom"]
   },
+  "include": [
+      "./ReactApp/boot.ts",
+      "./types"
+  ],
   "exclude": ["dist", "build"]
 }
