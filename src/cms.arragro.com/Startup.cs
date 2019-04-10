@@ -94,6 +94,7 @@ namespace cms.arragro.com
                 services.AddResponseCompression(options =>
                 {
                     options.Providers.Add<GzipCompressionProvider>();
+                    options.EnableForHttps = true;
                 });
 
                 services.AddMvc(config =>
