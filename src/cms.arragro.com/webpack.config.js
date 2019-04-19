@@ -101,8 +101,8 @@ module.exports = (env, argv) => {
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
-            filename: '[name].[hash].js',
-            chunkFilename: '[name].[hash].js',
+            filename: devMode ? '[name].js' : '[name].[hash].js',
+            chunkFilename: devMode ? '[name].js' : '[name].[hash].js',
             publicPath: '/dist/'
         },
         optimization: devMode ? {} : {
@@ -130,7 +130,7 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: "main.[hash].css"
+                filename: devMode ? "main.css" : "main.[hash].css"
             }),
             require('autoprefixer'),
             new webpack.optimize.OccurrenceOrderPlugin(),
@@ -138,7 +138,7 @@ module.exports = (env, argv) => {
                 tslint: true, useTypescriptIncrementalApi: true
             }),
             ignoreNotFoundExportPlugin,
-            new AsyncChunkNames(),
+            // new AsyncChunkNames(),
             // new ForkTsCheckerNotifierWebpackPlugin({ title: 'TypeScript', excludeWarnings: false })
         ].concat(
             devMode ? [

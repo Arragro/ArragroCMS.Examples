@@ -20,8 +20,13 @@
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
 
     <link rel="SHORTCUT ICON" href="//arragro-static-web.azureedge.net/public/images/favicon.ico" />
+    <environment names="Development">
+        <link rel="stylesheet" href="~/dist/main.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" asp-href-include="~/dist/main.*.css" />
+    </environment>
 
-    <link rel="stylesheet" asp-href-include="~/dist/main.*.css" />
     <style type="text/css">
         .full-page-loader {
             display: flex;
@@ -35,10 +40,10 @@
             bottom: 0;
         }
 
-        .full-page-loader > img {
-            margin-top: 65px;
-            animation: 1.8s infinite heartbeat;
-        }
+            .full-page-loader > img {
+                margin-top: 65px;
+                animation: 1.8s infinite heartbeat;
+            }
 
         @@keyframes heartbeat {
             0% {
@@ -71,6 +76,14 @@
         </div>
     </div>
 
-    <script type="text/javascript" asp-src-include="~/dist/main.*.js"></script>
+    <environment names="Development">
+        <script type="text/javascript" src="~/dist/main.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script type="text/javascript" asp-src-include="~/dist/main.*.js"></script>
+    </environment>
+
+    <mini-profiler position="@RenderPosition.Left" max-traces="5" />
+
 </body>
 </html>

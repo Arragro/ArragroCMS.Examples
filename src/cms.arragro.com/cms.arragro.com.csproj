@@ -15,11 +15,13 @@
   <ItemGroup>
     <!-- Arragro.Dynamic is included for the assembly lookup of FieldControls, all defaults live here -->
     <PackageReference Include="Arragro.Dynamic" Version="1.0.0-alpha-092" />
-    <PackageReference Include="ArragroCMS.Web.Management" Version="1.0.2-alpha-041" />
+    <PackageReference Include="ArragroCMS.Web.Management" Version="1.0.2-alpha-042" />
     <PackageReference Include="Magick.NET-Q8-x64" Version="7.11.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.0.165" />
+    <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.0.165" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
     <PackageReference Include="Serilog" Version="2.8.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />

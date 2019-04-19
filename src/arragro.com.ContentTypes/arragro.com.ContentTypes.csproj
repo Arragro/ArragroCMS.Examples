@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net462;net471</TargetFrameworks>
@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Arragro.Core.Common" Version="1.0.0-alpha-277" />
-    <PackageReference Include="ArragroCMS.Core.Web" Version="1.0.2-alpha-041" />
+    <PackageReference Include="ArragroCMS.Core.Web" Version="1.0.2-alpha-042" />
   </ItemGroup>
 
 </Project>
