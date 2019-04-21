@@ -7,7 +7,6 @@ const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-web
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
 const TSIgnoreNotFoundExportPlugin = require('ignore-not-found-export-plugin');
 const rimraf = require('rimraf');
 const sharedConfig = require('./webpack.shared.config');
@@ -138,7 +137,6 @@ module.exports = (env, argv) => {
                 tslint: true, useTypescriptIncrementalApi: true
             }),
             ignoreNotFoundExportPlugin,
-            // new AsyncChunkNames(),
             // new ForkTsCheckerNotifierWebpackPlugin({ title: 'TypeScript', excludeWarnings: false })
         ].concat(
             devMode ? [
