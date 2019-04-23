@@ -60,7 +60,7 @@ services:
       start_period: 20s
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v0.0.29-alpha
+    image: docker.arragro.com/cms.arragro.com:v0.0.30-alpha
     # logging:
     #   driver: none
     # ports:
@@ -100,7 +100,7 @@ services:
     scale: 2
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v0.0.29-alpha
+    image: docker.arragro.com/www.arragro.com:v0.0.30-alpha
     depends_on:
       - cms_arragro_com
     # logging:
