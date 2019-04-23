@@ -1,4 +1,4 @@
-SET VERSION=v0.0.28-alpha
+SET VERSION=v0.0.29-alpha
 docker build -f .\CMS.DockerFile -t docker.arragro.com/cms.arragro.com:%VERSION% . --no-cache
 docker build -f .\WWW.DockerFile -t docker.arragro.com/www.arragro.com:%VERSION% . --no-cache
 docker build -f .\Functions.DockerFile -t docker.arragro.com/arragro.com.functions:%VERSION% . --no-cache
