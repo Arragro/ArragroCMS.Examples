@@ -65,8 +65,8 @@
   - dotnet build "src\www.arragro.com" -c %CONFIGURATION%
   # - dotnet build "src\functions\arragro.com.functions" -c %CONFIGURATION%
   after_build:
-  - dotnet publish .\src\cms.arragro.com --output %appveyor_build_folder%\publish\cms.aragro.com --configuration %CONFIGURATION% --self-contained -r win-x64
-  - dotnet publish .\src\www.arragro.com --output %appveyor_build_folder%\publish\www.arragro.com --configuration %CONFIGURATION% --self-contained -r win-x64
+  - dotnet publish .\src\cms.arragro.com --output %appveyor_build_folder%\publish\cms.aragro.com --configuration %CONFIGURATION%
+  - dotnet publish .\src\www.arragro.com --output %appveyor_build_folder%\publish\www.arragro.com --configuration %CONFIGURATION%
   # - dotnet publish .\src\functions\arragro.com.functions --output %appveyor_build_folder%\publish\arragro.com.functions --configuration %CONFIGURATION% --self-contained -r win-x64
   test: off
   artifacts:
