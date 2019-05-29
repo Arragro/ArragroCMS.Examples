@@ -1,5 +1,4 @@
-﻿using Arragro.Core.Common.Interfaces.Providers;
-using Arragro.Core.Common.Models;
+﻿using Arragro.Core.Common.Models;
 using ArragroCMS.Core.Models;
 using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
@@ -7,7 +6,6 @@ using ArragroCMS.Web.Management.Middleware;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +19,6 @@ using Serilog;
 using System;
 using System.Globalization;
 using System.IO.Compression;
-using System.Linq;
-using System.Threading;
 using System.Reflection;
 
 namespace cms.arragro.com
@@ -36,11 +32,6 @@ namespace cms.arragro.com
         
         public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            Log.Logger = new LoggerConfiguration()
-              .Enrich.FromLogContext()
-              .WriteTo.LiterateConsole()
-              .WriteTo.RollingFile("App_Data\\Logs\\log-{Date}.txt", fileSizeLimitBytes: 536870912, retainedFileCountLimit: 7)
-              .CreateLogger();
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -58,11 +49,10 @@ namespace cms.arragro.com
             ConfigurationSettings = Configuration.Get<ConfigurationSettings>();
 
             _loggerFactory = loggerFactory;
-            _loggerFactory.AddSerilog();
 
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
         public ConfigurationSettings ConfigurationSettings { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -74,6 +64,7 @@ namespace cms.arragro.com
                 logger.LogInformation("Starting the configuration of the ArragroCmsServices");
 
                 services.AddDefaultArragroCmsServices(
+                    Configuration,
                     ConfigurationSettings, 
                     new CultureInfo("en"), 
                     new CultureInfo[] { new CultureInfo("en-nz") }, 
@@ -85,6 +76,7 @@ namespace cms.arragro.com
                 // services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
                 // services.AddSingleton<IImageProvider>(s => new Arragro.Providers.ImageServiceProvider.ImageProvider(Configuration["ApplicationSettings:ImageServiceUrl"], 40000));
                 services.AddSingleton<BaseSettings>(ConfigurationSettings);
+                services.AddLogging(configure => configure.AddSerilog());
 
                 logger.LogInformation("Finished configuring of the ArragroCmsServices");
 
@@ -108,7 +100,7 @@ namespace cms.arragro.com
                     config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     config.Filters.Add(new ValidateModelAttribute());
                 }).AddApplicationPart(typeof(Arragro.Dynamic.Api.Controllers.ComponentController).GetTypeInfo().Assembly)
-                  .AddApplicationPart(typeof(ArragroCMS.Web.Management.ApiControllers.AccountController).GetTypeInfo().Assembly);
+                  .AddApplicationPart(typeof(ArragroCMS.Web.Management.Controllers.AccountController).GetTypeInfo().Assembly);
 
                 var serviceProvider = services.BuildServiceProvider();
                 var env = serviceProvider.GetService<IHostingEnvironment>();
@@ -141,11 +133,8 @@ namespace cms.arragro.com
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime, IAntiforgery antiforgery)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env, IAntiforgery antiforgery)
         {
-            loggerFactory.AddSerilog();
-            appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
-
             if (env.IsDevelopment())
             {
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
