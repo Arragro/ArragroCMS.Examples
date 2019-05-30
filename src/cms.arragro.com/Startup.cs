@@ -4,6 +4,7 @@ using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
 using ArragroCMS.Web.Management.Middleware;
 using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,10 +16,13 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System;
 using System.Globalization;
+using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Reflection;
 
 namespace cms.arragro.com
