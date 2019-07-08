@@ -25,6 +25,7 @@ RUN dotnet publish cms.arragro.com/*.csproj -c Release -o out
 # build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 WORKDIR /app
+
 COPY --from=build-env /app/cms.arragro.com/out ./
 COPY --from=build-env /app/cms.arragro.com/Resources/test-cert.pfx ./Resources/test-cert.pfx
 EXPOSE 5000/tcp

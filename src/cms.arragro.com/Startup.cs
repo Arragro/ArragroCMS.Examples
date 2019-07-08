@@ -36,6 +36,11 @@ namespace cms.arragro.com
         
         public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            Log.Logger = new LoggerConfiguration()
+              .Enrich.FromLogContext()
+              .WriteTo.LiterateConsole()
+              .WriteTo.RollingFile("App_Data/Logs/log-{Date}.txt", fileSizeLimitBytes: 536870912, retainedFileCountLimit: 7)
+              .CreateLogger();
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -52,12 +57,15 @@ namespace cms.arragro.com
 
             ConfigurationSettings = Configuration.Get<ConfigurationSettings>();
 
+            Environment = env;
+
             _loggerFactory = loggerFactory;
 
         }
 
         public IConfiguration Configuration { get; }
         public ConfigurationSettings ConfigurationSettings { get; }
+        public IHostingEnvironment Environment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -69,6 +77,7 @@ namespace cms.arragro.com
 
                 services.AddDefaultArragroCmsServices(
                     Configuration,
+                    Environment,
                     ConfigurationSettings, 
                     new CultureInfo("en"), 
                     new CultureInfo[] { new CultureInfo("en-nz") }, 
@@ -166,7 +175,7 @@ namespace cms.arragro.com
 
             app.UseAuthentication();
 
-            app.UseArragroCMS(serviceProvider, antiforgery);
+            app.UseArragroCMS(antiforgery);
 
             app.UseResponseCompression();
 
