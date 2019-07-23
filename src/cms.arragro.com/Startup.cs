@@ -1,4 +1,5 @@
 ﻿using Arragro.Core.Common.Models;
+using Arragro.Core.Web.ApplicationModels;
 using ArragroCMS.Core.Models;
 using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
