@@ -32,11 +32,11 @@
   "homepage": "https://github.com/Arragro/ArragroCMS.Examples#readme",
   "dependencies": {
     "bootstrap": "^4.3.1",
-    "popper.js": "^1.15.0",
-    "jquery": "^3.3.1",
+    "gsap": "^2.1.2",
+    "jquery": "^3.4.1",
     "jquery-validation": "^1.19.0",
     "jquery-validation-unobtrusive": "^3.2.11",
-    "gsap": "^2.1.2"
+    "popper.js": "^1.15.0"
   },
   "browserslist ": [
     "last 2 versions"
@@ -84,7 +84,7 @@
     "typescript": "3.3.3333",
     "uglifyjs-webpack-plugin": "^2.1.2",
     "webpack": "^4.29.6",
-    "webpack-bundle-analyzer": "^3.1.0",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.0",
     "webpack-dev-middleware": "^3.6.2",
     "webpack-externals-plugin": "^1.0.0",
