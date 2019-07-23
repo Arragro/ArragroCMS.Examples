@@ -112,6 +112,13 @@ namespace cms.arragro.com
 
                     config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     config.Filters.Add(new ValidateModelAttribute());
+
+                    var removals = new List<Type>
+                    {
+                        typeof(Arragro.Dynamic.Api.Controllers.TemplateController)
+                    };
+
+                    config.Conventions.Add(new RoutingControllerOverrideConvention(removals));
                 }).AddApplicationPart(typeof(Arragro.Dynamic.Api.Controllers.ComponentController).GetTypeInfo().Assembly)
                   .AddApplicationPart(typeof(ArragroCMS.Web.Management.Controllers.AccountController).GetTypeInfo().Assembly);
 
