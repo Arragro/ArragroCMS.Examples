@@ -15,60 +15,60 @@ services:
       DNS_ENABLED: "true"
       LOG_LEVEL: "info"
 
-  # haproxy_cms:
-  #   restart: always
-  #   image: eeacms/haproxy:1.8-1.3
-  #   depends_on:
-  #   - cms_arragro_com
-  #   ports:
-  #   - "3001:5000"
-  #   - "1937:1936"
-  #   networks:
-  #     - cms-net
-  #   environment:
-  #     BACKENDS: "cms_arragro_com:5000"
-  #     DNS_ENABLED: "true"
-  #     LOG_LEVEL: "info"
-  #     HTTPCHK: GET /web-info/799c809f-9ca4-47ca-a9b1-3bce5c5215cf
-  #     INTER: 30s
-  #     DOWN_INTER: 2s
-  #   healthcheck:
-  #     test: ["CMD", "curl", "-f", "https://cms_arragro_com:5000/web-info/799c809f-9ca4-47ca-a9b1-3bce5c5215cf"]
-  #     interval: 20s
-  #     timeout: 10s
-  #     retries: 3
-  #     start_period: 20s
+  haproxy_cms:
+    restart: always
+    image: eeacms/haproxy:1.8-1.3
+    depends_on:
+    - cms_arragro_com
+    ports:
+    - "3001:5000"
+    - "1937:1936"
+    networks:
+      - cms-net
+    environment:
+      BACKENDS: "cms_arragro_com:5000"
+      DNS_ENABLED: "true"
+      LOG_LEVEL: "info"
+      HTTPCHK: GET /web-info/799c809f-9ca4-47ca-a9b1-3bce5c5215cf
+      INTER: 30s
+      DOWN_INTER: 2s
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://cms_arragro_com:5000/web-info/799c809f-9ca4-47ca-a9b1-3bce5c5215cf"]
+      interval: 20s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
-  # haproxy_www:
-  #   restart: always
-  #   image: eeacms/haproxy:1.8-1.3
-  #   depends_on:
-  #   - www_arragro_com
-  #   networks:
-  #     - cms-net
-  #   ports:
-  #   - "3002:5000"
-  #   - "1938:1936"
-  #   environment:
-  #     BACKENDS: "www_arragro_com:5001"
-  #     DNS_ENABLED: "true"
-  #     LOG_LEVEL: "info"
-  #     HTTPCHK: GET /web-info/60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
-  #     INTER: 30s
-  #     DOWN_INTER: 2s
-  #   healthcheck:
-  #     test: ["CMD", "curl", "-f", "https://www_arragro_com:5000/web-info/60aa42a9-6a6d-49ef-92c3-6c35ec124f0c"]
-  #     interval: 20s
-  #     timeout: 10s
-  #     retries: 3
-  #     start_period: 20s
+  haproxy_www:
+    restart: always
+    image: eeacms/haproxy:1.8-1.3
+    depends_on:
+    - www_arragro_com
+    networks:
+      - cms-net
+    ports:
+    - "3002:5000"
+    - "1938:1936"
+    environment:
+      BACKENDS: "www_arragro_com:5001"
+      DNS_ENABLED: "true"
+      LOG_LEVEL: "info"
+      HTTPCHK: GET /web-info/60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
+      INTER: 30s
+      DOWN_INTER: 2s
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://www_arragro_com:5000/web-info/60aa42a9-6a6d-49ef-92c3-6c35ec124f0c"]
+      interval: 20s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v0.0.46-alpha
+    image: docker.arragro.com/cms.arragro.com:v0.0.49-alpha
     # logging:
     #   driver: none
-    ports:
-    - 3001:5000
+    # ports:
+    # - 3001:5000
     depends_on:
       - image_service
       - postgres
@@ -109,13 +109,13 @@ services:
     scale: 1
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v0.0.46-alpha
+    image: docker.arragro.com/www.arragro.com:v0.0.49-alpha
     depends_on:
       - cms_arragro_com
     # logging:
     #   driver: none
-    ports:
-    - 3002:5001
+    # ports:
+    # - 3002:5001
     restart: always
     networks:
       - cms-net
