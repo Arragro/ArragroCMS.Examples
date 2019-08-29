@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Arragro.Core.Common" Version="1.0.0-alpha-343" />
-    <PackageReference Include="ArragroCMS.Core.Web" Version="1.0.2-alpha-118" />
+    <PackageReference Include="ArragroCMS.Core.Web" Version="1.0.2-alpha-119" />
   </ItemGroup>
 
 </Project>

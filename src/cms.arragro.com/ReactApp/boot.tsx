@@ -6,7 +6,6 @@ import * as ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 import { ConnectedRouter } from 'connected-react-router'
-import { createGenerateClassName, jssPreset } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
@@ -34,9 +33,6 @@ const render = async () => {
     ComponentExtentionTypes.extendContentTypeMap()
     ComponentExtentionTypes.extendConfigurationTypeMap()
 
-    const generateClassName = createGenerateClassName()
-    const jss = create(jssPreset())
-
     const theme = createMuiTheme({
         palette: {
             primary: { main: '#f5f5f5' },
@@ -54,16 +50,14 @@ const render = async () => {
     ReactDOM.render(
         <Provider store={store}>
             <FieldContextProvider value={{ adminFieldControlExtender: new ArragroCMSAdminFieldControlExtender(), renderFieldControlExtender: new DefaultRenderFieldControlExtender() }}>
-                <IntlProvider>
+                <IntlProvider locale='en'>
                     <ConnectedRouter history={utils.History}>
-                        <JssProvider jss={jss} generateClassName={generateClassName}>
-                            <React.Fragment>
-                                <CssBaseline />
-                                <MuiThemeProvider theme={theme}>
-                                    <App />
-                                </MuiThemeProvider>
-                            </React.Fragment>
-                        </JssProvider>
+                        <React.Fragment>
+                            <CssBaseline />
+                            <MuiThemeProvider theme={theme}>
+                                <App />
+                            </MuiThemeProvider>
+                        </React.Fragment>
                     </ConnectedRouter>
                 </IntlProvider>
             </FieldContextProvider>
