@@ -46,7 +46,7 @@ namespace www.arragro.com.TagHelpers
             foreach (var sitemap in sitemapContainer.Contents)
             {
                 var className = "nav-link";
-                var sitemapPath = $"/{sitemap.Controller}/{sitemap.Action}/{sitemap.SiteId}/{sitemap.Id}/{sitemap.Status}".ToLower();
+                var sitemapPath = $"/{sitemap.Controller}/{sitemap.Action}/{sitemap.SiteId}/{sitemap.UrlRouteId}/{sitemap.Status}".ToLower();
                 if (Request.Path.ToString().ToLower() == sitemapPath)
                     className += " active";
                 output.Append($"<li class=\"nav-item\"><a href=\"/{sitemap.Url}{(draft ? "/draft" : "")}\" class=\"{className}\">{sitemap.Name}</a></li>");
