@@ -84,8 +84,7 @@ namespace cms.arragro.com
                     new CultureInfo("en"), 
                     new CultureInfo[] { new CultureInfo("en-nz") }, 
                     new TimeSpan(2, 0, 0),
-                    true,
-                    "Arragro.Dynamic.Api", "Arragro.Dynamic", "ArragroCMS.Web.Management");
+                    true);
 
                 // Replace Image Provider with ImageServiceProvider
                 // services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
