@@ -18,10 +18,15 @@ namespace www.arragro.com.Controllers
     {
         private readonly ILogger<ContactController> _log;
         private readonly ConfigurationSettings _configurationSettings;
+        private readonly GoogleRecaptchaClient _googleRecaptchaClient;
 
-        public ContactController(ILogger<ContactController> log, ConfigurationSettings configurationSettings)
+        public ContactController(
+            ILogger<ContactController> log,
+            ConfigurationSettings configurationSettings,
+            GoogleRecaptchaClient googleRecaptchaClient)
         {
             _configurationSettings = configurationSettings;
+            _googleRecaptchaClient = googleRecaptchaClient;
             _log = log;
         }
 
@@ -85,7 +90,7 @@ namespace www.arragro.com.Controllers
         [HttpPost("/api/contact")]
         public async Task<IActionResult> PostContactForm([FromForm] ContactForm contactForm)
         {
-            if (GoogleRecaptcha.Validate(contactForm.RecapchtaResponse, _configurationSettings.GoogleOptions.Recaptcha.Secret))
+            if (await _googleRecaptchaClient.ValidateAsync(contactForm.RecapchtaResponse, _configurationSettings.GoogleOptions.Recaptcha.Secret))
             {
                 var blobUri = await SaveContactForm(contactForm);
                 await SendContactFormQueueMessage(blobUri);                
