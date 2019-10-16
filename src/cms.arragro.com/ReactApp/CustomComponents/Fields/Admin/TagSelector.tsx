@@ -41,8 +41,6 @@ const TagSelectorForm: React.FunctionComponent<FormProps> = (props) => {
                     label='Multiple Select?'
                     name='multi'
                     checked={formikBag.values.multi}
-                    value={formikBag.values.multi.toString()}
-                    disabled={formikBag.isSubmitting}
                 />, 6, 3)}
         </Grid>
     </React.Fragment>
