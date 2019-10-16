@@ -42,16 +42,16 @@ export class ArragroCMSAdminFieldControlExtender extends DefaultAdminFieldContro
         return label
     }
 
-    protected getValidationSchema (fieldDto: Interfaces.IFieldDto): Yup.ObjectSchema<any> {
-        let schema = this.GetValidationSchemaBase(fieldDto)
+    public getValidationSchema (fullName: string): Yup.ObjectSchema<any> {
+        let schema = this.getValidationSchemaBase(fullName)
         if (schema === null) {
-            switch (fieldDto.fullName) {
+            switch (fullName) {
             case ArragroCmsAssemblies.TagSelector:
                 schema = tagSelectorSchema
             }
         }
         if (schema === null) {
-            throw new Error(`Field ${fieldDto.fullName} isn't catered for.`)
+            throw new Error(`Field ${fullName} isn't catered for.`)
         }
         return schema
     }
@@ -62,7 +62,7 @@ export class ArragroCMSAdminFieldControlExtender extends DefaultAdminFieldContro
         })
 
         if (fieldDto.fullName !== undefined) {
-            schema = this.getValidationSchema(fieldDto)
+            schema = this.getValidationSchema(fieldDto.fullName)
         }
 
         try {
