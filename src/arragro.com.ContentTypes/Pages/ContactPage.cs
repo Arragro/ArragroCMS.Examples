@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace arragro.com.ContentTypes.Pages
 {
     [DisplayName("Contact Page")]
-    public class ContactPage : RulesBase<ContactPage>, ICliContentType
+    public class ContactPage : RulesBase<ContactPage>
     {
         [Required]
         [MaxLength(100)]

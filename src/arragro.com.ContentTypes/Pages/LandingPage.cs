@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace arragro.com.ContentTypes.Pages
 {
     [DisplayName("Landing Page")]
-    public class LandingPage : RulesBase<LandingPage>, ICliContentType
+    public class LandingPage : RulesBase<LandingPage>
     {
         [Required]
         [MaxLength(512)]

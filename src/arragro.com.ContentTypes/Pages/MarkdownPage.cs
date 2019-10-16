@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace arragro.com.ContentTypes.Pages
 {
     [DisplayName("Markdown Page")]
-    public class MarkdownPage : RulesBase<MarkdownPage>, ICliContentType
+    public class MarkdownPage : RulesBase<MarkdownPage>
     {
         [Required]
         [MaxLength(512)]

@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace arragro.com.ContentTypes.Pages
 {
     [DisplayName("Tile Bullet Page")]
-    public class TileBulletPage : RulesBase<TileBulletPage>, ICliContentType
+    public class TileBulletPage : RulesBase<TileBulletPage>
     {
         [Required]
         [MaxLength(50)]
