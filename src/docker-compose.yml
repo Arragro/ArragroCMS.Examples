@@ -64,7 +64,7 @@ services:
       start_period: 20s
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v0.0.49-alpha
+    image: docker.arragro.com/cms.arragro.com:v0.0.50-alpha
     # logging:
     #   driver: none
     # ports:
@@ -74,6 +74,8 @@ services:
       - postgres
       - redis
       - azurite
+    stdin_open: true
+    tty: true
     restart: always
     networks:
       - redis-net
@@ -109,7 +111,7 @@ services:
     scale: 1
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v0.0.49-alpha
+    image: docker.arragro.com/www.arragro.com:v0.0.50-alpha
     depends_on:
       - cms_arragro_com
     # logging:

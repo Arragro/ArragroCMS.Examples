@@ -1,6 +1,6 @@
 # docker build -f .\CMS.DockerFile -t docker.arragro.com/cms.arragro.com:v0.0.{change this version}-alpha .
 # docker push docker.arragro.com/cms.arragro.com:v0.0.{change this version}-alpha
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2.401-alpine3.9 AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2.402-alpine3.9 AS build-env
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
@@ -21,7 +21,7 @@ RUN dotnet restore www.arragro.com/*.csproj -s https://registry.arragro.com/repo
 RUN dotnet publish www.arragro.com/*.csproj -c Release -o out
 
 # build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2.6-alpine3.9
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2.7-alpine3.9
 WORKDIR /app
 COPY --from=build-env /app/www.arragro.com/out ./
 EXPOSE 5001/tcp
