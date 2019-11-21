@@ -3,9 +3,7 @@ using Arragro.Core.Web.ApplicationModels;
 using ArragroCMS.Core.Models;
 using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
-using ArragroCMS.Web.Management.Middleware;
 using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -77,14 +75,16 @@ namespace cms.arragro.com
                 var logger = _loggerFactory.CreateLogger<Startup>();
                 logger.LogInformation("Starting the configuration of the ArragroCmsServices");
 
-                services.AddDefaultArragroCmsServices(
-                    Configuration,
-                    Environment,
-                    ConfigurationSettings, 
-                    new CultureInfo("en"), 
-                    new CultureInfo[] { new CultureInfo("en-nz") }, 
-                    new TimeSpan(2, 0, 0),
-                    true);
+                services
+                    .AddApplicationInsightsTelemetry()                
+                    .AddDefaultArragroCmsServices(
+                        Configuration,
+                        Environment,
+                        ConfigurationSettings, 
+                        new CultureInfo("en"), 
+                        new CultureInfo[] { new CultureInfo("en-nz") }, 
+                        new TimeSpan(2, 0, 0),
+                        true);
 
                 // Replace Image Provider with ImageServiceProvider
                 // services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
@@ -110,8 +110,8 @@ namespace cms.arragro.com
                                      .Build();
 
                     config.Filters.Add(new AuthorizeFilter(defaultPolicy));
-
                     config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    config.Filters.Add(new AuthenticationResultFilter());
                     config.Filters.Add(new ValidateModelAttribute());
 
                     var removals = new List<Type>
@@ -186,8 +186,6 @@ namespace cms.arragro.com
             app.UseArragroCMS(antiforgery);
 
             app.UseResponseCompression();
-
-            app.UseMiddleware<AuthorizeCorrectlyMiddleware>();
 
             app.UseMvc(routes =>
             {
