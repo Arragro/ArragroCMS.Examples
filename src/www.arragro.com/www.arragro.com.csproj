@@ -17,7 +17,7 @@
   <ItemGroup>
     <PackageReference Include="Arragro.Core.DistributedCache" Version="1.0.0-alpha-391" />
     <PackageReference Include="Arragro.Core.Web" Version="1.0.0-alpha-391" />
-    <PackageReference Include="ArragroCMS.Web" Version="1.0.2-alpha-196" />
+    <PackageReference Include="ArragroCMS.Web" Version="1.0.2-alpha-197" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.6" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.1" />
