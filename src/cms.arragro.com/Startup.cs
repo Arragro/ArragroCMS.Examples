@@ -1,6 +1,9 @@
-﻿using Arragro.Core.Common.Models;
+﻿using Arragro.Core.Common.Extentions;
+using Arragro.Core.Common.Models;
 using Arragro.Core.Web.ApplicationModels;
+using ArragroCMS.Core.Interfaces.Providers;
 using ArragroCMS.Core.Models;
+using ArragroCMS.Providers;
 using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
 using Microsoft.AspNetCore.Antiforgery;
@@ -89,6 +92,10 @@ namespace cms.arragro.com
                 // Replace Image Provider with ImageServiceProvider
                 // services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
                 // services.AddSingleton<IImageProvider>(s => new Arragro.Providers.ImageServiceProvider.ImageProvider(Configuration["ApplicationSettings:ImageServiceUrl"], 40000));
+                
+                services.Remove<IStorageProvider>();
+                services.AddSingleton<IStorageProvider, S3StorageProvider>();
+
                 services.AddSingleton<BaseSettings>(ConfigurationSettings);
                 services.AddLogging(configure => configure.AddSerilog());
 
