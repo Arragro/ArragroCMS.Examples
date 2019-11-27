@@ -102,7 +102,7 @@
   - provider: WebDeploy
     server: https://arragro-cms.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-cms
     website: arragro-cms
-    remove_files: true
+    # remove_files: true
     # ntlm: true
     username: $arragro-cms
     password:
@@ -118,7 +118,7 @@
   - provider: WebDeploy
     server: https://arragro.scm.azurewebsites.net:443/msdeploy.axd?site=arragro
     website: arragro
-    remove_files: true
+    # remove_files: true
     # ntlm: true
     username: $arragro
     password:
@@ -135,7 +135,7 @@
   - provider: WebDeploy
     server: https://arragro-functions.scm.azurewebsites.net:443/msdeploy.axd?site=arragro-functions
     website: arragro-functions
-    remove_files: true
+    # remove_files: true
     # ntlm: true
     username: $arragro-functions
     password:
