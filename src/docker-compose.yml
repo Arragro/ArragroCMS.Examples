@@ -64,7 +64,7 @@ services:
       start_period: 20s
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v0.0.50-alpha
+    image: docker.arragro.com/cms.arragro.com:v3.0.0-alpha
     # logging:
     #   driver: none
     # ports:
@@ -108,10 +108,10 @@ services:
       - DemoSettings:ApiKey=password
       - WebInfoSettings:IsWebInfoEnabled=true
       - WebInfoSettings:Secret=799c809f-9ca4-47ca-a9b1-3bce5c5215cf
-    scale: 1
+    scale: 2
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v0.0.50-alpha
+    image: docker.arragro.com/www.arragro.com:v3.0.0-alpha
     depends_on:
       - cms_arragro_com
     # logging:
@@ -128,7 +128,7 @@ services:
       - ArragroCmsOptions:ApiKey=password
       - WebInfoSettings:IsWebInfoEnabled=true
       - WebInfoSettings:Secret=60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
-    scale: 1
+    scale: 2
     healthcheck:
       test: ["CMD", "curl", "-f", "https://cms_arragro_com:5000/web-info/799c809f-9ca4-47ca-a9b1-3bce5c5215cf"]
       interval: 30s
@@ -157,7 +157,7 @@ services:
 
   azurite:
     restart: always
-    image: arafato/azurite:2.6.5
+    image: touchify/azurite:2.7.1
     ports:
       - 10000:10000
       - 10001:10001

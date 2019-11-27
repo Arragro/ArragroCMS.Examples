@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
@@ -24,7 +25,7 @@ namespace www.arragro.com
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             Log.Logger = new LoggerConfiguration()
               .Enrich.FromLogContext()
@@ -38,7 +39,9 @@ namespace www.arragro.com
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            if (env.IsDevelopment())
+            Environment = env;
+
+            if (Environment.IsDevelopment())
             {
                 builder.AddUserSecrets<Startup>();
             }
@@ -49,6 +52,7 @@ namespace www.arragro.com
 
         public IConfigurationRoot Configuration { get; }
         public BaseSettings ConfigurationSettings { get; }
+        public IWebHostEnvironment Environment { get; }
 
         private byte[] ReadStreamAsBytes(Stream input)
         {
@@ -66,7 +70,7 @@ namespace www.arragro.com
         
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions()
                 .AddLogging()
@@ -96,9 +100,6 @@ namespace www.arragro.com
 
             services.AddMvc();
 
-            var serviceProvider = services.BuildServiceProvider();
-            var env = serviceProvider.GetService<IHostingEnvironment>();
-
             services.AddHsts(options =>
             {
                 options.Preload = true;
@@ -110,18 +111,16 @@ namespace www.arragro.com
 
             services.AddHttpsRedirection(options =>
             {
-                if (env.IsDevelopment())
+                if (Environment.IsDevelopment())
                 {
                     options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
                     options.HttpsPort = 5005;
                 }
             });
-
-            return serviceProvider;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime, IAntiforgery antiforgery)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IHostApplicationLifetime appLifetime, IAntiforgery antiforgery)
         {
             loggerFactory.AddSerilog();
 
@@ -144,28 +143,34 @@ namespace www.arragro.com
             }
 
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
+            if (!env.IsDevelopment())
+            {
+                app.UseCompressedStaticFiles();
+            }
+            app.UseStaticFiles();
+            
+            var defaultCulture = new CultureInfo("en");
+            var supportedCultures = new CultureInfo[] { new CultureInfo("en") };
+            app.UseArragroCMS(defaultCulture, supportedCultures);
+
+            app.UseRouting();
 
             app.UseDefaultFiles();
             app.UseCompressedStaticFiles();
             app.UseStaticFiles();
 
-
-            var defaultCulture = new CultureInfo("en");
-            var supportedCultures = new CultureInfo[] { new CultureInfo("en") };
-
-            app.UseArragroCMS(defaultCulture, supportedCultures);
-
             app.UseResponseCompression();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "web-info/{secret}",
-                    template: "{controller=WebInfo}/{action=Index}/{secret?}");
+                    pattern: "{controller=WebInfo}/{action=Index}/{secret?}");
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=LandingPage}/{action=Home}/{siteId?}/{id?}/{status?}");
+                    pattern: "{controller=LandingPage}/{action=Home}/{siteId?}/{id?}/{status?}");
             });
         }
     }

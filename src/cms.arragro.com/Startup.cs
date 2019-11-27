@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -37,7 +38,7 @@ namespace cms.arragro.com
 
         private readonly ILoggerFactory _loggerFactory;
         
-        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public Startup(IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             Log.Logger = new LoggerConfiguration()
               .Enrich.FromLogContext()
@@ -68,10 +69,10 @@ namespace cms.arragro.com
 
         public IConfiguration Configuration { get; }
         public ConfigurationSettings ConfigurationSettings { get; }
-        public IHostingEnvironment Environment { get; set; }
+        public IWebHostEnvironment Environment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             try
             {
@@ -93,8 +94,8 @@ namespace cms.arragro.com
                 // services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
                 // services.AddSingleton<IImageProvider>(s => new Arragro.Providers.ImageServiceProvider.ImageProvider(Configuration["ApplicationSettings:ImageServiceUrl"], 40000));
                 
-                services.Remove<IStorageProvider>();
-                services.AddSingleton<IStorageProvider, S3StorageProvider>();
+                //services.Remove<IStorageProvider>();
+                //services.AddSingleton<IStorageProvider, S3StorageProvider>();
 
                 services.AddSingleton<BaseSettings>(ConfigurationSettings);
                 services.AddLogging(configure => configure.AddSerilog());
@@ -128,10 +129,8 @@ namespace cms.arragro.com
 
                     config.Conventions.Add(new RoutingControllerOverrideConvention(removals));
                 }).AddApplicationPart(typeof(Arragro.Dynamic.Api.Controllers.ComponentController).GetTypeInfo().Assembly)
-                  .AddApplicationPart(typeof(ArragroCMS.Web.Management.Controllers.AccountController).GetTypeInfo().Assembly);
-
-                var serviceProvider = services.BuildServiceProvider();
-                var env = serviceProvider.GetService<IHostingEnvironment>();
+                  .AddApplicationPart(typeof(ArragroCMS.Web.Management.Controllers.AccountController).GetTypeInfo().Assembly)
+                  .AddNewtonsoftJson(); 
 
                 services.AddHsts(options =>
                 {
@@ -144,14 +143,12 @@ namespace cms.arragro.com
 
                 services.AddHttpsRedirection(options =>
                 {
-                    if (env.IsDevelopment())
+                    if (Environment.IsDevelopment())
                     {
                         options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
                         options.HttpsPort = 5003;
                     }
                 });
-
-                return serviceProvider;
             }
             catch (Exception ex)
             {
@@ -161,7 +158,7 @@ namespace cms.arragro.com
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env, IAntiforgery antiforgery)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IWebHostEnvironment env, IAntiforgery antiforgery)
         {
             if (env.IsDevelopment())
             {
@@ -183,28 +180,33 @@ namespace cms.arragro.com
             }
 
             app.UseHttpsRedirection();
-
             app.UseDefaultFiles();
-            app.UseCompressedStaticFiles();
+            if (!env.IsDevelopment())
+            {
+                app.UseCompressedStaticFiles();
+            }
             app.UseStaticFiles();
 
+            app.UseRouting();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseArragroCMS(antiforgery);
 
             app.UseResponseCompression();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "web-info/{secret}",
-                    template: "{controller=WebInfo}/{action=Index}/{secret?}");
+                endpoints.MapControllerRoute(
+                    name: "default-spa",
+                    pattern: "{controller=ArragroCms}/{action=Index}/{id?}/{status?}");
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=ArragroCms}/{action=Index}/{id?}/{status?}");
+                    pattern: "{controller=MicrosoftAccount}/{action=Index}/{id?}");
 
-                routes.MapSpaFallbackRoute("spa-fallback", new { controller = "ArragroCms", action = "Index" });
+
+                endpoints.MapFallbackToController("Index", "ArragroCms");
             });
         }
     }
