@@ -64,7 +64,7 @@ services:
       start_period: 20s
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v3.0.0-alpha
+    image: docker.arragro.com/cms.arragro.com:v3.0.1-alpha
     # logging:
     #   driver: none
     # ports:
@@ -105,13 +105,14 @@ services:
       - JwtSettings:Issuer=ArragroCMSServer
       - JwtSettings:Audience=ArragroCMSClient
       - DemoSettings:IsDemo=true
-      - DemoSettings:ApiKey=password
+      - DemoSettings:ReadOnlyAccessToken:AccessToken=test
+      - DemoSettings:ReadOnlyAccessToken:AccessSecret=test
       - WebInfoSettings:IsWebInfoEnabled=true
       - WebInfoSettings:Secret=799c809f-9ca4-47ca-a9b1-3bce5c5215cf
     scale: 2
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v3.0.0-alpha
+    image: docker.arragro.com/www.arragro.com:v3.0.1-alpha
     depends_on:
       - cms_arragro_com
     # logging:
@@ -125,7 +126,8 @@ services:
     environment:
       - ConnectionStrings:RedisConnection=redis:6379
       - ArragroCmsOptions:ApiUrl=http://cms_arragro_com:5000
-      - ArragroCmsOptions:ApiKey=password
+      - ArragroCmsOptions:AccessToken=test
+      - ArragroCmsOptions:AccessSecret=test
       - WebInfoSettings:IsWebInfoEnabled=true
       - WebInfoSettings:Secret=60aa42a9-6a6d-49ef-92c3-6c35ec124f0c
     scale: 2

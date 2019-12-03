@@ -11,6 +11,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="App_Data\Logs\log-20190529.txt" />
@@ -18,7 +20,7 @@
   <ItemGroup>
     <!-- Arragro.Dynamic is included for the assembly lookup of FieldControls, all defaults live here -->
     <PackageReference Include="Arragro.Dynamic" Version="3.0.0-alpha-001" />
-    <PackageReference Include="ArragroCMS.Web.Management" Version="3.0.0-alpha-001" />
+    <PackageReference Include="ArragroCMS.Web.Management" Version="3.0.0-alpha-011" />
     <PackageReference Include="Magick.NET-Q8-x64" Version="7.14.5" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
     <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="3.0.0" />

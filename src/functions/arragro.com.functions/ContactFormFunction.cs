@@ -8,7 +8,7 @@ namespace arragro.com.functions
     public static class ContactFormFunction
     {
         [FunctionName("ProcessContactFormMessage")]
-        public static async Task Run([QueueTrigger("contact-form", Connection = "")]string url, ILogger log, ExecutionContext context)
+        public static async Task Run([QueueTrigger("contact-form")]string url, ILogger log, ExecutionContext context)
         {
             log.LogInformation($"ProcessContactFormMessage: {url}");
 
