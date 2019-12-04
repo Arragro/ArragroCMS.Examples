@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <UserSecretsId>d731134e-f4f4-40ed-af50-3322d25e585d</UserSecretsId>
@@ -19,18 +19,18 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Arragro.Dynamic is included for the assembly lookup of FieldControls, all defaults live here -->
-    <PackageReference Include="Arragro.Dynamic" Version="3.0.0-alpha-001" />
-    <PackageReference Include="ArragroCMS.Web.Management" Version="3.0.0-alpha-011" />
+    <PackageReference Include="Arragro.Dynamic" Version="3.1.0-alpha-000" />
+    <PackageReference Include="ArragroCMS.Web.Management" Version="3.1.0-alpha-000" />
     <PackageReference Include="Magick.NET-Q8-x64" Version="7.14.5" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
-    <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.1.0" />
     <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.1.0" />
     <PackageReference Include="Serilog" Version="2.9.0" />
