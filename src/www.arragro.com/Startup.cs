@@ -1,14 +1,12 @@
-﻿using Arragro.Core.Common.Interfaces;
-using Arragro.Core.Common.Models;
+﻿using Arragro.Core.Common.Models;
 using Arragro.Core.DistributedCache;
 using Arragro.Core.Web.Extensions;
-using ArragroCMS.Management.Extensions;
+using ArragroCMS.Web.Extensions;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +14,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -74,7 +71,7 @@ namespace www.arragro.com
         {
             services.AddOptions()
                 .AddLogging()
-                .ConfigureArraroCMSService(Configuration)
+                .ConfigureArragroCMSService(Configuration)
                 .AddAntiforgery(options =>
                 {
                     options.HeaderName = "X-CSRF-TOKEN";

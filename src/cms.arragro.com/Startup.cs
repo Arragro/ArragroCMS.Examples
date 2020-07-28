@@ -1,20 +1,20 @@
-﻿using Arragro.Core.Common.Extentions;
-using Arragro.Core.Common.Models;
+﻿using Arragro.Core.Common.Models;
 using Arragro.Core.Web.ApplicationModels;
-using ArragroCMS.Core.Interfaces.Providers;
 using ArragroCMS.Core.Models;
-using ArragroCMS.Providers;
 using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
+using ArragroCMS.Web.ReadOnlyApi.Extentions;
+using ArragroCMS.Web.ReadOnlyApi.Handlers;
 using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,8 +26,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 
 namespace cms.arragro.com
 {
@@ -77,7 +77,16 @@ namespace cms.arragro.com
             try
             {
                 var logger = _loggerFactory.CreateLogger<Startup>();
+                logger.LogInformation("Checking {Configuration}", Configuration);
                 logger.LogInformation("Starting the configuration of the ArragroCmsServices");
+
+                var defaultSchemas = new List<string>()
+                {
+                    JwtBearerDefaults.AuthenticationScheme,
+                    CookieAuthenticationDefaults.AuthenticationScheme
+                };
+                if (ConfigurationSettings.ApplicationSettings.UseAccessTokenInQueryString)
+                    defaultSchemas.Add(AccessTokenQueryStringAuthenticationHandler.AuthenticationScheme);
 
                 services
                     .AddApplicationInsightsTelemetry()                
@@ -88,6 +97,7 @@ namespace cms.arragro.com
                         new CultureInfo("en"), 
                         new CultureInfo[] { new CultureInfo("en-nz") }, 
                         new TimeSpan(2, 0, 0),
+                        defaultSchemas.ToArray(),
                         true);
 
                 // Replace Image Provider with ImageServiceProvider
@@ -99,6 +109,30 @@ namespace cms.arragro.com
 
                 services.AddSingleton<BaseSettings>(ConfigurationSettings);
                 services.AddLogging(configure => configure.AddSerilog());
+
+                ArragroCMS.Web.ReadOnlyApi.Extentions.ServiceCollectionExtensions.RegisterFilterAttributes(services);
+
+                var authBuilder = services.BuildArragroCmsAuthentication(ConfigurationSettings, new TimeSpan(2, 0, 0));
+                authBuilder
+                    .AddJwtBearer(options =>
+                    {
+                        var cert = new X509Certificate2(File.ReadAllBytes(ConfigurationSettings.JwtSettings.CertificatePath), ConfigurationSettings.JwtSettings.Password);
+                        var key = new X509SecurityKey(cert);
+
+                        options.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidIssuer = ConfigurationSettings.JwtSettings.Issuer,
+                            ValidAudience = ConfigurationSettings.JwtSettings.Audience,
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = key,
+                            ValidateLifetime = true
+                        };
+                    });
+
+                if (ConfigurationSettings.ApplicationSettings.UseAccessTokenInQueryString)
+                    authBuilder.AddScheme<AuthenticationSchemeOptions, AccessTokenQueryStringAuthenticationHandler>(AccessTokenQueryStringAuthenticationHandler.AuthenticationScheme, null);
+
+                services.AddDefaultArragroCmsAndReadOnylApiAuthorization(ConfigurationSettings);
 
                 logger.LogInformation("Finished configuring of the ArragroCmsServices");
 
@@ -113,11 +147,7 @@ namespace cms.arragro.com
 
                 services.AddMvc(config =>
                 {
-                    var defaultPolicy = new AuthorizationPolicyBuilder(services.GetDefaultAuthenticationSchemas())
-                                     .RequireAuthenticatedUser()
-                                     .Build();
-
-                    config.Filters.Add(new AuthorizeFilter(defaultPolicy));
+                    config.Filters.Add(new AuthorizeFilter());
                     config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     config.Filters.Add(new AuthenticationResultFilter());
                     config.Filters.Add(new ValidateModelAttribute());

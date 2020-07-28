@@ -134,7 +134,7 @@ module.exports = (env, argv) => {
             require('autoprefixer'),
             new webpack.optimize.OccurrenceOrderPlugin(),
             new ForkTsCheckerWebpackPlugin({
-                tslint: true, useTypescriptIncrementalApi: true
+                eslint: true, useTypescriptIncrementalApi: true
             }),
             ignoreNotFoundExportPlugin,
             // new ForkTsCheckerNotifierWebpackPlugin({ title: 'TypeScript', excludeWarnings: false })

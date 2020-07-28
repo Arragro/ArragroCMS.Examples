@@ -12,9 +12,9 @@
             <div class="col-12 col-md-12 col-lg-11 col-xl-12">
                 <markdown markdown=@Model.MarkdownIntro></markdown>
             </div>
-        </div>*@
+        </div>
     <div class="contact-container">
-        <div class="map-container container-fluid p-0 d-none d-md-block">
+         <div class="map-container container-fluid p-0 d-none d-md-block">
             <div class="row  no-gutters">
                 <div class="col-12 col-md-6 pr-0">
                 </div>
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> *@
 
 @if  (Model.HasContactForm)
 {
@@ -89,7 +89,7 @@
 </div>
 
 @section scripts {
-<script>
+@* <script>
         function initMap() {
             var aucklandCenter = { lat: @Model.Latitude, lng: @Model.Longitude };
             var mapOptions = {
@@ -120,6 +120,6 @@
 
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHp7Y96FhOI_v5pxoorJZ3VuIrQ6vVP_c&callback=initMap">
-    </script>
+    </script> *@
     <google-recaptcha-client></google-recaptcha-client>
 }

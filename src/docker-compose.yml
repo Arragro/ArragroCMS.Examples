@@ -2,7 +2,7 @@ version: '2.4'
 services:
   haproxy_image_service:
     restart: always
-    image: eeacms/haproxy:1.8-1.3
+    image: eeacms/haproxy:1.8-1.5
     depends_on:
     - image_service
     networks:
@@ -17,7 +17,7 @@ services:
 
   haproxy_cms:
     restart: always
-    image: eeacms/haproxy:1.8-1.3
+    image: eeacms/haproxy:1.8-1.5
     depends_on:
     - cms_arragro_com
     ports:
@@ -41,7 +41,7 @@ services:
 
   haproxy_www:
     restart: always
-    image: eeacms/haproxy:1.8-1.3
+    image: eeacms/haproxy:1.8-1.5
     depends_on:
     - www_arragro_com
     networks:
@@ -64,7 +64,7 @@ services:
       start_period: 20s
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v3.1.0-alpha-001
+    image: docker.arragro.com/cms.arragro.com:v3.1.6-alpha-002
     # logging:
     #   driver: none
     # ports:
@@ -112,7 +112,7 @@ services:
     scale: 2
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v3.1.0-alpha-001
+    image: docker.arragro.com/www.arragro.com:v3.1.6-alpha-002
     depends_on:
       - cms_arragro_com
     # logging:
@@ -125,7 +125,7 @@ services:
       - redis-net
     environment:
       - ConnectionStrings:RedisConnection=redis:6379
-      - ArragroCmsOptions:ApiUrl=http://cms_arragro_com:5000
+      - ArragroCmsOptions:ApiUrl=http://cms_arragro_com:5000/
       - ArragroCmsOptions:AccessToken=test
       - ArragroCmsOptions:AccessSecret=test
       - WebInfoSettings:IsWebInfoEnabled=true
@@ -137,6 +137,12 @@ services:
       timeout: 10s
       retries: 3
       start_period: 20s
+
+  arragro_custom_control:
+    restart: always
+    image: docker.arragro.com/arragrocms.customcontrol:v3.1.0-alpha-001
+    ports:
+        - 3003:5000
 
   image_service:
     restart: always

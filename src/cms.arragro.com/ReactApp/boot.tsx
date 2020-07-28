@@ -17,19 +17,20 @@ async function configureStore () {
 import { utils } from '@arragro/cms-management'
 
 import App from '@arragro/cms-management/dist/src/asyncApp'
-import { FieldContextProvider } from '@arragro/cms-management/dist/src/components/Field/FieldProvider'
-import { DefaultRenderFieldControlExtender } from '@arragro/cms-management/dist/src/components'
-
-import { ArragroCMSAdminFieldControlExtender } from './ArragroCMSAdminFieldControlExtender'
+import { FieldContextProvider } from '@arragro/cms-management/dist/src/components/DynamicFields/FieldProvider'
+import { DefaultRenderFieldControlExtender, DefaultAdminFieldControlExtender } from '@arragro/cms-management/dist/src/components'
+import Assemblies from '@arragro/cms-management/dist/src/components/DynamicFields/Assemblies'
+import { AccountProvider } from '@arragro/cms-management/dist/src/store/AccountStore'
 
 const render = async () => {
+    const logging = true
     const initialState = (window as any).initialReduxState
-    const store = (await configureStore())(utils.History, true, initialState)
+    const store = (await configureStore())(utils.history, logging, initialState)
     const rootEl = document.getElementById('react-app')
 
     const theme = createMuiTheme({
         palette: {
-            primary: { main: '#f5f5f5' },
+            primary: { main: 'rgba(0, 0, 0, 0.54)' },
             secondary: {
                 main: '#00A98F',
                 light: '#e6fffb',
@@ -43,16 +44,19 @@ const render = async () => {
 
     ReactDOM.render(
         <Provider store={store}>
-            <FieldContextProvider value={{ adminFieldControlExtender: new ArragroCMSAdminFieldControlExtender(), renderFieldControlExtender: new DefaultRenderFieldControlExtender() }}>
+            <FieldContextProvider
+                value={{
+                    assemblies: Assemblies,
+                    adminFieldControlExtender: new DefaultAdminFieldControlExtender(),
+                    renderFieldControlExtender: new DefaultRenderFieldControlExtender()
+                }}>
                 <IntlProvider locale='en'>
-                    <ConnectedRouter history={utils.History}>
-                        <React.Fragment>
-                            <CssBaseline />
-                            <MuiThemeProvider theme={theme}>
-                                <App />
-                            </MuiThemeProvider>
-                        </React.Fragment>
-                    </ConnectedRouter>
+                    <CssBaseline />
+                    <MuiThemeProvider theme={theme}>
+                        <AccountProvider logging={logging}>
+                            <App />
+                        </AccountProvider>
+                    </MuiThemeProvider>
                 </IntlProvider>
             </FieldContextProvider>
         </Provider>,
