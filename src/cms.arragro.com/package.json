@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/Arragro/ArragroCMS.Examples#readme",
   "devDependencies": {
-    "@arragro/cms-management": "0.0.123-alpha",
+    "@arragro/cms-management": "0.0.124-alpha",
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.10.5",
     "@babel/node": "^7.10.5",
