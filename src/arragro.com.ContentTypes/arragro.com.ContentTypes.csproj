@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arragro.Core.Common" Version="3.1.0-alpha-035" />
-    <PackageReference Include="ArragroCMS.Core.Web" Version="3.1.0-alpha-068" />
+    <PackageReference Include="Arragro.Core.Common" Version="3.1.0-alpha-036" />
+    <PackageReference Include="ArragroCMS.Core.Web" Version="3.1.0-alpha-074" />
   </ItemGroup>
 
 </Project>

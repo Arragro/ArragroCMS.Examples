@@ -15,9 +15,9 @@
     <Content Include="App_Data\googledb792484012a65cc.html" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Arragro.Core.DistributedCache" Version="3.1.0-alpha-035" />
-    <PackageReference Include="Arragro.Core.Web" Version="3.1.0-alpha-035" />
-    <PackageReference Include="ArragroCMS.Web" Version="3.1.0-alpha-068" />
+    <PackageReference Include="Arragro.Core.DistributedCache" Version="3.1.0-alpha-036" />
+    <PackageReference Include="Arragro.Core.Web" Version="3.1.0-alpha-036" />
+    <PackageReference Include="ArragroCMS.Web" Version="3.1.0-alpha-074" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.2.0" />

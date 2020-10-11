@@ -20,8 +20,8 @@
   <ItemGroup>
     <!-- Arragro.Dynamic is included for the assembly lookup of FieldControls, all defaults live here -->
     <PackageReference Include="Arragro.Dynamic" Version="3.1.0-alpha-029" />
-    <PackageReference Include="ArragroCMS.Web.Management" Version="3.1.0-alpha-068" />
-    <PackageReference Include="ArragroCMS.Web.ReadOnlyApi" Version="3.1.0-alpha-068" />
+    <PackageReference Include="ArragroCMS.Web.Management" Version="3.1.0-alpha-074" />
+    <PackageReference Include="ArragroCMS.Web.ReadOnlyApi" Version="3.1.0-alpha-074" />
     <PackageReference Include="Magick.NET-Q8-x64" Version="7.22.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="3.1.8" />
