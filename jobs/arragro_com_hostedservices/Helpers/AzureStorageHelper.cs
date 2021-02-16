@@ -1,11 +1,11 @@
-﻿using arragro_com_functions;
-using Microsoft.WindowsAzure.Storage;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace arragro.com.functions.Helpers
+namespace arragro_com_hostedservices.Helpers
 {
     public class AzureStorageHelper
     {
@@ -16,16 +16,17 @@ namespace arragro.com.functions.Helpers
             _connectionString = connectionString;
         }
 
-        public async Task<ContactForm> GetContactForm(string url)
+        public async Task<ContactForm> GetContactForm(Message blob)
         {
-            var storageAccount = CloudStorageAccount.Parse(_connectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-            var blob = await blobClient.GetBlobReferenceFromServerAsync(new Uri(url));
-            if (await blob.ExistsAsync())
+            var blobClient = new BlobClient(_connectionString, "contact-form", blob.Name);
+
+            if (await blobClient.ExistsAsync())
             {
+                BlobDownloadInfo download = await blobClient.DownloadAsync();
+
                 using (var ms = new MemoryStream())
                 {
-                    await blob.DownloadToStreamAsync(ms);
+                    await download.Content.CopyToAsync(ms);
                     ms.Position = 0;
                     var reader = new StreamReader(ms);
                     var text = reader.ReadToEnd();
@@ -33,12 +34,13 @@ namespace arragro.com.functions.Helpers
                     var contactForm = JsonConvert.DeserializeObject<ContactForm>(text);
                     ms.Close();
                     ms.Dispose();
+                    contactForm.Url = blobClient.Uri.ToString();
                     return contactForm;
                 }
             }
             else
             {
-                throw new Exception($"There is no file to process at - {url}");
+                throw new Exception($"There is no file to process at - {blobClient.Uri}");
             }
         }
     }

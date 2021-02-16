@@ -5,11 +5,13 @@ using ArragroCMS.Web.Management.Extensions;
 using ArragroCMS.Web.Management.Filters;
 using ArragroCMS.Web.ReadOnlyApi.Extentions;
 using ArragroCMS.Web.ReadOnlyApi.Handlers;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -37,34 +40,13 @@ namespace cms.arragro.com
         public const string TenantIdType = "http://schemas.microsoft.com/identity/claims/tenantid";
 
         private readonly ILoggerFactory _loggerFactory;
-        
-        public Startup(IWebHostEnvironment env, ILoggerFactory loggerFactory)
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            Log.Logger = new LoggerConfiguration()
-              .Enrich.FromLogContext()
-              .WriteTo.LiterateConsole()
-              .WriteTo.RollingFile("App_Data/Logs/log-{Date}.txt", fileSizeLimitBytes: 536870912, retainedFileCountLimit: 7)
-              .CreateLogger();
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
-
-            Configuration = builder.Build();
-
+            Configuration = configuration;
             ConfigurationSettings = Configuration.Get<ConfigurationSettings>();
-
             Environment = env;
-
             _loggerFactory = loggerFactory;
-
         }
 
         public IConfiguration Configuration { get; }
@@ -87,9 +69,8 @@ namespace cms.arragro.com
                 };
                 if (ConfigurationSettings.ApplicationSettings.UseAccessTokenInQueryString)
                     defaultSchemas.Add(AccessTokenQueryStringAuthenticationHandler.AuthenticationScheme);
-
-                services
-                    .AddApplicationInsightsTelemetry()                
+                
+                services.AddCustomHealthCheck(ConfigurationSettings)
                     .AddDefaultArragroCmsServices(
                         Configuration,
                         Environment,
@@ -100,10 +81,13 @@ namespace cms.arragro.com
                         defaultSchemas.ToArray(),
                         true);
 
+                if (Configuration["ApplicationInsights:InstrumentationKey"] != null)
+                    services.AddApplicationInsightsTelemetryWorkerService(Configuration["ApplicationInsights:InstrumentationKey"]);
+
                 // Replace Image Provider with ImageServiceProvider
                 // services.Remove(services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IImageProvider)));
                 // services.AddSingleton<IImageProvider>(s => new Arragro.Providers.ImageServiceProvider.ImageProvider(Configuration["ApplicationSettings:ImageServiceUrl"], 40000));
-                
+
                 //services.Remove<IStorageProvider>();
                 //services.AddSingleton<IStorageProvider, S3StorageProvider>();
 
@@ -228,6 +212,22 @@ namespace cms.arragro.com
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=MicrosoftAccount}/{action=Index}/{id?}");
+
+                endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                    ResultStatusCodes =
+                    {
+                        [HealthStatus.Healthy] = StatusCodes.Status200OK,
+                        [HealthStatus.Degraded] = StatusCodes.Status200OK,
+                        [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+                    }
+                });
+                endpoints.MapHealthChecks("/liveness", new HealthCheckOptions
+                {
+                    Predicate = r => r.Name.Contains("self")
+                });
 
 
                 endpoints.MapFallbackToController("Index", "ArragroCms");

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
-namespace arragro_com_functions
+namespace arragro_com_hostedservices
 {
     public class ContactForm
     {
@@ -26,5 +26,6 @@ namespace arragro_com_functions
         [EmailAddress]
         public string Email { get; set; }
         public string Message { get; set; }
+        public string Url { get; set; }
     }
 }

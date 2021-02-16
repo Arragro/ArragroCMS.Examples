@@ -1,4 +1,4 @@
-﻿using arragro_com_functions;
+﻿using arragro_com_hostedservices;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
@@ -17,7 +17,7 @@ namespace arragro.com.functions.Helpers
             _sendGridClient = new SendGridClient(_apiKey);
         }
 
-        public async Task SendContactFormMessage(string url, ContactForm contactForm)
+        public async Task SendContactFormMessage(ContactForm contactForm)
         {
             var fullName = $"{contactForm.FirstName} {contactForm.LastName}";
             var message = new SendGridMessage();
@@ -27,7 +27,7 @@ namespace arragro.com.functions.Helpers
             message.PlainTextContent = "See Attachment";
             message.HtmlContent = $@"
 <h1>Enquiry</h1>
-<a href='{url}'>Click to download</a>
+<a href='{contactForm.Url}'>Click to download</a>
 <ul>
     <li>{fullName}</li>
     <li>{contactForm.Company}</li>

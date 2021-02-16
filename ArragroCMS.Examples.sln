@@ -14,17 +14,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{02645822
 		src\.dockerignore = src\.dockerignore
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
-		src\build.bat = src\build.bat
-		src\CMS.DockerFile = src\CMS.DockerFile
-		src\docker-compose.yml = src\docker-compose.yml
+		build.bat = build.bat
+		CMS.DockerFile = CMS.DockerFile
+		docker-compose.yml = docker-compose.yml
 		LICENSE = LICENSE
 		README.md = README.md
-		src\WWW.DockerFile = src\WWW.DockerFile
+		WWW.DockerFile = WWW.DockerFile
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{27F18BBE-3282-4926-AF0C-EE2DBC9B2FD5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "arragro_com_functions", "src\functions\arragro.com.functions\arragro_com_functions.csproj", "{384A3D86-9F17-4B50-8008-E8314C8C93D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "arragro_com_hostedservices", "jobs\arragro_com_hostedservices\arragro_com_hostedservices.csproj", "{CC09D9A7-93E0-4924-B9D9-554017F6E5C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,18 +51,18 @@ Global
 		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.POSTGRES|Any CPU.Build.0 = Release|Any CPU
 		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAE2CFBC-E036-4007-BF2B-1526E3D376AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{384A3D86-9F17-4B50-8008-E8314C8C93D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{384A3D86-9F17-4B50-8008-E8314C8C93D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{384A3D86-9F17-4B50-8008-E8314C8C93D8}.POSTGRES|Any CPU.ActiveCfg = Debug|Any CPU
-		{384A3D86-9F17-4B50-8008-E8314C8C93D8}.POSTGRES|Any CPU.Build.0 = Debug|Any CPU
-		{384A3D86-9F17-4B50-8008-E8314C8C93D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{384A3D86-9F17-4B50-8008-E8314C8C93D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC09D9A7-93E0-4924-B9D9-554017F6E5C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC09D9A7-93E0-4924-B9D9-554017F6E5C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC09D9A7-93E0-4924-B9D9-554017F6E5C6}.POSTGRES|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC09D9A7-93E0-4924-B9D9-554017F6E5C6}.POSTGRES|Any CPU.Build.0 = Debug|Any CPU
+		{CC09D9A7-93E0-4924-B9D9-554017F6E5C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC09D9A7-93E0-4924-B9D9-554017F6E5C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{384A3D86-9F17-4B50-8008-E8314C8C93D8} = {27F18BBE-3282-4926-AF0C-EE2DBC9B2FD5}
+		{CC09D9A7-93E0-4924-B9D9-554017F6E5C6} = {27F18BBE-3282-4926-AF0C-EE2DBC9B2FD5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B4EF3DE3-03B8-4BB2-8E5D-A2B478A32140}

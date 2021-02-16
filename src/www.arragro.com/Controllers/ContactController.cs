@@ -35,7 +35,7 @@ namespace www.arragro.com.Controllers
             return View();
         }
 
-        private async Task SendContactFormQueueMessage(Uri blobUri)
+        private async Task SendContactFormQueueMessage(CloudBlockBlob blob)
         {
             try
             {
@@ -49,18 +49,18 @@ namespace www.arragro.com.Controllers
                         var queue = queueClient.GetQueueReference("contact-form");
                         await queue.CreateIfNotExistsAsync();
 
-                        var message = new CloudQueueMessage(blobUri.ToString());
+                        var message = new CloudQueueMessage(JsonConvert.SerializeObject(blob));
                         await queue.AddMessageAsync(message);
                     });
             }
             catch (Exception ex)
             {
-                _log.LogError(ex, "ContactController: Something went wrong in SendContactFormQueueMessage", blobUri);
+                _log.LogError(ex, "ContactController: Something went wrong in SendContactFormQueueMessage", blob.Uri);
                 throw;
             }
         }
 
-        private async Task<Uri> SaveContactForm(ContactForm contactForm)
+        private async Task<CloudBlockBlob> SaveContactForm(ContactForm contactForm)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace www.arragro.com.Controllers
 
                         var blob = container.GetBlockBlobReference($"{DateTime.UtcNow.ToString("yyyy-MM-dd")}-{DateTime.UtcNow.Ticks}.json");
                         await blob.UploadTextAsync(JsonConvert.SerializeObject(contactForm));
-                        return blob.Uri;
+                        return blob;
                     });
             }
             catch (Exception ex)
@@ -92,8 +92,8 @@ namespace www.arragro.com.Controllers
         {
             if (await _googleRecaptchaClient.ValidateAsync(contactForm.RecapchtaResponse, _configurationSettings.GoogleOptions.Recaptcha.Secret))
             {
-                var blobUri = await SaveContactForm(contactForm);
-                await SendContactFormQueueMessage(blobUri);                
+                var blob = await SaveContactForm(contactForm);
+                await SendContactFormQueueMessage(blob);                
 
                 return new JsonResult(new { Result = true });
             }

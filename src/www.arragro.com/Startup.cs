@@ -1,6 +1,7 @@
 ﻿using Arragro.Core.Common.Models;
 using Arragro.Core.DistributedCache;
 using Arragro.Core.Web.Extensions;
+using Arragro.Core.Web.Helpers;
 using ArragroCMS.Web.Extensions;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
@@ -89,6 +90,7 @@ namespace www.arragro.com
 
             services.AddTransient<DistributedCacheManager>();
             services.AddSingleton(new DistributedCacheEntryOptions { SlidingExpiration = new TimeSpan(0, 5, 0) });
+            GoogleRecaptchaClient.ConfigureGoogleRecaptcha(services);
 
             services.AddResponseCompression(options =>
             {
@@ -149,7 +151,6 @@ namespace www.arragro.com
             app.UseRouting();
 
             app.UseDefaultFiles();
-            app.UseCompressedStaticFiles();
             app.UseStaticFiles();
 
             app.UseResponseCompression();

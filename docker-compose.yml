@@ -64,7 +64,7 @@ services:
       start_period: 20s
 
   cms_arragro_com:
-    image: docker.arragro.com/cms.arragro.com:v3.1.6-alpha-002
+    image: docker.arragro.com/cms.arragro.com:v5.0.3-dev
     # logging:
     #   driver: none
     # ports:
@@ -112,7 +112,7 @@ services:
     scale: 2
 
   www_arragro_com:
-    image: docker.arragro.com/www.arragro.com:v3.1.6-alpha-002
+    image: docker.arragro.com/www.arragro.com:v5.0.3-dev
     depends_on:
       - cms_arragro_com
     # logging:
@@ -143,6 +143,27 @@ services:
     image: docker.arragro.com/arragrocms.customcontrol:v3.1.0-alpha-001
     ports:
         - 3003:5000
+  
+  arragro_cms_jobs:
+    image: arragrocms.jobs.hostedservices:v5.0.3-dev
+    # logging:
+    #   driver: none
+    # ports:
+    # - 3001:5000
+    restart: always
+    networks:
+    - cms-net
+    environment:
+    - AzureWebJobsStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
+    - ConnectionStrings:CmsDatabaseConnection=host=192.168.69.254;port=5469;database=arragro-cms;user id=postgres;password=password1;
+    - ConnectionStrings:StorageConnection=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
+    - ConnectionStrings:RedisConnection=redis:6379
+    - ApplicationSettings:DatabaseType=Postgres
+    - EmailSettings:EmailType=Smtp
+    - EmailSettings:Server=192.168.69.254
+    - EmailSettings:Port=25
+    - DistributedCacheSettings:DistributedCacheType=redis
+    - DistributedCacheSettings:ConfigurationNameOrConnectionString=redis:6379
 
   image_service:
     restart: always
