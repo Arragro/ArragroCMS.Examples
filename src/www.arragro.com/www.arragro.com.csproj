@@ -15,9 +15,9 @@
     <Content Include="App_Data\googledb792484012a65cc.html" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Arragro.Core.DistributedCache" Version="5.0.0-alpha-20210216.3" />
-    <PackageReference Include="Arragro.Core.Web" Version="5.0.0-alpha-20210216.3" />
-    <PackageReference Include="ArragroCMS.Web" Version="5.0.0-alpha-20210216.2" />
+    <PackageReference Include="Arragro.Core.DistributedCache" Version="5.0.0-alpha-20210219.1" />
+    <PackageReference Include="Arragro.Core.Web" Version="5.0.0-alpha-20210219.1" />
+    <PackageReference Include="ArragroCMS.Web" Version="5.0.0-alpha-20210222.1" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.15.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel" Version="2.15.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.15.0" />

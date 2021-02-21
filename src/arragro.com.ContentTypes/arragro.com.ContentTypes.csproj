@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arragro.Core.Common" Version="5.0.0-alpha-20210216.3" />
-    <PackageReference Include="Arragro.Core.DistributedCache" Version="5.0.0-alpha-20210216.3" />
-    <PackageReference Include="ArragroCMS.Core.Web" Version="5.0.0-alpha-20210216.2" />
+    <PackageReference Include="Arragro.Core.Common" Version="5.0.0-alpha-20210219.1" />
+    <PackageReference Include="Arragro.Core.DistributedCache" Version="5.0.0-alpha-20210219.1" />
+    <PackageReference Include="ArragroCMS.Core.Web" Version="5.0.0-alpha-20210222.1" />
   </ItemGroup>
 
 </Project>

@@ -20,8 +20,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Arragro.Core.Email.Razor" Version="5.0.0-alpha-20210216.3" />
-    <PackageReference Include="Arragro.Core.HostedServices" Version="5.0.0-alpha-20210216.3" />
+    <PackageReference Include="Arragro.Core.Email.Razor" Version="5.0.0-alpha-20210219.1" />
+    <PackageReference Include="Arragro.Core.HostedServices" Version="5.0.0-alpha-20210219.1" />
     <PackageReference Include="AspNetCore.HealthChecks.AzureStorage" Version="5.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.SendGrid" Version="5.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="5.0.1" />

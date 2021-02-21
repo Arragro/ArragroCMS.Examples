@@ -20,8 +20,8 @@
   <ItemGroup>
     <!-- Arragro.Dynamic is included for the assembly lookup of FieldControls, all defaults live here -->
     <PackageReference Include="Arragro.Dynamic" Version="5.0.0-alpha-20210211.1" />
-    <PackageReference Include="ArragroCMS.Web.Management" Version="5.0.0-alpha-20210216.2" />
-    <PackageReference Include="ArragroCMS.Web.ReadOnlyApi" Version="5.0.0-alpha-20210216.2" />
+    <PackageReference Include="ArragroCMS.Web.Management" Version="5.0.0-alpha-20210222.1" />
+    <PackageReference Include="ArragroCMS.Web.ReadOnlyApi" Version="5.0.0-alpha-20210222.1" />
     <PackageReference Include="AspNetCore.HealthChecks.AzureStorage" Version="5.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="5.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.SendGrid" Version="5.0.1" />
